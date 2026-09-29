@@ -1,0 +1,1267 @@
+@prefix ord: <https://open-resource-discovery.org/vocab/v1#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ord:APIResourceShape a sh:NodeShape ;
+    sh:name "ApiResourceShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:datatype xsd:string ;
+            sh:name "entry_points" ;
+            sh:path ord:baseUrl ],
+        [ sh:maxCount 1 ;
+            sh:name "default_consumption_bundle" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:defaultConsumptionBundle ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "extensible" ;
+            sh:path ord:extensible ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "abstract" ;
+            sh:path ord:abstract ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "usage" ;
+            sh:path ord:usage ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "custom_implementation_standard" ;
+            sh:path ord:customImplementationStandard ],
+        [ sh:datatype xsd:string ;
+            sh:name "supported_use_cases" ;
+            sh:path ord:supportedUseCases ],
+        [ sh:name "industry" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:industry ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:maxCount 1 ;
+            sh:name "api_protocol" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:apiProtocol ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:class ord:RelatedEventResource ;
+            sh:name "related_event_resources" ;
+            sh:path ord:relatedEventResources ],
+        [ sh:class ord:ConsumptionBundleReference ;
+            sh:name "part_of_consumption_bundles" ;
+            sh:path ord:partOfConsumptionBundle ],
+        [ sh:name "line_of_business" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:class ord:RelatedEntityType ;
+            sh:name "related_entity_types" ;
+            sh:path ord:relatedEntityType ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "direction" ;
+            sh:path ord:direction ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:class ord:RelatedApiResource ;
+            sh:name "related_api_resources" ;
+            sh:path ord:relatedApiResources ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "custom_implementation_standard_description" ;
+            sh:path ord:customImplementationStandardDescription ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:class ord:ApiEventResourceLink ;
+            sh:name "api_resource_links" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "implementation_standard" ;
+            sh:path ord:implementationStandard ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ] ;
+    sh:targetClass ord:APIResource .
+
+ord:AgentShape a sh:NodeShape ;
+    sh:name "AgentShape" ;
+    sh:property [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:datatype xsd:string ;
+            sh:name "integration_dependencies" ;
+            sh:path ord:integrationDependency ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:name "industry" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:industry ],
+        [ sh:class ord:ApiEventResourceLink ;
+            sh:name "api_event_resource_links" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:class ord:RelatedEntityType ;
+            sh:name "related_entity_types" ;
+            sh:path ord:relatedEntityType ],
+        [ sh:class ord:ConsumptionBundleReference ;
+            sh:name "part_of_consumption_bundles" ;
+            sh:path ord:partOfConsumptionBundle ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:name "line_of_business" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ] ;
+    sh:targetClass ord:Agent .
+
+ord:CapabilityShape a sh:NodeShape ;
+    sh:name "CapabilityShape" ;
+    sh:property [ sh:class ord:ConsumptionBundleReference ;
+            sh:name "part_of_consumption_bundles" ;
+            sh:path ord:partOfConsumptionBundle ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "type" ;
+            sh:path ord:type ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:class ord:ApiEventResourceLink ;
+            sh:name "api_event_resource_links" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:class ord:RelatedCapability ;
+            sh:name "related_capabilities" ;
+            sh:path ord:relatedCapabilities ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ] ;
+    sh:targetClass ord:Capability .
+
+ord:ChangelogEntryShape a sh:NodeShape ;
+    sh:name "ChangelogEntryShape" ;
+    sh:property [ sh:maxCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:date ;
+            sh:maxCount 1 ;
+            sh:name "date" ;
+            sh:path ord:date ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ] ;
+    sh:targetClass ord:ChangelogEntry .
+
+ord:ConsumptionBundleReferenceShape a sh:NodeShape ;
+    sh:name "ConsumptionBundleReferenceShape" ;
+    sh:property [ sh:datatype xsd:anyURI ;
+            sh:maxCount 1 ;
+            sh:name "default_entry_point" ;
+            sh:path ord:defaultEntryPoint ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:consumptionBundle ] ;
+    sh:targetClass ord:ConsumptionBundleReference .
+
+ord:ConsumptionBundleShape a sh:NodeShape ;
+    sh:name "ConsumptionBundleShape" ;
+    sh:property [ sh:class ord:CredentialExchangeStrategy ;
+            sh:name "credential_exchange_strategy" ;
+            sh:path ord:credentialExchangeStrategy ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ] ;
+    sh:targetClass ord:ConsumptionBundle .
+
+ord:DataProductShape a sh:NodeShape ;
+    sh:name "DataProductShape" ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "category" ;
+            sh:path ord:category ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:name "line_of_business" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "extensible" ;
+            sh:path ord:extensible ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:class ord:DataProductLink ;
+            sh:name "data_product_links" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:class ord:DataProductOutputPort ;
+            sh:name "output_ports" ;
+            sh:path ord:outputPort ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:maxCount 1 ;
+            sh:name "default_consumption_bundle" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:defaultConsumptionBundle ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "type" ;
+            sh:path ord:type ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:name "industry" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:class ord:DataProductInputPort ;
+            sh:name "input_ports" ;
+            sh:path ord:inputPort ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:class ord:ConsumptionBundleReference ;
+            sh:name "part_of_consumption_bundles" ;
+            sh:path ord:partOfConsumptionBundle ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "lifecycle_status" ;
+            sh:path ord:lifecycleStatus ],
+        [ sh:class ord:RelatedEntityType ;
+            sh:name "related_entity_types" ;
+            sh:path ord:relatedEntityType ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ] ;
+    sh:targetClass ord:DataProduct .
+
+ord:DocumentShape a sh:NodeShape ;
+    sh:name "OrdDocumentShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:class ord:SystemVersion ;
+            sh:maxCount 1 ;
+            sh:name "described_system_version" ;
+            sh:path ord:describedSystemVersion ],
+        [ sh:class ord:SystemType ;
+            sh:maxCount 1 ;
+            sh:name "described_system_type" ;
+            sh:path ord:describedSystemType ],
+        [ sh:datatype xsd:anyURI ;
+            sh:maxCount 1 ;
+            sh:name "base_url" ;
+            sh:path ord:baseUrl ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "perspective" ;
+            sh:path ord:perspective ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:class ord:SystemInstance ;
+            sh:maxCount 1 ;
+            sh:name "described_system_instance" ;
+            sh:path ord:describedSystemInstance ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "open_resource_discovery" ;
+            sh:path ord:openResourceDiscovery ] ;
+    sh:targetClass ord:Document .
+
+ord:EventResourceShape a sh:NodeShape ;
+    sh:name "EventResourceShape" ;
+    sh:property [ sh:class ord:ConsumptionBundleReference ;
+            sh:name "part_of_consumption_bundles" ;
+            sh:path ord:partOfConsumptionBundle ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:name "industry" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:class ord:RelatedEntityType ;
+            sh:name "related_entity_types" ;
+            sh:path ord:relatedEntityType ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "extensible" ;
+            sh:path ord:extensible ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "abstract" ;
+            sh:path ord:abstract ],
+        [ sh:class ord:ApiEventResourceLink ;
+            sh:name "api_event_resource_links" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "implementation_standard" ;
+            sh:path ord:implementationStandard ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:class ord:RelatedEventResource ;
+            sh:name "related_event_resources" ;
+            sh:path ord:relatedEventResources ],
+        [ sh:name "line_of_business" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:class ord:RelatedApiResource ;
+            sh:name "related_api_resources" ;
+            sh:path ord:relatedApiResources ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ] ;
+    sh:targetClass ord:EventResource .
+
+ord:GroupShape a sh:NodeShape ;
+    sh:name "GroupShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "group_type_id" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:type ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ] ;
+    sh:targetClass ord:Group .
+
+ord:GroupTypeShape a sh:NodeShape ;
+    sh:name "GroupTypeShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ] ;
+    sh:targetClass ord:GroupType .
+
+ord:IntegrationDependencyShape a sh:NodeShape ;
+    sh:name "IntegrationDependencyShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "related_integration_dependency" ;
+            sh:path ord:relatedIntegrationDependency ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "mandatory" ;
+            sh:path ord:mandatory ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ] ;
+    sh:targetClass ord:IntegrationDependency .
+
+ord:LinkShape a sh:NodeShape ;
+    sh:name "LinkShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:anyURI ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "url" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ] ;
+    sh:targetClass ord:Link .
+
+ord:ORDResourceDefinitionShape a sh:NodeShape ;
+    sh:name "ResourceDefinitionShape" ;
+    sh:property [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:type ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "media_type" ;
+            sh:path ord:mediaType ],
+        [ sh:datatype xsd:anyURI ;
+            sh:maxCount 1 ;
+            sh:name "url" ;
+            sh:path ord:url ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "purpose" ;
+            sh:path ord:purpose ] ;
+    sh:targetClass ord:ORDResourceDefinition .
+
+ord:OrdEntityTypeShape a sh:NodeShape ;
+    sh:name "EntityTypeShape" ;
+    sh:property [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "sunset_date" ;
+            sh:path ord:sunsetDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ai_hint" ;
+            sh:path ord:aiHint ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "abstract" ;
+            sh:path ord:abstract ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "deprecation_date" ;
+            sh:path ord:deprecationDate ],
+        [ sh:datatype xsd:boolean ;
+            sh:maxCount 1 ;
+            sh:name "disabled" ;
+            sh:path ord:disabled ],
+        [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "min_system_version" ;
+            sh:path ord:minSystemVersion ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:class ord:RelatedEntityType ;
+            sh:name "related_entity_types" ;
+            sh:path ord:relatedEntityType ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "level" ;
+            sh:path ord:level ],
+        [ sh:class ord:RelatedCapability ;
+            sh:name "related_capabilities" ;
+            sh:path ord:relatedCapabilities ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "responsible" ;
+            sh:path ord:responsible ] ;
+    sh:targetClass ord:OrdEntityType .
+
+ord:OverlayShape a sh:NodeShape ;
+    sh:name "OverlayShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "visibility" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:visibility ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "last_update" ;
+            sh:path ord:lastUpdate ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:class ord:ORDResourceDefinition ;
+            sh:name "resource_definitions" ;
+            sh:path ord:resourceDefinition ],
+        [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "release_status" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:releaseStatus ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:maxCount 1 ;
+            sh:name "part_of_package" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:partOfPackage ] ;
+    sh:targetClass ord:Overlay .
+
+ord:PackageShape a sh:NodeShape ;
+    sh:name "PackageShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:name "line_of_business" ;
+            sh:path ord:lineOfBusiness ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "support_info" ;
+            sh:path ord:supportInfo ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "version" ;
+            sh:path ord:version ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "license_type" ;
+            sh:path ord:licenseType ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "policy_level" ;
+            sh:path ord:policyLevel ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:maxCount 1 ;
+            sh:name "vendor" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:vendor ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:class ord:ChangelogEntry ;
+            sh:name "changelog_entries" ;
+            sh:path ord:changelogEntry ],
+        [ sh:class ord:PackageLink ;
+            sh:name "package_links" ;
+            sh:path ord:url ],
+        [ sh:class ord:Link ;
+            sh:name "links" ;
+            sh:path ord:link ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:string ;
+            sh:name "industry" ;
+            sh:path ord:industry ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "runtime_restriction" ;
+            sh:path ord:runtimeRestriction ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ] ;
+    sh:targetClass ord:Package .
+
+ord:ProductShape a sh:NodeShape ;
+    sh:name "ProductShape" ;
+    sh:property [ sh:maxCount 1 ;
+            sh:name "vendor" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:vendor ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ],
+        [ sh:maxCount 1 ;
+            sh:name "parent" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:parent ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:name "correlation_ids" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ] ;
+    sh:targetClass ord:Product .
+
+ord:TombstoneShape a sh:NodeShape ;
+    sh:name "TombstoneShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "package_ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "entity_type_ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:maxCount 1 ;
+            sh:name "ord_id" ;
+            sh:nodeKind sh:IRI ;
+            sh:path ord:removedResource ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "data_product_ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:dateTime ;
+            sh:maxCount 1 ;
+            sh:name "removed_date" ;
+            sh:path ord:removedDate ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "event_resource_ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "api_resource_ord_id" ;
+            sh:path ord:ordId ] ;
+    sh:targetClass ord:Tombstone .
+
+ord:VendorShape a sh:NodeShape ;
+    sh:name "VendorShape" ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "ord_id" ;
+            sh:path ord:ordId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "local_id" ;
+            sh:path ord:localId ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:path ord:description ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:path ord:title ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:name "short_description" ;
+            sh:path ord:shortDescription ] ;
+    sh:targetClass ord:Vendor .
+

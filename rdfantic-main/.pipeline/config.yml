@@ -1,0 +1,47 @@
+general:
+  owner: DL-COE
+  buildTool: pip
+  productiveBranch: main
+  pipelineOptimization: true
+  repository: bkg-rdfantic
+  vaultPath: piper/PIPELINE-GROUP-4119
+  vaultBasePath: piper/PIPELINE-GROUP-4119
+  vaultPipelineName: bkg-rdfantic
+  vaultServerUrl: https://vault.tools.sap
+  vaultNamespace: ies/hyperspace/pipelines
+  nativeBuild: true
+  manualConfirmation: false
+
+stages:
+  Build:
+    pythonBuild: True # Python build activated but Piper Python step replaced with custom uvPythonBuild step
+  Acceptance:
+    sapDownloadArtifact: false
+  Performance:
+    sapDownloadArtifact: false
+  Promote:
+    # We disable Promote for now, which implies that there is no automated publication of the package
+    #   in the productive hyperspace Artifactory repo for now.
+    # This is deactivated until proper release CICD/process is setup.
+    # For now, any release should be done manually as done today
+    sapCallStagingService: false
+  Release:
+    sapDownloadArtifact: false
+    githubPublishRelease: false
+  Post:
+    # Secret rotation handled by Hyperspace Portal, enabling it back might cause unintended behavior
+    vaultRotateSecretId: false
+
+steps:
+  artifactPrepareVersion:
+    versioningType: library
+  sapCallStagingService:
+    url: https://staging.repositories.cloud.sap/stage/api
+    profile: group-4119-default
+  sapCumulusUpload:
+    pipelineId: 00119118-1677-46b4-ba0d-0ee8dbf6953e
+  # NOTE: it will be used later on when releases will be setup in the repository
+  # githubPublishRelease:
+  #   repository: bkg-rdfantic
+  #   token: GROUP-SECRETS/github-p2008665775-serviceuser
+  #   verbose: true

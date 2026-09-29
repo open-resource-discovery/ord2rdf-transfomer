@@ -1,0 +1,1491 @@
+# =============================================================================
+# ORD Open Vocabulary SHACL Shapes
+# Namespace: https://open-resource-discovery.org/vocab/v1#
+# =============================================================================
+
+@prefix ord:      <https://open-resource-discovery.org/vocab/v1#> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Shape Graph Metadata
+# =============================================================================
+
+ord:OpenVocabularyShapes
+    a rdfs:Resource ;
+    rdfs:label "ORD Open Vocabulary SHACL Shapes"@en ;
+    rdfs:comment "SHACL shapes for validating RDF knowledge graphs generated from the open ORD vocabulary. These shapes are KG-normalized, SKOS-first, and do not depend on OWL."@en ;
+    dcterms:title "ORD Open Vocabulary SHACL Shapes"@en ;
+    dcterms:description "Validation shapes for Open Resource Discovery RDF graphs. The shapes encode executable constraints for common ORD fields, controlled vocabularies, resource definitions, links, resources, taxonomy entities, and lifecycle metadata."@en .
+
+# =============================================================================
+# Common Reusable Property Shapes
+# =============================================================================
+
+ord:OrdIdPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:ordId ;
+    sh:name "ORD ID"@en ;
+    sh:description "Stable, globally unique ORD identifier. In normalized RDF this is represented as a string literal. Class-specific ORD ID patterns can be added in vendor or profile-specific shapes."@en ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:pattern "^[A-Za-z0-9._\\-]+:[A-Za-z0-9._\\-]+:[A-Za-z0-9._\\-]+:?[A-Za-z0-9._\\-]*$" ;
+    sh:severity sh:Violation .
+
+ord:RequiredOrdIdPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:ordId ;
+    sh:name "Required ORD ID"@en ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:pattern "^[A-Za-z0-9._\\-]+:[A-Za-z0-9._\\-]+:[A-Za-z0-9._\\-]+:?[A-Za-z0-9._\\-]*$" ;
+    sh:severity sh:Violation .
+
+ord:TitlePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:title ;
+    sh:name "Title"@en ;
+    sh:description "Human-readable title. Must not exceed 255 characters and must not contain line breaks."@en ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:pattern "^[^\\r\\n]*$" ;
+    sh:severity sh:Violation .
+
+ord:RequiredTitlePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:title ;
+    sh:name "Required Title"@en ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:pattern "^[^\\r\\n]*$" ;
+    sh:severity sh:Violation .
+
+ord:ShortDescriptionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:shortDescription ;
+    sh:name "Short Description"@en ;
+    sh:description "Plain text short description. Must not exceed 255 characters and must not contain line breaks."@en ;
+    sh:datatype xsd:string ;
+    sh:maxLength 255 ;
+    sh:pattern "^[^\\r\\n]*$" ;
+    sh:severity sh:Violation .
+
+ord:RequiredShortDescriptionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:shortDescription ;
+    sh:name "Required Short Description"@en ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:pattern "^[^\\r\\n]*$" ;
+    sh:severity sh:Violation .
+
+ord:DescriptionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:description ;
+    sh:name "Description"@en ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Violation .
+
+ord:VersionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:version ;
+    sh:name "Version"@en ;
+    sh:description "Complete Semantic Versioning 2.0.0 version string."@en ;
+    sh:datatype xsd:string ;
+    sh:pattern "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" ;
+    sh:severity sh:Violation .
+
+ord:RequiredVersionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:version ;
+    sh:name "Required Version"@en ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:pattern "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" ;
+    sh:severity sh:Violation .
+
+ord:CountryPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:country ;
+    sh:name "Country"@en ;
+    sh:description "Country code according to ISO 3166-1 alpha-2."@en ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[A-Z]{2}$" ;
+    sh:severity sh:Violation .
+
+ord:TagPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:tag ;
+    sh:name "Tag"@en ;
+    sh:description "Free-text tag. Allowed characters are letters, digits, hyphen, underscore, dot, slash, and space."@en ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[A-Za-z0-9._/ -]+$" ;
+    sh:severity sh:Violation .
+
+ord:LocalIdPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:localId ;
+    sh:name "Local ID"@en ;
+    sh:datatype xsd:string ;
+    sh:maxLength 255 ;
+    sh:severity sh:Violation .
+
+ord:UrlPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:url ;
+    sh:name "URL"@en ;
+    sh:datatype xsd:anyURI ;
+    sh:severity sh:Violation .
+
+ord:RequiredUrlPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:url ;
+    sh:name "Required URL"@en ;
+    sh:datatype xsd:anyURI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:BaseUrlPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:baseUrl ;
+    sh:name "Base URL"@en ;
+    sh:datatype xsd:anyURI ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:MediaTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:mediaType ;
+    sh:name "Media Type"@en ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:RequiredMediaTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:mediaType ;
+    sh:name "Required Media Type"@en ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:PurposePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:purpose ;
+    sh:name "Purpose"@en ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:DatePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:date ;
+    sh:name "Date"@en ;
+    sh:datatype xsd:date ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:LastUpdatePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:lastUpdate ;
+    sh:name "Last Update"@en ;
+    sh:datatype xsd:dateTime ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:RemovedDatePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:removedDate ;
+    sh:name "Removed Date"@en ;
+    sh:datatype xsd:dateTime ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:SunsetDatePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:sunsetDate ;
+    sh:name "Sunset Date"@en ;
+    sh:datatype xsd:dateTime ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:BooleanAbstractPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:abstract ;
+    sh:name "Abstract"@en ;
+    sh:datatype xsd:boolean ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:BooleanDisabledPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:disabled ;
+    sh:name "Disabled"@en ;
+    sh:datatype xsd:boolean ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:BooleanExtensiblePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:extensible ;
+    sh:name "Extensible"@en ;
+    sh:datatype xsd:boolean ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:CorrelationIdPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:correlationId ;
+    sh:name "Correlation ID"@en ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:severity sh:Violation .
+
+ord:RelatedOrdIdPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:relatedOrdId ;
+    sh:name "Related ORD ID"@en ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:maxLength 255 ;
+    sh:severity sh:Violation .
+
+ord:MinimumSystemVersionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:minSystemVersion ;
+    sh:name "Minimum System Version"@en ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# Controlled Vocabulary Property Shapes
+# KG-normalized: controlled values should be SKOS concepts.
+# =============================================================================
+
+ord:IndustryPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:industry ;
+    sh:name "Industry"@en ;
+    sh:description "Industry must be a SKOS concept from the ORD Industry concept scheme or a compatible extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:OrdIndustryConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:industry ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Industry concepts should declare skos:inScheme, preferably ord:IndustryConceptScheme or a compatible extension scheme."@en
+    ] .
+
+ord:LineOfBusinessPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:lineOfBusiness ;
+    sh:name "Line of Business"@en ;
+    sh:description "Line of business must be a SKOS concept from the ORD Line of Business concept scheme or a compatible extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:OrdLineOfBusinessConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:lineOfBusiness ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Line-of-business concepts should declare skos:inScheme, preferably ord:LineOfBusinessConceptScheme or a compatible extension scheme."@en
+    ] .
+
+ord:VisibilityPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:visibility ;
+    sh:name "Visibility"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:RequiredVisibilityPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:visibility ;
+    sh:name "Required Visibility"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:ReleaseStatusPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:releaseStatus ;
+    sh:name "Release Status"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:RequiredReleaseStatusPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:releaseStatus ;
+    sh:name "Required Release Status"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:PolicyLevelPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:policyLevel ;
+    sh:name "Policy Level"@en ;
+    sh:description "Policy level should be represented as a SKOS concept from ord:PolicyLevelScheme or a vendor extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:UsagePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:usage ;
+    sh:name "Usage"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:ApiProtocolPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:apiProtocol ;
+    sh:name "API Protocol"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:AccessStrategyPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:accessStrategy ;
+    sh:name "Access Strategy"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:DefinitionTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:type ;
+    sh:name "Type"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:RequiredDefinitionTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:type ;
+    sh:name "Required Type"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:LinkTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:linkType ;
+    sh:name "Link Type"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# Deprecated Property Shapes
+# =============================================================================
+
+ord:CustomPolicyLevelDeprecatedShape
+    a sh:PropertyShape ;
+    sh:path ord:customPolicyLevel ;
+    sh:name "Deprecated Custom Policy Level"@en ;
+    sh:description "Deprecated since ORD spec v1.9.9. Use ord:policyLevel with a SKOS concept instead."@en ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Warning ;
+    sh:message "ord:customPolicyLevel is deprecated since ORD spec v1.9.9. Use ord:policyLevel instead."@en .
+
+# =============================================================================
+# Relationship Property Shapes
+# =============================================================================
+
+ord:RelatedPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:related ;
+    sh:name "Related Concept"@en ;
+    sh:nodeKind sh:IRIOrLiteral ;
+    sh:severity sh:Violation .
+
+ord:RelationTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:relationType ;
+    sh:name "Relation Type"@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:SuccessorPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:successor ;
+    sh:name "Successor"@en ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:PartOfProductPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:partOfProduct ;
+    sh:name "Part of Product"@en ;
+    sh:class ord:Product ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:PartOfPackagePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:partOfPackage ;
+    sh:name "Part of Package"@en ;
+    sh:class ord:Package ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:RequiredPartOfPackagePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:partOfPackage ;
+    sh:name "Required Part of Package"@en ;
+    sh:class ord:Package ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:severity sh:Violation .
+
+ord:PartOfGroupPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:partOfGroup ;
+    sh:name "Part of Group"@en ;
+    sh:class ord:Group ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:VendorPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:vendor ;
+    sh:name "Vendor"@en ;
+    sh:class ord:Vendor ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:PartnerPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:partner ;
+    sh:name "Partner"@en ;
+    sh:class ord:Vendor ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# Structured Object Property Shapes
+# =============================================================================
+
+ord:LinkPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:link ;
+    sh:name "Link"@en ;
+    sh:class ord:Link ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:severity sh:Violation .
+
+ord:ResourceLinkPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:resourceLink ;
+    sh:name "Resource Link"@en ;
+    sh:class ord:ORDTypedLink ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:ChangelogEntryPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:changelogEntry ;
+    sh:name "Changelog Entry"@en ;
+    sh:class ord:ChangelogEntry ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:severity sh:Violation .
+
+ord:LabelPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:label ;
+    sh:name "Label"@en ;
+    sh:class ord:Label ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:DocumentationLabelPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:documentationLabel ;
+    sh:name "Documentation Label"@en ;
+    sh:nodeKind sh:IRIOrLiteral ;
+    sh:severity sh:Violation .
+
+ord:EntityTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:entityType ;
+    sh:name "Entity Type"@en ;
+    sh:class ord:EntityType ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:ExposedEntityTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:exposedEntityType ;
+    sh:name "Exposed Entity Type"@en ;
+    sh:class ord:ExposedEntityType ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:RelatedEntityTypePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:relatedEntityType ;
+    sh:name "Related Entity Type"@en ;
+    sh:class ord:RelatedEntityType ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:EntityTypeMappingPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:entityTypeMapping ;
+    sh:name "Entity Type Mapping"@en ;
+    sh:class ord:EntityTypeMapping ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:ResourceDefinitionPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:resourceDefinition ;
+    sh:name "Resource Definition"@en ;
+    sh:class ord:ORDResourceDefinition ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# Generic Base Shapes
+# =============================================================================
+
+ord:ConceptShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Concept ;
+    sh:name "ORD Concept"@en ;
+    sh:description "Generic validation shape for ORD concepts."@en ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:ShortDescriptionPropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:TagPropertyShape ;
+    sh:property ord:CountryPropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:PolicyLevelPropertyShape ;
+    sh:property ord:CustomPolicyLevelDeprecatedShape ;
+    sh:property ord:RelatedPropertyShape ;
+    sh:property ord:RelationTypePropertyShape ;
+    sh:property ord:RelatedOrdIdPropertyShape .
+
+ord:ORDEntityShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDEntity ;
+    sh:name "ORD Entity"@en ;
+    sh:description "Base validation shape for identifiable ORD entities."@en ;
+    sh:property ord:OrdIdPropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:ShortDescriptionPropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:LocalIdPropertyShape ;
+    sh:property ord:VersionPropertyShape ;
+    sh:property ord:ReleaseStatusPropertyShape ;
+    sh:property ord:VisibilityPropertyShape ;
+    sh:property ord:PolicyLevelPropertyShape ;
+    sh:property ord:CustomPolicyLevelDeprecatedShape ;
+    sh:property ord:TagPropertyShape ;
+    sh:property ord:CountryPropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:CorrelationIdPropertyShape ;
+    sh:property ord:RelatedPropertyShape ;
+    sh:property ord:RelationTypePropertyShape ;
+    sh:property ord:RelatedOrdIdPropertyShape ;
+    sh:property ord:SuccessorPropertyShape ;
+    sh:property ord:PartOfProductPropertyShape ;
+    sh:property ord:PartOfGroupPropertyShape ;
+    sh:property ord:VendorPropertyShape ;
+    sh:property ord:LinkPropertyShape ;
+    sh:property ord:ChangelogEntryPropertyShape ;
+    sh:property ord:LabelPropertyShape ;
+    sh:property ord:DocumentationLabelPropertyShape ;
+    sh:property ord:RemovedDatePropertyShape ;
+    sh:property ord:SunsetDatePropertyShape ;
+    sh:property ord:BooleanDisabledPropertyShape .
+
+ord:ORDResourceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDResource ;
+    sh:name "ORD Resource"@en ;
+    sh:description "Base shape for first-class ORD resources."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:ResourceLinkPropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property ord:EntityTypePropertyShape ;
+    sh:property ord:ExposedEntityTypePropertyShape ;
+    sh:property ord:RelatedEntityTypePropertyShape ;
+    sh:property ord:EntityTypeMappingPropertyShape ;
+    sh:property ord:MinimumSystemVersionPropertyShape ;
+    sh:property ord:LastUpdatePropertyShape ;
+    sh:property ord:BooleanAbstractPropertyShape ;
+    sh:property ord:BooleanExtensiblePropertyShape .
+
+ord:ORDTaxonomyShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDTaxonomy ;
+    sh:name "ORD Taxonomy Entity"@en ;
+    sh:description "Base shape for ORD taxonomy entities such as vendors, products, packages, groups, and group types."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:PartnerPropertyShape ;
+    sh:property ord:VendorPropertyShape .
+
+ord:ORDSystemContextShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDSystemContext ;
+    sh:name "ORD System Context"@en ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:VersionPropertyShape .
+
+# =============================================================================
+# Document Shape
+# =============================================================================
+
+ord:DocumentShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Document ;
+    sh:name "ORD Document"@en ;
+    sh:description "An ORD document describes resources, taxonomies, system context, and relationships."@en ;
+    sh:property ord:PolicyLevelPropertyShape ;
+    sh:property ord:CustomPolicyLevelDeprecatedShape ;
+    sh:property ord:VendorPropertyShape ;
+    sh:property ord:LinkPropertyShape ;
+    sh:property [
+        sh:path ord:describedSystemInstance ;
+        sh:name "Described System Instance"@en ;
+        sh:class ord:SystemInstance ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:severity sh:Violation
+    ] .
+
+# =============================================================================
+# Taxonomy Shapes
+# =============================================================================
+
+ord:VendorShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Vendor ;
+    sh:name "Vendor"@en ;
+    sh:description "A vendor is a company or organization that provides products or services."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:PartnerPropertyShape ;
+    sh:property ord:DocumentationLabelPropertyShape .
+
+ord:ProductShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Product ;
+    sh:name "Product"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:VendorPropertyShape .
+
+ord:PackageShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Package ;
+    sh:name "Package"@en ;
+    sh:description "A package is a collection of resources grouped together for distribution."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:ShortDescriptionPropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:VendorPropertyShape ;
+    sh:property ord:PartOfProductPropertyShape ;
+    sh:property ord:PartOfGroupPropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:CountryPropertyShape ;
+    sh:property ord:TagPropertyShape ;
+    sh:property ord:LinkPropertyShape ;
+    sh:property [
+        sh:path ord:license ;
+        sh:name "License"@en ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Violation
+    ] .
+
+ord:GroupShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Group ;
+    sh:name "Group"@en ;
+    sh:description "Group instance that resources can be assigned to."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:VendorPropertyShape ;
+    sh:property ord:PartOfGroupPropertyShape ;
+    sh:property [
+        sh:path ord:groupType ;
+        sh:name "Group Type"@en ;
+        sh:class ord:GroupType ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] .
+
+ord:GroupTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:GroupType ;
+    sh:name "Group Type"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:VendorPropertyShape .
+
+# =============================================================================
+# System Context Shapes
+# =============================================================================
+
+ord:SystemTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:SystemType ;
+    sh:name "System Type"@en ;
+    sh:property ord:DescriptionPropertyShape .
+
+ord:SystemVersionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:SystemVersion ;
+    sh:name "System Version"@en ;
+    sh:property ord:RequiredVersionPropertyShape .
+
+ord:SystemInstanceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:SystemInstance ;
+    sh:name "System Instance"@en ;
+    sh:property ord:BaseUrlPropertyShape ;
+    sh:property [
+        sh:path ord:systemType ;
+        sh:name "System Type"@en ;
+        sh:class ord:SystemType ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property [
+        sh:path ord:systemVersion ;
+        sh:name "System Version"@en ;
+        sh:class ord:SystemVersion ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] .
+
+# =============================================================================
+# Resource Shapes
+# =============================================================================
+
+ord:ApiResourceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:APIResource ;
+    sh:name "API Resource"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:ApiProtocolPropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property ord:ResourceLinkPropertyShape ;
+    sh:property ord:EntityTypeMappingPropertyShape ;
+    sh:property ord:ExposedEntityTypePropertyShape ;
+    sh:property ord:RelatedEntityTypePropertyShape .
+
+ord:EventResourceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EventResource ;
+    sh:name "Event Resource"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property ord:ResourceLinkPropertyShape ;
+    sh:property ord:EntityTypeMappingPropertyShape ;
+    sh:property ord:ExposedEntityTypePropertyShape ;
+    sh:property ord:RelatedEntityTypePropertyShape .
+
+ord:DataProductShape
+    a sh:NodeShape ;
+    sh:targetClass ord:DataProduct ;
+    sh:name "Data Product"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property ord:ResourceLinkPropertyShape ;
+    sh:property [
+        sh:path ord:inputPort ;
+        sh:name "Input Port"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property [
+        sh:path ord:outputPort ;
+        sh:name "Output Port"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] .
+
+ord:DataServiceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:DataService ;
+    sh:name "Data Service"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property ord:ResourceLinkPropertyShape .
+
+ord:CapabilityShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Capability ;
+    sh:name "Capability"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:BooleanDisabledPropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape .
+
+ord:IntegrationDependencyShape
+    a sh:NodeShape ;
+    sh:targetClass ord:IntegrationDependency ;
+    sh:name "Integration Dependency"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape ;
+    sh:property [
+        sh:path ord:integrationAspect ;
+        sh:name "Integration Aspect"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] .
+
+ord:AgentShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Agent ;
+    sh:name "Agent"@en ;
+    sh:description "Shape for AI-powered autonomous systems described in ORD."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:UrlPropertyShape .
+
+ord:OverlayShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Overlay ;
+    sh:name "Overlay"@en ;
+    sh:description "Standalone versioned resource referencing a metadata overlay document. Required: ordId, version, releaseStatus, visibility."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:RequiredVersionPropertyShape ;
+    sh:property ord:RequiredReleaseStatusPropertyShape ;
+    sh:property ord:RequiredVisibilityPropertyShape ;
+    sh:property ord:RequiredPartOfPackagePropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape .
+
+# =============================================================================
+# Resource Definition Shapes
+# =============================================================================
+
+ord:ORDResourceDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDResourceDefinition ;
+    sh:name "ORD Resource Definition"@en ;
+    sh:description "Abstract superclass for machine-readable definition attachments."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape ;
+    sh:property ord:VisibilityPropertyShape .
+
+ord:ApiResourceDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ApiResourceDefinition ;
+    sh:name "API Resource Definition"@en ;
+    sh:description "Link and categorization of a machine-readable API definition. Required: type, mediaType, url."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape .
+
+ord:EventResourceDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EventResourceDefinition ;
+    sh:name "Event Resource Definition"@en ;
+    sh:description "Link and categorization of a machine-readable event definition. Required: type, mediaType, url."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape .
+
+ord:CapabilityDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:CapabilityDefinition ;
+    sh:name "Capability Definition"@en ;
+    sh:description "Machine-readable capability definition. Required: type, mediaType, url."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape .
+
+ord:EntityTypeDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EntityTypeDefinition ;
+    sh:name "Entity Type Definition"@en ;
+    sh:description "Machine-readable definition describing an entity type model. Required: type, mediaType, url."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape .
+
+ord:OverlayDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass ord:OverlayDefinition ;
+    sh:name "Overlay Definition"@en ;
+    sh:description "Link to a machine-readable ORD Overlay document. Introduced in ORD spec v1.15, alpha. Required: type, mediaType, url."@en ;
+    sh:property ord:RequiredDefinitionTypePropertyShape ;
+    sh:property ord:RequiredMediaTypePropertyShape ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:PurposePropertyShape ;
+    sh:property ord:AccessStrategyPropertyShape .
+
+# =============================================================================
+# Link Shapes
+# =============================================================================
+
+ord:LinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Link ;
+    sh:name "Link"@en ;
+    sh:description "Generic link attached to packages or ORD resources."@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape .
+
+ord:ORDTypedLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ORDTypedLink ;
+    sh:name "ORD Typed Link"@en ;
+    sh:description "A typed link with semantic meaning."@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape .
+
+ord:PackageLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:PackageLink ;
+    sh:name "Package Link"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:ApiEventResourceLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ApiEventResourceLink ;
+    sh:name "API/Event Resource Link"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:DataProductLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:DataProductLink ;
+    sh:name "Data Product Link"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+# Specific link classes from the generated shape file.
+# These inherit the common typed-link constraints through targetClass if typed accordingly.
+
+ord:AuthenticationLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:AuthenticationLink ;
+    sh:name "authentication"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:ApiDocumentationLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ApiDocumentationLink ;
+    sh:name "api-documentation"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:ClientRegistrationLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ClientRegistrationLink ;
+    sh:name "client-registration"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:ConsoleLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ConsoleLink ;
+    sh:name "console"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:CustomLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:CustomLink ;
+    sh:name "custom"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:LicenseLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:LicenseLink ;
+    sh:name "license"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:PaymentLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:PaymentLink ;
+    sh:name "payment"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:SandboxLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:SandboxLink ;
+    sh:name "sandbox"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:ServiceLevelAgreementLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ServiceLevelAgreementLink ;
+    sh:name "service-level-agreement"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:SupportLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:SupportLink ;
+    sh:name "support"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+ord:TermsOfUseLinkShape
+    a sh:NodeShape ;
+    sh:targetClass ord:TermsOfUseLink ;
+    sh:name "terms-of-use"@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:LinkTypePropertyShape .
+
+# =============================================================================
+# Entity Type and Mapping Shapes
+# =============================================================================
+
+ord:EntityTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EntityType ;
+    sh:name "Entity Type"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:RelatedEntityTypePropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape .
+
+ord:OrdEntityTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:OrdEntityType ;
+    sh:name "ORD Entity Type"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:RelatedEntityTypePropertyShape ;
+    sh:property ord:ResourceDefinitionPropertyShape .
+
+ord:RelatedEntityTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:RelatedEntityType ;
+    sh:name "Related Entity Type"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:RelationTypePropertyShape .
+
+ord:ExposedEntityTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ExposedEntityType ;
+    sh:name "Exposed Entity Type"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:TitlePropertyShape .
+
+ord:EntityTypeMappingShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EntityTypeMapping ;
+    sh:name "Entity Type Mapping"@en ;
+    sh:property ord:EntityTypePropertyShape ;
+    sh:property [
+        sh:path ord:apiModelSelector ;
+        sh:name "API Model Selector"@en ;
+        sh:class ord:ApiModelSelector ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ] .
+
+ord:ApiModelSelectorShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ApiModelSelector ;
+    sh:name "API Model Selector"@en ;
+    sh:property ord:EntityTypePropertyShape .
+
+ord:OdataApiModelSelectorShape
+    a sh:NodeShape ;
+    sh:targetClass ord:OdataApiModelSelector ;
+    sh:name "OData API Model Selector"@en ;
+    sh:description "API model selector for OData, using entity set names. Must only be used when the API resource provides an EDMX API resource definition."@en ;
+    sh:property [
+        sh:path ord:entitySetName ;
+        sh:name "Entity Set Name"@en ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ] .
+
+ord:JsonPointerApiModelSelectorShape
+    a sh:NodeShape ;
+    sh:targetClass ord:JsonPointerApiModelSelector ;
+    sh:name "JSON Pointer API Model Selector"@en ;
+    sh:property [
+        sh:path ord:jsonPointer ;
+        sh:name "JSON Pointer"@en ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:pattern "^/" ;
+        sh:severity sh:Violation
+    ] .
+
+# =============================================================================
+# Changelog, Label, File, and Supporting Object Shapes
+# =============================================================================
+
+ord:ChangelogEntryShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ChangelogEntry ;
+    sh:name "Changelog Entry"@en ;
+    sh:description "A changelog entry indicates changes, usually leading to a version or release-status change."@en ;
+    sh:property ord:DatePropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape .
+
+ord:LabelShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Label ;
+    sh:name "Label"@en ;
+    sh:description "Key-value metadata label attached to ORD resources."@en ;
+    sh:property [
+        sh:path ord:key ;
+        sh:name "Key"@en ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property [
+        sh:path ord:value ;
+        sh:name "Value"@en ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:severity sh:Violation
+    ] .
+
+ord:FileShape
+    a sh:NodeShape ;
+    sh:targetClass ord:File ;
+    sh:name "ORD File"@en ;
+    sh:description "File that can be attached on ORD package level."@en ;
+    sh:property ord:RequiredUrlPropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:MediaTypePropertyShape .
+
+ord:DocumentationLabelShape
+    a sh:NodeShape ;
+    sh:targetClass ord:DocumentationLabel ;
+    sh:name "Documentation Label"@en ;
+    sh:property ord:EntityTypePropertyShape .
+
+ord:ExtensionInformationShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ExtensionInformation ;
+    sh:name "Extension Information"@en ;
+    sh:description "Information about the extensibility of a resource."@en ;
+    sh:property ord:BooleanExtensiblePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:LinkPropertyShape ;
+    sh:property ord:PartOfProductPropertyShape ;
+    sh:property ord:SuccessorPropertyShape .
+
+ord:ExtensibleShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Extensible ;
+    sh:name "Extensible"@en ;
+    sh:property ord:BooleanExtensiblePropertyShape ;
+    sh:property ord:CustomPolicyLevelDeprecatedShape ;
+    sh:property ord:ChangelogEntryPropertyShape ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:DescriptionPropertyShape .
+
+ord:ConsumptionBundleShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ConsumptionBundle ;
+    sh:name "Consumption Bundle"@en ;
+    sh:description "A collection of resources grouped together for consumption."@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:RequiredTitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property [
+        sh:path ord:credentialExchangeStrategy ;
+        sh:name "Credential Exchange Strategy"@en ;
+        sh:class ord:CredentialExchangeStrategy ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:severity sh:Violation
+    ] .
+
+ord:ConsumptionBundleReferenceShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ConsumptionBundleReference ;
+    sh:name "Consumption Bundle Reference"@en ;
+    sh:description "Reference to a consumption bundle."@en ;
+    sh:property [
+        sh:path ord:consumptionBundle ;
+        sh:name "Consumption Bundle"@en ;
+        sh:class ord:ConsumptionBundle ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property [
+        sh:path ord:defaultEntryPoint ;
+        sh:name "Default Entry Point"@en ;
+        sh:datatype xsd:anyURI ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ] .
+
+ord:CredentialExchangeStrategyShape
+    a sh:NodeShape ;
+    sh:targetClass ord:CredentialExchangeStrategy ;
+    sh:name "Credential Exchange Strategy"@en ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:LinkPropertyShape .
+
+ord:IntegrationAspectShape
+    a sh:NodeShape ;
+    sh:targetClass ord:IntegrationAspect ;
+    sh:name "Integration Aspect"@en ;
+    sh:property ord:RequiredOrdIdPropertyShape ;
+    sh:property ord:TitlePropertyShape ;
+    sh:property ord:DescriptionPropertyShape ;
+    sh:property ord:IndustryPropertyShape ;
+    sh:property ord:LineOfBusinessPropertyShape .
+
+# =============================================================================
+# Compatibility Shapes
+# =============================================================================
+
+ord:ApiCompatibilityShape
+    a sh:NodeShape ;
+    sh:targetClass ord:ApiCompatibility ;
+    sh:name "API Compatibility"@en ;
+    sh:description "Declares that an API resource is compatible with an abstract API interface contract."@en ;
+    sh:property [
+        sh:path ord:compatibleWith ;
+        sh:name "Compatible With"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property ord:EntityTypePropertyShape ;
+    sh:property ord:TagPropertyShape .
+
+ord:EventCompatibilityShape
+    a sh:NodeShape ;
+    sh:targetClass ord:EventCompatibility ;
+    sh:name "Event Compatibility"@en ;
+    sh:description "Declares that an event resource is compatible with an abstract event interface contract."@en ;
+    sh:property [
+        sh:path ord:compatibleWith ;
+        sh:name "Compatible With"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property ord:EntityTypePropertyShape ;
+    sh:property ord:TagPropertyShape .
+
+# =============================================================================
+# Tombstone Shape
+# =============================================================================
+
+ord:TombstoneShape
+    a sh:NodeShape ;
+    sh:targetClass ord:Tombstone ;
+    sh:name "Tombstone"@en ;
+    sh:description "A tombstone indicates that a previously published ORD resource or taxonomy entity has been removed or decommissioned."@en ;
+    sh:property [
+        sh:path ord:removedResource ;
+        sh:name "Removed Resource"@en ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:property ord:RemovedDatePropertyShape ;
+    sh:property ord:SuccessorPropertyShape ;
+    sh:property ord:DescriptionPropertyShape .
+
+# =============================================================================
+# Transitional Warning Shapes
+# These detect old/generated string-style values where normalized KG values
+# should be SKOS concepts.
+# =============================================================================
+
+ord:StringIndustryWarningShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ord:industry ;
+    sh:property [
+        sh:path ord:industry ;
+        sh:not [
+            sh:datatype xsd:string
+        ] ;
+        sh:severity sh:Warning ;
+        sh:message "ord:industry should be represented as a SKOS concept IRI in normalized RDF, not as a string literal."@en
+    ] .
+
+ord:StringLineOfBusinessWarningShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ord:lineOfBusiness ;
+    sh:property [
+        sh:path ord:lineOfBusiness ;
+        sh:not [
+            sh:datatype xsd:string
+        ] ;
+        sh:severity sh:Warning ;
+        sh:message "ord:lineOfBusiness should be represented as a SKOS concept IRI in normalized RDF, not as a string literal."@en
+    ] .
+
+ord:StringPolicyLevelWarningShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ord:policyLevel ;
+    sh:property [
+        sh:path ord:policyLevel ;
+        sh:not [
+            sh:datatype xsd:string
+        ] ;
+        sh:severity sh:Warning ;
+        sh:message "ord:policyLevel should be represented as a SKOS concept IRI in normalized RDF, not as a string literal."@en
+    ] .
+
+ord:StringVisibilityWarningShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ord:visibility ;
+    sh:property [
+        sh:path ord:visibility ;
+        sh:not [
+            sh:datatype xsd:string
+        ] ;
+        sh:severity sh:Warning ;
+        sh:message "ord:visibility should be represented as a SKOS concept IRI in normalized RDF, not as a string literal."@en
+    ] .
+
+ord:StringReleaseStatusWarningShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ord:releaseStatus ;
+    sh:property [
+        sh:path ord:releaseStatus ;
+        sh:not [
+            sh:datatype xsd:string
+        ] ;
+        sh:severity sh:Warning ;
+        sh:message "ord:releaseStatus should be represented as a SKOS concept IRI in normalized RDF, not as a string literal."@en
+    ] .
+
+# =============================================================================
+# End of Shape File
+# =============================================================================

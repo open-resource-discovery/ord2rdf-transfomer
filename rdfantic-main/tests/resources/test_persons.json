@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Alice",
+    "age": 30,
+    "dob": {"day": 15, "month": 3, "year": 1996},
+    "baptized": true,
+    "gender": "female",
+    "father": "Bob",
+    "right_handed": "false",
+    "address": {
+      "street": "Main Street",
+      "number": 42,
+      "zip_code": 12345,
+      "city": "Springfield"
+    },
+    "knows": [
+      "Bob",
+      {
+        "name": "Dave",
+        "age": 28,
+        "dob": {"day": 22, "month": 11, "year": 1998},
+        "father": "Bob",
+        "gender": "female",
+        "knows": [],
+        "jobs": ["Data Engineer", "Knowledge Engineer"],
+        "hobby": ["Surfing", "Cooking"]
+      }
+    ],
+    "jobs": ["Software Engineer", "Knowledge Engineer"]
+  },
+  {
+    "name": "Bob",
+    "age": 55,
+    "dob": {"day": 10, "month": 7, "year": 1971},
+    "children": ["Alice", "Dave"],
+    "father": "Charlie",
+    "knows": [
+        "Alice"
+    ],
+    "jobs": ["Software Engineer"]
+  },
+  {
+    "name": "Charlie",
+    "age": 80,
+    "gender": "male",
+    "children": [{
+      "name": "Helen",
+      "dob": {"day": 8, "month": 5, "year": 1966},
+      "age": 60,
+      "gender": "female",
+      "knows": [],
+      "father": "Charlie",
+      "jobs": ["Data Engineer"]
+    }],
+    "dob": {"day": 5, "month": 1, "year": 1946},
+    "father": "Frank",
+    "address": {
+      "street": "Oak Avenue",
+      "number": 128,
+      "zip_code": 54321,
+      "city": "Shelbyville"
+    },
+    "knows": [],
+    "jobs": ["Data Engineer"]
+  }
+]

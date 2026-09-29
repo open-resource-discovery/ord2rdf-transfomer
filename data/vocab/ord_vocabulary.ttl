@@ -1,0 +1,2260 @@
+# =============================================================================
+# ORD Vocabulary — Open Resource Discovery
+#
+# Namespace: https://open-resource-discovery.org/vocab/v1#
+# Prefix: ord
+#
+# Standards used:
+#   RDF, RDFS, SKOS, XSD, DCAT, FOAF, DCTERMS
+# =============================================================================
+
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcat:     <http://www.w3.org/ns/dcat#> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix ord:      <https://open-resource-discovery.org/vocab/v1#> .
+@prefix ordspec:  <https://open-resource-discovery.org/spec-v1/> .
+
+# =============================================================================
+# Vocabulary Metadata
+# =============================================================================
+
+ord:
+    a rdfs:Resource ;
+    rdfs:label "ORD Vocabulary v1"@en ;
+    rdfs:comment """RDF/RDFS/SKOS vocabulary derived from the Open Resource Discovery JSON Schema.
+It describes the conceptual model of an ORD document, including resources, taxonomy entities,
+system context, resource definitions, links, controlled vocabularies, and lifecycle metadata.
+
+This vocabulary is intended as an open, vendor-neutral semantic model that vendors can extend
+in their own namespaces for internal ERP metadata and knowledge graph generation."""@en ;
+    dcterms:title "Open Resource Discovery Vocabulary v1"@en ;
+    dcterms:description "Open, vendor-neutral RDF/RDFS/SKOS vocabulary for ORD metadata and ERP knowledge graph generation."@en ;
+    dcterms:source ordspec: ;
+    dcterms:hasVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:v1
+    a rdfs:Resource ;
+    rdfs:label "ORD Vocabulary v1"@en ;
+    rdfs:comment "Version resource for version 1.0 of the ORD open vocabulary."@en ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Governance / Lifecycle Annotation Properties
+# =============================================================================
+
+ord:vocabularyVersion
+    a rdf:Property ;
+    rdfs:label "Vocabulary Version"@en ;
+    rdfs:comment "Version resource of the vocabulary in which a term is defined."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:introducedInVersion
+    a rdf:Property ;
+    rdfs:label "Introduced in Version"@en ;
+    rdfs:comment "ORD specification or document interface version in which a term was introduced."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:featureStatus
+    a rdf:Property ;
+    rdfs:label "Feature Status"@en ;
+    rdfs:comment "Feature maturity status of a term, for example alpha, beta, or stable."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:deprecated
+    a rdf:Property ;
+    rdfs:label "Deprecated"@en ;
+    rdfs:comment "Boolean flag indicating that a vocabulary term is deprecated and should no longer be used for new metadata."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:boolean ;
+    rdfs:isDefinedBy ord: .
+
+ord:deprecatedSinceVersion
+    a rdf:Property ;
+    rdfs:label "Deprecated Since Version"@en ;
+    rdfs:comment "ORD specification or document interface version since which the term has been deprecated."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:supersededBy
+    a rdf:Property ;
+    rdfs:label "Superseded By"@en ;
+    rdfs:comment "Points from a deprecated vocabulary term to the replacement term."@en ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Abstract / Superclasses
+# =============================================================================
+
+ord:Concept
+    a rdfs:Class ;
+    rdfs:label "ORD Concept"@en ;
+    rdfs:comment "Generic superclass for concepts represented in ORD."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:TopConcept
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "ORD Top Concept"@en ;
+    rdfs:comment "Top-level ORD concept."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDEntity
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "ORD Entity"@en ;
+    rdfs:comment "Superclass for identifiable ORD entities, including resources, taxonomy entities, and system-context entities."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDResource
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "ORD Resource"@en ;
+    rdfs:comment "Superclass for discoverable ORD resources such as APIs, events, data products, capabilities, overlays, agents, and integration dependencies."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDTaxonomy
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "ORD Taxonomy"@en ;
+    rdfs:comment "Superclass for taxonomy entities that organize ORD resources, including vendors, products, packages, groups, and group types."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDSystemContext
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "ORD System Context"@en ;
+    rdfs:comment "Superclass for system context entities such as system type, system version, and system instance."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDResourceDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "ORD Resource Definition"@en ;
+    rdfs:comment "Superclass for machine-readable resource definitions such as API definitions, event definitions, data product definitions, capability definitions, entity type definitions, and overlay definitions."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Root-Level Entity Classes
+# =============================================================================
+
+ord:Document
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "ORD Document"@en ;
+    rdfs:comment "An ORD document describes ORD resources, taxonomy entities, system context, and their relationships."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Vendor
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTaxonomy ;
+    rdfs:label "Vendor"@en ;
+    rdfs:comment "A vendor is a company or organization that sells or provides products, services, or resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Organization
+    a rdfs:Class ;
+    rdfs:subClassOf foaf:Organization ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "An organization is a group of people or legal entity working toward a common goal."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Product
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTaxonomy ;
+    rdfs:label "Product"@en ;
+    rdfs:comment "A product is a commercial or organizational product or service grouping ORD resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Package
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTaxonomy ;
+    rdfs:label "Package"@en ;
+    rdfs:comment "A package is a collection of ORD resources grouped together for distribution."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Group
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTaxonomy ;
+    rdfs:label "Group"@en ;
+    rdfs:comment "A group is a lightweight taxonomy concept used to organize ORD resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:GroupType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTaxonomy ;
+    rdfs:label "Group Type"@en ;
+    rdfs:comment "A group type classifies groups."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:SystemType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDSystemContext ;
+    rdfs:label "System Type"@en ;
+    rdfs:comment "A system type describes an abstract type of system."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:SystemVersion
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDSystemContext ;
+    rdfs:label "System Version"@en ;
+    rdfs:comment "A system version describes a design-time version or release of a system type."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:SystemInstance
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDSystemContext ;
+    rdfs:label "System Instance"@en ;
+    rdfs:comment "A system instance describes a concrete deployed or running instance of a system."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:APIResource
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "API Resource"@en ;
+    rdfs:comment "An API resource is an ORD resource describing an API."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:EventResource
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Event Resource"@en ;
+    rdfs:comment "An event resource is an ORD resource describing events or event-based interfaces."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataProduct
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Data Product"@en ;
+    rdfs:comment "A data product is a collection of data made available for use."@en ;
+    ord:introducedInVersion "1.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataService
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Data Service"@en ;
+    rdfs:comment "A data service is an ORD resource that exposes or provides access to data."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Capability
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Capability"@en ;
+    rdfs:comment "A capability describes a functional or business capability represented in ORD."@en ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:IntegrationDependency
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Integration Dependency"@en ;
+    rdfs:comment "An integration dependency describes a dependency required for integration."@en ;
+    ord:introducedInVersion "1.7.0" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Agent
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Agent"@en ;
+    rdfs:comment "An AI-powered autonomous system that can perform tasks, make decisions, and interact with users or other systems to achieve business goals."@en ;
+    ord:introducedInVersion "1.14.0" ;
+    ord:featureStatus "beta" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+ord:Overlay
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResource ;
+    rdfs:label "Overlay"@en ;
+    rdfs:comment "A standalone, versioned resource referencing a metadata patch or overlay document that enriches resource definitions without modifying the originals."@en ;
+    ord:introducedInVersion "1.15.0" ;
+    ord:featureStatus "alpha" ;
+    ord:vocabularyVersion ord:v1 ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Embedded / Supporting Classes
+# =============================================================================
+
+ord:Link
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Link"@en ;
+    rdfs:comment "Link that can be attached to packages or ORD resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:ORDTypedLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Link ;
+    rdfs:label "ORD Typed Link"@en ;
+    rdfs:comment "A link with semantic type information."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:PackageLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTypedLink ;
+    rdfs:label "Package Link"@en ;
+    rdfs:comment "A semantically typed link specific to packages."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiEventResourceLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTypedLink ;
+    rdfs:label "API/Event Resource Link"@en ;
+    rdfs:comment "A semantically typed link specific to API or event resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataProductLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTypedLink ;
+    rdfs:label "Data Product Link"@en ;
+    rdfs:comment "A semantically typed link specific to data products."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:File
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "ORD File"@en ;
+    rdfs:comment "File that can be attached on ORD package level."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:ChangelogEntry
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Changelog Entry"@en ;
+    rdfs:comment "A changelog entry summarizes changes, usually with regard to version or release status."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:Label
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Label"@en ;
+    rdfs:comment "Key-value metadata label attached to ORD resources."@en ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:EntityType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "Entity Type"@en ;
+    rdfs:comment "A conceptual entity type described or referenced in ORD."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:OrdEntityType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:EntityType ;
+    rdfs:label "ORD Entity Type"@en ;
+    rdfs:comment "Schema-compatible name for entity type. RDF-native models may use ord:EntityType as the generic class."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:RelatedEntityType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:EntityType ;
+    rdfs:label "Related Entity Type"@en ;
+    rdfs:comment "Entity type related to another entity type or resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ExposedEntityType
+    a rdfs:Class ;
+    rdfs:subClassOf ord:EntityType ;
+    rdfs:label "Exposed Entity Type"@en ;
+    rdfs:comment "Entity type exposed by an API or event resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:EntityTypeMapping
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Entity Type Mapping"@en ;
+    rdfs:comment "Mapping between API models and conceptual entity types."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiModelSelector
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "API Model Selector"@en ;
+    rdfs:comment "Selector used to select a model within an API resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:OdataApiModelSelector
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ApiModelSelector ;
+    rdfs:label "OData API Model Selector"@en ;
+    rdfs:comment "API model selector for OData resources."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:JsonPointerApiModelSelector
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ApiModelSelector ;
+    rdfs:label "JSON Pointer API Model Selector"@en ;
+    rdfs:comment "API model selector based on JSON Pointer."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiResourceDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "API Resource Definition"@en ;
+    rdfs:comment "Machine-readable API resource definition."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:EventResourceDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "Event Resource Definition"@en ;
+    rdfs:comment "Machine-readable event resource definition."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataProductDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "Data Product Definition"@en ;
+    rdfs:comment "Machine-readable data product definition."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:CapabilityDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "Capability Definition"@en ;
+    rdfs:comment "Machine-readable capability definition."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:EntityTypeDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "Entity Type Definition"@en ;
+    rdfs:comment "Machine-readable entity type definition."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:OverlayDefinition
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDResourceDefinition ;
+    rdfs:label "Overlay Definition"@en ;
+    rdfs:comment "Machine-readable ORD overlay document definition. Required properties are type, media type, and URL."@en ;
+    ord:introducedInVersion "1.15.0" ;
+    ord:featureStatus "alpha" ;
+    rdfs:isDefinedBy ord: .
+
+ord:DocumentationLabel
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Documentation Label"@en ;
+    rdfs:comment "Label used to classify or identify documentation."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ExtensionInformation
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Extension Information"@en ;
+    rdfs:comment "Information about the extensibility of a resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:Extensible
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Extensible"@en ;
+    rdfs:comment "Supporting object describing extension-related information."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ConsumptionBundle
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Consumption Bundle"@en ;
+    rdfs:comment "A collection of resources grouped together for consumption."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ConsumptionBundleReference
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Consumption Bundle Reference"@en ;
+    rdfs:comment "Reference to a consumption bundle."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:CredentialExchangeStrategy
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Credential Exchange Strategy"@en ;
+    rdfs:comment "Strategy used for exchanging credentials in an ORD consumption context."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:IntegrationAspect
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Integration Aspect"@en ;
+    rdfs:comment "Aspect that contributes to an integration dependency or integration scenario."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:CapabilityIntegrationAspect
+    a rdfs:Class ;
+    rdfs:subClassOf ord:IntegrationAspect ;
+    rdfs:label "Capability Integration Aspect"@en ;
+    rdfs:comment "Integration aspect related to a capability."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiCompatibility
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "API Compatibility"@en ;
+    rdfs:comment "Declares that an API resource is compatible with an abstract API interface contract."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:EventCompatibility
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Event Compatibility"@en ;
+    rdfs:comment "Declares that an event resource is compatible with an abstract event interface contract."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:Tombstone
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "Tombstone"@en ;
+    rdfs:comment "A tombstone indicates that a previously published ORD resource or taxonomy entity has been removed or decommissioned."@en ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Link Type Classes
+# =============================================================================
+
+ord:AuthenticationLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Authentication Link"@en ;
+    rdfs:comment "Link to authentication information."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiDocumentationLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ApiEventResourceLink ;
+    rdfs:label "API Documentation Link"@en ;
+    rdfs:comment "Link to API documentation."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ClientRegistrationLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Client Registration Link"@en ;
+    rdfs:comment "Link to client or application registration."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ConsoleLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Console Link"@en ;
+    rdfs:comment "Link to a management or administration console."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:CustomLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDTypedLink ;
+    rdfs:label "Custom Link"@en ;
+    rdfs:comment "Custom typed link."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:LicenseLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "License Link"@en ;
+    rdfs:comment "Link to license information."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:PaymentLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Payment Link"@en ;
+    rdfs:comment "Link to payment or billing information."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:SandboxLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Sandbox Link"@en ;
+    rdfs:comment "Link to a sandbox or test environment."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:ServiceLevelAgreementLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Service Level Agreement Link"@en ;
+    rdfs:comment "Link to a service-level agreement."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:SupportLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Support Link"@en ;
+    rdfs:comment "Link to support resources."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:TermsOfUseLink
+    a rdfs:Class ;
+    rdfs:subClassOf ord:PackageLink ;
+    rdfs:label "Terms of Use Link"@en ;
+    rdfs:comment "Link to terms of use."@en ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Shared Descriptive and Lifecycle Properties
+# =============================================================================
+
+ord:ordId
+    a rdf:Property ;
+    rdfs:label "ORD ID"@en ;
+    rdfs:comment "Stable, globally unique ORD identifier for resources, taxonomy entities, and system-context entities."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:localId
+    a rdf:Property ;
+    rdfs:label "Local ID"@en ;
+    rdfs:comment "Local identifier as known by the described system."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:title
+    a rdf:Property ;
+    rdfs:label "Title"@en ;
+    rdfs:comment "Human-readable title."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:title ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:shortDescription
+    a rdf:Property ;
+    rdfs:label "Short Description"@en ;
+    rdfs:comment "Plain-text short description."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:description
+    a rdf:Property ;
+    rdfs:label "Description"@en ;
+    rdfs:comment "Detailed human-readable description."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:description ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:customDescription
+    a rdf:Property ;
+    rdfs:label "Custom Description"@en ;
+    rdfs:comment "Free-text custom description of an ORD entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:aiHint
+    a rdf:Property ;
+    rdfs:label "AI Hint"@en ;
+    rdfs:comment "Additional hint intended to support AI-assisted interpretation or discovery."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:version
+    a rdf:Property ;
+    rdfs:label "Version"@en ;
+    rdfs:comment "Complete Semantic Versioning version string."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:hasVersion ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:lastUpdate
+    a rdf:Property ;
+    rdfs:label "Last Update"@en ;
+    rdfs:comment "Recommended date-time indicating when the last change to the resource, including its definitions, happened."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range xsd:dateTime ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:releaseStatus
+    a rdf:Property ;
+    rdfs:label "Release Status"@en ;
+    rdfs:comment "Release lifecycle status of an ORD entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:visibility
+    a rdf:Property ;
+    rdfs:label "Visibility"@en ;
+    rdfs:comment "Visibility or exposure level of an ORD entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:policyLevel
+    a rdf:Property ;
+    rdfs:label "Policy Level"@en ;
+    rdfs:comment "Policy or compliance level that the described ORD document, package, or resource needs to comply with."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:customPolicyLevel
+    a rdf:Property ;
+    rdfs:label "Custom Policy Level"@en ;
+    rdfs:comment "Deprecated since ORD spec v1.9.9. Custom policy level specification identifier. Use ord:policyLevel with a SKOS concept instead."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    ord:deprecated true ;
+    ord:deprecatedSinceVersion "1.9.9" ;
+    rdfs:isDefinedBy ord: .
+
+ord:tag
+    a rdf:Property ;
+    rdfs:label "Tag"@en ;
+    rdfs:comment "Free-text tag. Character constraints are defined in SHACL."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:country
+    a rdf:Property ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "Country code according to ISO 3166-1 alpha-2. Countries assigned to a package are inherited by contained resources."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:industry
+    a rdf:Property ;
+    rdfs:label "Industry"@en ;
+    rdfs:comment "Industry classification associated with an ORD entity. In normalized RDF, values should be SKOS concepts from ord:IndustryConceptScheme or a compatible extension scheme."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:lineOfBusiness
+    a rdf:Property ;
+    rdfs:label "Line of Business"@en ;
+    rdfs:comment "Line-of-business classification associated with an ORD entity. In normalized RDF, values should be SKOS concepts from ord:LineOfBusinessConceptScheme or a compatible extension scheme."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:removedDate
+    a rdf:Property ;
+    rdfs:label "Removed Date"@en ;
+    rdfs:comment "RFC 3339 date-time on which the ORD resource or taxonomy entity was tombstoned or removed."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:dateTime ;
+    rdfs:isDefinedBy ord: .
+
+ord:sunsetDate
+    a rdf:Property ;
+    rdfs:label "Sunset Date"@en ;
+    rdfs:comment "RFC 3339 date-time indicating when an ORD resource or entity is planned to be sunset."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:dateTime ;
+    rdfs:isDefinedBy ord: .
+
+ord:date
+    a rdf:Property ;
+    rdfs:label "Date"@en ;
+    rdfs:comment "Date of a changelog entry."@en ;
+    rdfs:domain ord:ChangelogEntry ;
+    rdfs:range xsd:date ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+ord:abstract
+    a rdf:Property ;
+    rdfs:label "Abstract"@en ;
+    rdfs:comment "Indicates that the described resource is abstract or interface-only."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:boolean ;
+    rdfs:isDefinedBy ord: .
+
+ord:disabled
+    a rdf:Property ;
+    rdfs:label "Disabled"@en ;
+    rdfs:comment "Indicates whether the entity is disabled."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:boolean ;
+    rdfs:isDefinedBy ord: .
+
+ord:extensible
+    a rdf:Property ;
+    rdfs:label "Extensible"@en ;
+    rdfs:comment "Defines whether the resource's extension information is extensible."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:boolean ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Relationship Properties
+# =============================================================================
+
+ord:related
+    a rdf:Property ;
+    rdfs:label "Related"@en ;
+    rdfs:comment "Relates an ORD entity to another concept or resource."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:relationType
+    a rdf:Property ;
+    rdfs:label "Relation Type"@en ;
+    rdfs:comment "Optional semantic type of a relationship."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:relatedOrdId
+    a rdf:Property ;
+    rdfs:label "Related ORD ID"@en ;
+    rdfs:comment "ORD ID of a referenced related resource."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:relatedEventResources
+    a rdf:Property ;
+    rdfs:label "Related Event Resources"@en ;
+    rdfs:comment "Typed ORD ID references to related event resources."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range rdfs:Resource ;
+    ord:introducedInVersion "1.14.3" ;
+    rdfs:isDefinedBy ord: .
+
+ord:successor
+    a rdf:Property ;
+    rdfs:label "Successor"@en ;
+    rdfs:comment "Successor resource or entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:ORDEntity ;
+    rdfs:isDefinedBy ord: .
+
+ord:partOfProduct
+    a rdf:Property ;
+    rdfs:label "Part of Product"@en ;
+    rdfs:comment "Product this ORD entity is part of."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:Product ;
+    rdfs:isDefinedBy ord: .
+
+ord:partOfPackage
+    a rdf:Property ;
+    rdfs:label "Part of Package"@en ;
+    rdfs:comment "Package this ORD resource is part of."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:Package ;
+    rdfs:isDefinedBy ord: .
+
+ord:partOfGroup
+    a rdf:Property ;
+    rdfs:label "Part of Group"@en ;
+    rdfs:comment "Group this ORD entity is part of."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:Group ;
+    rdfs:isDefinedBy ord: .
+
+ord:vendor
+    a rdf:Property ;
+    rdfs:label "Vendor"@en ;
+    rdfs:comment "Vendor responsible for or associated with the described ORD entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:Vendor ;
+    rdfs:isDefinedBy ord: .
+
+ord:partner
+    a rdf:Property ;
+    rdfs:label "Partner"@en ;
+    rdfs:comment "Partner vendor relationship."@en ;
+    rdfs:domain ord:Vendor ;
+    rdfs:range ord:Vendor ;
+    rdfs:isDefinedBy ord: .
+
+ord:correlationId
+    a rdf:Property ;
+    rdfs:label "Correlation ID"@en ;
+    rdfs:comment "Identifier used to correlate the ORD entity with related data in another repository or system of record."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:compatibleWith
+    a rdf:Property ;
+    rdfs:label "Compatible With"@en ;
+    rdfs:comment "Declares compatibility with another resource, interface, or abstract contract."@en ;
+    rdfs:domain ord:Concept ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:removedResource
+    a rdf:Property ;
+    rdfs:label "Removed Resource"@en ;
+    rdfs:comment "Resource or taxonomy entity removed by a tombstone."@en ;
+    rdfs:domain ord:Tombstone ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Link, File, and Resource Definition Properties
+# =============================================================================
+
+ord:link
+    a rdf:Property ;
+    rdfs:label "Link"@en ;
+    rdfs:comment "Generic link attached to an ORD entity."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:Link ;
+    rdfs:isDefinedBy ord: .
+
+ord:resourceLink
+    a rdf:Property ;
+    rdfs:label "Resource Link"@en ;
+    rdfs:comment "Semantically typed link specific to ORD resources."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:ORDTypedLink ;
+    rdfs:isDefinedBy ord: .
+
+ord:linkType
+    a rdf:Property ;
+    rdfs:label "Link Type"@en ;
+    rdfs:comment "Semantic type of a typed link. Values depend on the link class."@en ;
+    rdfs:domain ord:ORDTypedLink ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:url
+    a rdf:Property ;
+    rdfs:label "URL"@en ;
+    rdfs:comment "Absolute URL target."@en ;
+    rdfs:range xsd:anyURI ;
+    rdfs:isDefinedBy ord: .
+
+ord:baseUrl
+    a rdf:Property ;
+    rdfs:label "Base URL"@en ;
+    rdfs:comment "Base URL of a system instance or resource."@en ;
+    rdfs:range xsd:anyURI ;
+    rdfs:isDefinedBy ord: .
+
+ord:mediaType
+    a rdf:Property ;
+    rdfs:label "Media Type"@en ;
+    rdfs:comment "Media type of a resource definition."@en ;
+    rdfs:domain ord:ORDResourceDefinition ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:type
+    a rdf:Property ;
+    rdfs:label "Type"@en ;
+    rdfs:comment "Type of a resource definition, link, or supporting entity."@en ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:purpose
+    a rdf:Property ;
+    rdfs:label "Purpose"@en ;
+    rdfs:comment "Intended purpose or role of a resource definition."@en ;
+    rdfs:domain ord:ORDResourceDefinition ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:accessStrategy
+    a rdf:Property ;
+    rdfs:label "Access Strategy"@en ;
+    rdfs:comment "Supported access strategy for retrieving metadata from an ORD provider."@en ;
+    rdfs:domain ord:ORDResourceDefinition ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:resourceDefinition
+    a rdf:Property ;
+    rdfs:label "Resource Definition"@en ;
+    rdfs:comment "Machine-readable resource definition associated with an ORD resource."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:ORDResourceDefinition ;
+    rdfs:isDefinedBy ord: .
+
+ord:file
+    a rdf:Property ;
+    rdfs:label "File"@en ;
+    rdfs:comment "File attached to an ORD package."@en ;
+    rdfs:domain ord:Package ;
+    rdfs:range ord:File ;
+    rdfs:isDefinedBy ord: .
+
+ord:license
+    a rdf:Property ;
+    rdfs:label "License"@en ;
+    rdfs:comment "License identifier or reference. SPDX identifiers are recommended where applicable."@en ;
+    rdfs:domain ord:Package ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:license ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Entity Type and Model Selector Properties
+# =============================================================================
+
+ord:entityType
+    a rdf:Property ;
+    rdfs:label "Entity Type"@en ;
+    rdfs:comment "Entity type that the concept or resource is related to."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:EntityType ;
+    rdfs:isDefinedBy ord: .
+
+ord:exposedEntityType
+    a rdf:Property ;
+    rdfs:label "Exposed Entity Type"@en ;
+    rdfs:comment "A single entity type exposed by an API or event resource."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:ExposedEntityType ;
+    rdfs:isDefinedBy ord: .
+
+ord:relatedEntityType
+    a rdf:Property ;
+    rdfs:label "Related Entity Type"@en ;
+    rdfs:comment "Entity type related to another entity type or resource."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:RelatedEntityType ;
+    rdfs:isDefinedBy ord: .
+
+ord:entityTypeMapping
+    a rdf:Property ;
+    rdfs:label "Entity Type Mapping"@en ;
+    rdfs:comment "Mapping between API models and conceptual entity types."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:EntityTypeMapping ;
+    rdfs:isDefinedBy ord: .
+
+ord:apiModelSelector
+    a rdf:Property ;
+    rdfs:label "API Model Selector"@en ;
+    rdfs:comment "Selector that identifies a model element inside an API definition."@en ;
+    rdfs:domain ord:EntityTypeMapping ;
+    rdfs:range ord:ApiModelSelector ;
+    rdfs:isDefinedBy ord: .
+
+ord:entitySetName
+    a rdf:Property ;
+    rdfs:label "Entity Set Name"@en ;
+    rdfs:comment "OData entity set name used by an OData API model selector."@en ;
+    rdfs:domain ord:OdataApiModelSelector ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:jsonPointer
+    a rdf:Property ;
+    rdfs:label "JSON Pointer"@en ;
+    rdfs:comment "JSON Pointer used by a JSON Pointer API model selector."@en ;
+    rdfs:domain ord:JsonPointerApiModelSelector ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Label, Documentation, and Changelog Properties
+# =============================================================================
+
+ord:label
+    a rdf:Property ;
+    rdfs:label "Label"@en ;
+    rdfs:comment "Key-value metadata label attached to ORD resources."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:Label ;
+    rdfs:isDefinedBy ord: .
+
+ord:key
+    a rdf:Property ;
+    rdfs:label "Key"@en ;
+    rdfs:comment "Key of a key-value label."@en ;
+    rdfs:domain ord:Label ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:value
+    a rdf:Property ;
+    rdfs:label "Value"@en ;
+    rdfs:comment "Value of a key-value label."@en ;
+    rdfs:domain ord:Label ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:documentationLabel
+    a rdf:Property ;
+    rdfs:label "Documentation Label"@en ;
+    rdfs:comment "Label used to classify or identify documentation."@en ;
+    rdfs:domain ord:Concept ;
+    rdfs:range ord:DocumentationLabel ;
+    rdfs:isDefinedBy ord: .
+
+ord:changelogEntry
+    a rdf:Property ;
+    rdfs:label "Changelog Entry"@en ;
+    rdfs:comment "Contains changelog entries that summarize changes, especially with regard to version and release status."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:ChangelogEntry ;
+    ord:introducedInVersion "1.0" ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# System Context Properties
+# =============================================================================
+
+ord:describedSystemInstance
+    a rdf:Property ;
+    rdfs:label "Described System Instance"@en ;
+    rdfs:comment "System instance described by an ORD document."@en ;
+    rdfs:domain ord:Document ;
+    rdfs:range ord:SystemInstance ;
+    rdfs:isDefinedBy ord: .
+
+ord:systemType
+    a rdf:Property ;
+    rdfs:label "System Type"@en ;
+    rdfs:comment "System type associated with a system version or system instance."@en ;
+    rdfs:range ord:SystemType ;
+    rdfs:isDefinedBy ord: .
+
+ord:systemVersion
+    a rdf:Property ;
+    rdfs:label "System Version"@en ;
+    rdfs:comment "System version associated with a system instance."@en ;
+    rdfs:range ord:SystemVersion ;
+    rdfs:isDefinedBy ord: .
+
+ord:minSystemVersion
+    a rdf:Property ;
+    rdfs:label "Minimum System Version"@en ;
+    rdfs:comment "Minimum system version from which a resource is available."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Group, Bundle, Integration, and Data Product Properties
+# =============================================================================
+
+ord:groupType
+    a rdf:Property ;
+    rdfs:label "Group Type"@en ;
+    rdfs:comment "Group type assigned to a group."@en ;
+    rdfs:domain ord:Group ;
+    rdfs:range ord:GroupType ;
+    rdfs:isDefinedBy ord: .
+
+ord:inputPort
+    a rdf:Property ;
+    rdfs:label "Input Port"@en ;
+    rdfs:comment "Input port of a data product."@en ;
+    rdfs:domain ord:DataProduct ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:outputPort
+    a rdf:Property ;
+    rdfs:label "Output Port"@en ;
+    rdfs:comment "Output port of a data product."@en ;
+    rdfs:domain ord:DataProduct ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:integrationAspect
+    a rdf:Property ;
+    rdfs:label "Integration Aspect"@en ;
+    rdfs:comment "Integration aspect associated with an integration dependency."@en ;
+    rdfs:domain ord:IntegrationDependency ;
+    rdfs:range ord:IntegrationAspect ;
+    rdfs:isDefinedBy ord: .
+
+ord:consumptionBundle
+    a rdf:Property ;
+    rdfs:label "Consumption Bundle"@en ;
+    rdfs:comment "Consumption bundle referenced by a consumption bundle reference."@en ;
+    rdfs:domain ord:ConsumptionBundleReference ;
+    rdfs:range ord:ConsumptionBundle ;
+    rdfs:isDefinedBy ord: .
+
+ord:defaultEntryPoint
+    a rdf:Property ;
+    rdfs:label "Default Entry Point"@en ;
+    rdfs:comment "Default entry point URL for a consumption bundle reference."@en ;
+    rdfs:domain ord:ConsumptionBundleReference ;
+    rdfs:range xsd:anyURI ;
+    rdfs:isDefinedBy ord: .
+
+ord:credentialExchangeStrategy
+    a rdf:Property ;
+    rdfs:label "Credential Exchange Strategy"@en ;
+    rdfs:comment "Credential exchange strategy associated with a consumption bundle."@en ;
+    rdfs:domain ord:ConsumptionBundle ;
+    rdfs:range ord:CredentialExchangeStrategy ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# API / Resource Implementation Properties
+# =============================================================================
+
+ord:apiProtocol
+    a rdf:Property ;
+    rdfs:label "API Protocol"@en ;
+    rdfs:comment "Protocol used by an API resource. Values should be SKOS concepts from ord:ApiProtocolScheme or a compatible extension scheme."@en ;
+    rdfs:domain ord:APIResource ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:implementationStandard
+    a rdf:Property ;
+    rdfs:label "Implementation Standard"@en ;
+    rdfs:comment "Externally standardized API contract, sub-protocol, or protocol variant implemented by a resource."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:standardDescription
+    a rdf:Property ;
+    rdfs:label "Implementation Standard Description"@en ;
+    rdfs:comment "Full description of a custom implementation standard."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:description ;
+    rdfs:isDefinedBy ord: .
+
+ord:usage
+    a rdf:Property ;
+    rdfs:label "Usage"@en ;
+    rdfs:comment "Usage classification of a resource."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Vendor Extension / Profile Support
+# =============================================================================
+
+ord:Profile
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Concept ;
+    rdfs:label "ORD Profile"@en ;
+    rdfs:comment "A profile defines additional constraints, controlled values, or extensions for a particular implementation context."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:extendsVocabulary
+    a rdf:Property ;
+    rdfs:label "Extends Vocabulary"@en ;
+    rdfs:comment "Indicates that a profile or extension vocabulary extends another vocabulary."@en ;
+    rdfs:domain ord:Profile ;
+    rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# SKOS Concept Schemes
+# =============================================================================
+
+ord:IndustryConceptScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Industry Concept Scheme"@en ;
+    skos:prefLabel "Industry Concept Scheme"@en ;
+    skos:definition "Controlled vocabulary of industries applicable to ORD resources and packages."@en ;
+    skos:hasTopConcept
+        ord:AerospaceAndDefense,
+        ord:Agribusiness,
+        ord:Automotive,
+        ord:Banking,
+        ord:Chemicals,
+        ord:ConsumerProducts,
+        ord:DefenseAndSecurity,
+        ord:EngineeringConstructionAndOperations,
+        ord:Healthcare,
+        ord:HighTech,
+        ord:HigherEducationAndResearch,
+        ord:IndustrialMachineryAndComponents,
+        ord:Insurance,
+        ord:LifeSciences,
+        ord:Media,
+        ord:MillProducts,
+        ord:Mining,
+        ord:OilAndGas,
+        ord:ProfessionalServices,
+        ord:PublicSector,
+        ord:PublicServices,
+        ord:Retail,
+        ord:ServiceIndustries,
+        ord:SportsAndEntertainment,
+        ord:Telecommunications,
+        ord:TravelAndTransportation,
+        ord:Utilities,
+        ord:WholesaleDistribution ;
+    rdfs:isDefinedBy ord: .
+
+ord:LineOfBusinessConceptScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Line of Business Concept Scheme"@en ;
+    skos:prefLabel "Line of Business Concept Scheme"@en ;
+    skos:definition "Controlled vocabulary of lines of business applicable to ORD resources and packages."@en ;
+    skos:hasTopConcept
+        ord:AssetManagement,
+        ord:Commerce,
+        ord:Finance,
+        ord:GridOperationsAndMaintenance,
+        ord:HumanResources,
+        ord:MaintenanceAndEngineering,
+        ord:Manufacturing,
+        ord:Marketing,
+        ord:Metering,
+        ord:PlantOperationsAndMaintenance,
+        ord:ResearchAndDevelopmentEngineering,
+        ord:Sales,
+        ord:Service,
+        ord:SourcingAndProcurement,
+        ord:StrategyComplianceAndGovernance,
+        ord:SupplyChain,
+        ord:Sustainability ;
+    rdfs:isDefinedBy ord: .
+
+ord:VisibilityScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Visibility Scheme"@en ;
+    skos:prefLabel "Visibility Scheme"@en ;
+    skos:definition "Controlled vocabulary for visibility values."@en ;
+    skos:hasTopConcept
+        ord:Visibility-public,
+        ord:Visibility-internal,
+        ord:Visibility-private ;
+    rdfs:isDefinedBy ord: .
+
+ord:ReleaseStatusScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Release Status Scheme"@en ;
+    skos:prefLabel "Release Status Scheme"@en ;
+    skos:definition "Controlled vocabulary for release lifecycle status."@en ;
+    skos:hasTopConcept
+        ord:ReleaseStatus-development,
+        ord:ReleaseStatus-beta,
+        ord:ReleaseStatus-active,
+        ord:ReleaseStatus-deprecated,
+        ord:ReleaseStatus-sunset ;
+    rdfs:isDefinedBy ord: .
+
+ord:PolicyLevelScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Policy Level Scheme"@en ;
+    skos:prefLabel "Policy Level Scheme"@en ;
+    skos:definition "Controlled vocabulary for policy or compliance levels applicable to ORD documents, packages, and resources."@en ;
+    skos:hasTopConcept
+        ord:PolicyLevel-none,
+        ord:PolicyLevel-custom ;
+    rdfs:isDefinedBy ord: .
+
+ord:UsageScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Usage Scheme"@en ;
+    skos:prefLabel "Usage Scheme"@en ;
+    skos:definition "Controlled vocabulary for resource usage patterns."@en ;
+    skos:hasTopConcept
+        ord:Usage-local,
+        ord:Usage-external,
+        ord:Usage-dataFederation,
+        ord:Usage-snapshot,
+        ord:Usage-incremental,
+        ord:Usage-streaming ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiProtocolScheme
+    a skos:ConceptScheme ;
+    rdfs:label "API Protocol Scheme"@en ;
+    skos:prefLabel "API Protocol Scheme"@en ;
+    skos:definition "Controlled vocabulary for open or vendor-neutral API protocols."@en ;
+    skos:hasTopConcept
+        ord:ApiProtocol-rest,
+        ord:ApiProtocol-odataV2,
+        ord:ApiProtocol-odataV4,
+        ord:ApiProtocol-graphql,
+        ord:ApiProtocol-grpc,
+        ord:ApiProtocol-websocket,
+        ord:ApiProtocol-deltaSharing,
+        ord:ApiProtocol-sql,
+        ord:ApiProtocol-a2a ;
+    rdfs:isDefinedBy ord: .
+
+ord:ApiResourceDefinitionTypeScheme
+    a skos:ConceptScheme ;
+    rdfs:label "API Resource Definition Type Scheme"@en ;
+    skos:prefLabel "API Resource Definition Type Scheme"@en ;
+    skos:definition "Controlled vocabulary for API resource definition formats."@en ;
+    skos:hasTopConcept
+        ord:ApiDefType-openapiV2,
+        ord:ApiDefType-openapiV3,
+        ord:ApiDefType-openapiV31,
+        ord:ApiDefType-ramlV1,
+        ord:ApiDefType-edmx,
+        ord:ApiDefType-csdlJson,
+        ord:ApiDefType-graphqlSdl,
+        ord:ApiDefType-wsdlV1,
+        ord:ApiDefType-wsdlV2,
+        ord:ApiDefType-a2aAgentCard ;
+    rdfs:isDefinedBy ord: .
+
+ord:DefinitionPurposeScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Definition Purpose Scheme"@en ;
+    skos:prefLabel "Definition Purpose Scheme"@en ;
+    skos:definition "Controlled vocabulary for purposes of resource definitions."@en ;
+    skos:hasTopConcept
+        ord:DefinitionPurpose-main,
+        ord:DefinitionPurpose-aiEnrichment,
+        ord:DefinitionPurpose-agentSecurityPermissions,
+        ord:DefinitionPurpose-custom ;
+    rdfs:isDefinedBy ord: .
+
+ord:AccessStrategyScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Access Strategy Scheme"@en ;
+    skos:prefLabel "Access Strategy Scheme"@en ;
+    skos:definition "Controlled vocabulary for access strategies used to retrieve definitions or metadata."@en ;
+    skos:hasTopConcept
+        ord:AccessStrategy-open,
+        ord:AccessStrategy-protected,
+        ord:AccessStrategy-restricted,
+        ord:AccessStrategy-custom ;
+    rdfs:isDefinedBy ord: .
+
+ord:ImplementationStandardScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Implementation Standard Scheme"@en ;
+    skos:prefLabel "Implementation Standard Scheme"@en ;
+    skos:definition "Controlled vocabulary for externally standardized API contracts, sub-protocols, or protocol variants."@en ;
+    skos:hasTopConcept
+        ord:ImplementationStandard-custom,
+        ord:ImplementationStandard-cffOpenServiceBrokerV2 ;
+    rdfs:isDefinedBy ord: .
+
+ord:CapabilityScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Capability Scheme"@en ;
+    skos:prefLabel "Capability Scheme"@en ;
+    skos:definition "Controlled vocabulary for classifying ORD capabilities."@en ;
+    skos:hasTopConcept ord:Capability-custom ;
+    rdfs:isDefinedBy ord: .
+
+ord:CapabilityDefinitionScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Capability Definition Scheme"@en ;
+    skos:prefLabel "Capability Definition Scheme"@en ;
+    skos:definition "Controlled vocabulary for capability definition types."@en ;
+    skos:hasTopConcept ord:CapabilityDefinition-custom ;
+    rdfs:isDefinedBy ord: .
+
+ord:PackageLinkTypeScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Package Link Type Scheme"@en ;
+    skos:prefLabel "Package Link Type Scheme"@en ;
+    skos:definition "Controlled vocabulary for package link types."@en ;
+    skos:hasTopConcept
+        ord:PackageLinkType-authentication,
+        ord:PackageLinkType-clientRegistration,
+        ord:PackageLinkType-console,
+        ord:PackageLinkType-custom,
+        ord:PackageLinkType-license,
+        ord:PackageLinkType-payment,
+        ord:PackageLinkType-sandbox,
+        ord:PackageLinkType-sla,
+        ord:PackageLinkType-support,
+        ord:PackageLinkType-termsOfUse ;
+    rdfs:isDefinedBy ord: .
+
+# =============================================================================
+# Industry Concepts
+# =============================================================================
+
+ord:AerospaceAndDefense a skos:Concept ;
+    skos:prefLabel "Aerospace and Defense"@en ;
+    skos:notation "Aerospace and Defense" ;
+    skos:definition "Industry sector covering aerospace, aviation, space, and defense-related organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Agribusiness a skos:Concept ;
+    skos:prefLabel "Agribusiness"@en ;
+    skos:notation "Agribusiness" ;
+    skos:definition "Industry sector covering agriculture, food production, and agribusiness operations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Automotive a skos:Concept ;
+    skos:prefLabel "Automotive"@en ;
+    skos:notation "Automotive" ;
+    skos:definition "Industry sector covering automotive manufacturing, suppliers, mobility, and related services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Banking a skos:Concept ;
+    skos:prefLabel "Banking"@en ;
+    skos:notation "Banking" ;
+    skos:definition "Industry sector covering banks and banking services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Chemicals a skos:Concept ;
+    skos:prefLabel "Chemicals"@en ;
+    skos:notation "Chemicals" ;
+    skos:definition "Industry sector covering chemicals and chemical manufacturing."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:ConsumerProducts a skos:Concept ;
+    skos:prefLabel "Consumer Products"@en ;
+    skos:notation "Consumer Products" ;
+    skos:definition "Industry sector covering consumer goods and products."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:DefenseAndSecurity a skos:Concept ;
+    skos:prefLabel "Defense and Security"@en ;
+    skos:notation "Defense and Security" ;
+    skos:definition "Industry sector covering defense, public safety, and security organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:EngineeringConstructionAndOperations a skos:Concept ;
+    skos:prefLabel "Engineering, Construction, and Operations"@en ;
+    skos:notation "Engineering, Construction, and Operations" ;
+    skos:definition "Industry sector covering engineering, construction, and operations organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Healthcare a skos:Concept ;
+    skos:prefLabel "Healthcare"@en ;
+    skos:notation "Healthcare" ;
+    skos:definition "Industry sector covering healthcare providers, services, and related organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:HighTech a skos:Concept ;
+    skos:prefLabel "High Tech"@en ;
+    skos:notation "High Tech" ;
+    skos:definition "Industry sector covering technology companies and high-tech manufacturing."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:HigherEducationAndResearch a skos:Concept ;
+    skos:prefLabel "Higher Education and Research"@en ;
+    skos:notation "Higher Education and Research" ;
+    skos:definition "Industry sector covering universities, research institutions, and higher education organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:IndustrialMachineryAndComponents a skos:Concept ;
+    skos:prefLabel "Industrial Machinery and Components"@en ;
+    skos:notation "Industrial Machinery and Components" ;
+    skos:definition "Industry sector covering industrial machinery and component manufacturers."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Insurance a skos:Concept ;
+    skos:prefLabel "Insurance"@en ;
+    skos:notation "Insurance" ;
+    skos:definition "Industry sector covering insurance providers and related services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:LifeSciences a skos:Concept ;
+    skos:prefLabel "Life Sciences"@en ;
+    skos:notation "Life Sciences" ;
+    skos:definition "Industry sector covering pharmaceuticals, biotechnology, medical products, and life sciences organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Media a skos:Concept ;
+    skos:prefLabel "Media"@en ;
+    skos:notation "Media" ;
+    skos:definition "Industry sector covering media, publishing, broadcasting, and content organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:MillProducts a skos:Concept ;
+    skos:prefLabel "Mill Products"@en ;
+    skos:notation "Mill Products" ;
+    skos:definition "Industry sector covering mill products such as metals, paper, textiles, and related production."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Mining a skos:Concept ;
+    skos:prefLabel "Mining"@en ;
+    skos:notation "Mining" ;
+    skos:definition "Industry sector covering mining and extraction operations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:OilAndGas a skos:Concept ;
+    skos:prefLabel "Oil and Gas"@en ;
+    skos:notation "Oil and Gas" ;
+    skos:definition "Industry sector covering oil, gas, and energy extraction and distribution."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:ProfessionalServices a skos:Concept ;
+    skos:prefLabel "Professional Services"@en ;
+    skos:notation "Professional Services" ;
+    skos:definition "Industry sector covering consulting, legal, accounting, and other professional services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:PublicSector a skos:Concept ;
+    skos:prefLabel "Public Sector"@en ;
+    skos:notation "Public Sector" ;
+    skos:definition "Industry sector covering government and public administration."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:PublicServices a skos:Concept ;
+    skos:prefLabel "Public Services"@en ;
+    skos:notation "Public Services" ;
+    skos:definition "Industry sector covering public services and publicly funded service delivery."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Retail a skos:Concept ;
+    skos:prefLabel "Retail"@en ;
+    skos:notation "Retail" ;
+    skos:definition "Industry sector covering retail businesses and services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:ServiceIndustries a skos:Concept ;
+    skos:prefLabel "Service Industries"@en ;
+    skos:notation "Service Industries" ;
+    skos:definition "Industry sector covering service-oriented industries."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:SportsAndEntertainment a skos:Concept ;
+    skos:prefLabel "Sports and Entertainment"@en ;
+    skos:notation "Sports and Entertainment" ;
+    skos:definition "Industry sector covering sports, entertainment, venues, and related organizations."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Telecommunications a skos:Concept ;
+    skos:prefLabel "Telecommunications"@en ;
+    skos:notation "Telecommunications" ;
+    skos:definition "Industry sector covering telecommunications providers and related services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:TravelAndTransportation a skos:Concept ;
+    skos:prefLabel "Travel and Transportation"@en ;
+    skos:notation "Travel and Transportation" ;
+    skos:definition "Industry sector covering travel, logistics, transportation, and mobility services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:Utilities a skos:Concept ;
+    skos:prefLabel "Utilities"@en ;
+    skos:notation "Utilities" ;
+    skos:definition "Industry sector covering utility providers and related services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+ord:WholesaleDistribution a skos:Concept ;
+    skos:prefLabel "Wholesale Distribution"@en ;
+    skos:notation "Wholesale Distribution" ;
+    skos:definition "Industry sector covering wholesale distribution and related services."@en ;
+    skos:inScheme ord:IndustryConceptScheme ;
+    skos:topConceptOf ord:IndustryConceptScheme .
+
+# =============================================================================
+# Line of Business Concepts
+# =============================================================================
+
+ord:AssetManagement a skos:Concept ;
+    skos:prefLabel "Asset Management"@en ;
+    skos:notation "Asset Management" ;
+    skos:definition "Line of business covering asset lifecycle, maintenance planning, and asset operations."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Commerce a skos:Concept ;
+    skos:prefLabel "Commerce"@en ;
+    skos:notation "Commerce" ;
+    skos:definition "Line of business covering commerce, digital commerce, and related processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Finance a skos:Concept ;
+    skos:prefLabel "Finance"@en ;
+    skos:notation "Finance" ;
+    skos:definition "Line of business covering finance, accounting, treasury, and related processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:GridOperationsAndMaintenance a skos:Concept ;
+    skos:prefLabel "Grid Operations and Maintenance"@en ;
+    skos:notation "Grid Operations and Maintenance" ;
+    skos:definition "Line of business covering grid operations and maintenance."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:HumanResources a skos:Concept ;
+    skos:prefLabel "Human Resources"@en ;
+    skos:notation "Human Resources" ;
+    skos:definition "Line of business covering workforce, payroll, talent, and human resources processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:MaintenanceAndEngineering a skos:Concept ;
+    skos:prefLabel "Maintenance and Engineering"@en ;
+    skos:notation "Maintenance and Engineering" ;
+    skos:definition "Line of business covering maintenance and engineering processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Manufacturing a skos:Concept ;
+    skos:prefLabel "Manufacturing"@en ;
+    skos:notation "Manufacturing" ;
+    skos:definition "Line of business covering manufacturing planning, production, and execution."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Marketing a skos:Concept ;
+    skos:prefLabel "Marketing"@en ;
+    skos:notation "Marketing" ;
+    skos:definition "Line of business covering marketing, campaigns, and customer engagement processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Metering a skos:Concept ;
+    skos:prefLabel "Metering"@en ;
+    skos:notation "Metering" ;
+    skos:definition "Line of business covering metering operations and related utility processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:PlantOperationsAndMaintenance a skos:Concept ;
+    skos:prefLabel "Plant Operations and Maintenance"@en ;
+    skos:notation "Plant Operations and Maintenance" ;
+    skos:definition "Line of business covering plant operations and maintenance."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:ResearchAndDevelopmentEngineering a skos:Concept ;
+    skos:prefLabel "R&D Engineering"@en ;
+    skos:notation "R&D Engineering" ;
+    skos:definition "Line of business covering research, development, and engineering processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Sales a skos:Concept ;
+    skos:prefLabel "Sales"@en ;
+    skos:notation "Sales" ;
+    skos:definition "Line of business covering sales, order capture, and revenue processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Service a skos:Concept ;
+    skos:prefLabel "Service"@en ;
+    skos:notation "Service" ;
+    skos:definition "Line of business covering service delivery, service management, and customer service."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:SourcingAndProcurement a skos:Concept ;
+    skos:prefLabel "Sourcing and Procurement"@en ;
+    skos:notation "Sourcing and Procurement" ;
+    skos:definition "Line of business covering sourcing, procurement, purchasing, and supplier processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:StrategyComplianceAndGovernance a skos:Concept ;
+    skos:prefLabel "Strategy, Compliance, and Governance"@en ;
+    skos:notation "Strategy, Compliance, and Governance" ;
+    skos:definition "Line of business covering strategy, compliance, risk, and governance processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:SupplyChain a skos:Concept ;
+    skos:prefLabel "Supply Chain"@en ;
+    skos:notation "Supply Chain" ;
+    skos:definition "Line of business covering supply chain planning, logistics, and fulfillment."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+ord:Sustainability a skos:Concept ;
+    skos:prefLabel "Sustainability"@en ;
+    skos:notation "Sustainability" ;
+    skos:definition "Line of business covering sustainability, environmental, and social responsibility processes."@en ;
+    skos:inScheme ord:LineOfBusinessConceptScheme ;
+    skos:topConceptOf ord:LineOfBusinessConceptScheme .
+
+# =============================================================================
+# Controlled Value Concepts
+# =============================================================================
+
+ord:Visibility-public a skos:Concept ;
+    skos:prefLabel "public"@en ;
+    skos:notation "public" ;
+    skos:definition "Visible and intended for public discovery."@en ;
+    skos:inScheme ord:VisibilityScheme ;
+    skos:topConceptOf ord:VisibilityScheme .
+
+ord:Visibility-internal a skos:Concept ;
+    skos:prefLabel "internal"@en ;
+    skos:notation "internal" ;
+    skos:definition "Visible within an organization or restricted internal context."@en ;
+    skos:inScheme ord:VisibilityScheme ;
+    skos:topConceptOf ord:VisibilityScheme .
+
+ord:Visibility-private a skos:Concept ;
+    skos:prefLabel "private"@en ;
+    skos:notation "private" ;
+    skos:definition "Private or restricted visibility."@en ;
+    skos:inScheme ord:VisibilityScheme ;
+    skos:topConceptOf ord:VisibilityScheme .
+
+ord:ReleaseStatus-development a skos:Concept ;
+    skos:prefLabel "development"@en ;
+    skos:notation "development" ;
+    skos:definition "Unreleased and under active development. The contract is unstable and may change."@en ;
+    skos:inScheme ord:ReleaseStatusScheme ;
+    skos:topConceptOf ord:ReleaseStatusScheme .
+
+ord:ReleaseStatus-beta a skos:Concept ;
+    skos:prefLabel "beta"@en ;
+    skos:notation "beta" ;
+    skos:definition "Released but without final stability guarantees. Breaking changes may occur."@en ;
+    skos:inScheme ord:ReleaseStatusScheme ;
+    skos:topConceptOf ord:ReleaseStatusScheme .
+
+ord:ReleaseStatus-active a skos:Concept ;
+    skos:prefLabel "active"@en ;
+    skos:notation "active" ;
+    skos:definition "Stable and recommended for production use."@en ;
+    skos:inScheme ord:ReleaseStatusScheme ;
+    skos:topConceptOf ord:ReleaseStatusScheme .
+
+ord:ReleaseStatus-deprecated a skos:Concept ;
+    skos:prefLabel "deprecated"@en ;
+    skos:notation "deprecated" ;
+    skos:definition "Functional but scheduled for removal. New development should not depend on it."@en ;
+    skos:inScheme ord:ReleaseStatusScheme ;
+    skos:topConceptOf ord:ReleaseStatusScheme .
+
+ord:ReleaseStatus-sunset a skos:Concept ;
+    skos:prefLabel "sunset"@en ;
+    skos:notation "sunset" ;
+    skos:definition "No longer recommended or scheduled for shutdown or removal."@en ;
+    skos:inScheme ord:ReleaseStatusScheme ;
+    skos:topConceptOf ord:ReleaseStatusScheme .
+
+ord:PolicyLevel-none a skos:Concept ;
+    skos:prefLabel "No Policy Level"@en ;
+    skos:notation "none" ;
+    skos:definition "No specific policy or compliance level is declared."@en ;
+    skos:inScheme ord:PolicyLevelScheme ;
+    skos:topConceptOf ord:PolicyLevelScheme .
+
+ord:PolicyLevel-custom a skos:Concept ;
+    skos:prefLabel "Custom Policy Level"@en ;
+    skos:notation "custom" ;
+    skos:definition "A custom policy or compliance level defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:PolicyLevelScheme ;
+    skos:topConceptOf ord:PolicyLevelScheme .
+
+ord:Usage-local a skos:Concept ;
+    skos:prefLabel "local"@en ;
+    skos:notation "local" ;
+    skos:definition "Resource is intended for local use."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:Usage-external a skos:Concept ;
+    skos:prefLabel "external"@en ;
+    skos:notation "external" ;
+    skos:definition "Resource is intended for external use."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:Usage-dataFederation a skos:Concept ;
+    skos:prefLabel "data-federation"@en ;
+    skos:notation "data-federation" ;
+    skos:definition "Resource is intended for data federation use cases."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:Usage-snapshot a skos:Concept ;
+    skos:prefLabel "snapshot"@en ;
+    skos:notation "snapshot" ;
+    skos:definition "Resource can be used to retrieve a snapshot with inherent consistency."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:Usage-incremental a skos:Concept ;
+    skos:prefLabel "incremental"@en ;
+    skos:notation "incremental" ;
+    skos:definition "Resource provides incremental updates on top of snapshots."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:Usage-streaming a skos:Concept ;
+    skos:prefLabel "streaming"@en ;
+    skos:notation "streaming" ;
+    skos:definition "Resource can be used to get streaming updates."@en ;
+    skos:inScheme ord:UsageScheme ;
+    skos:topConceptOf ord:UsageScheme .
+
+ord:ApiProtocol-rest a skos:Concept ;
+    skos:prefLabel "rest"@en ;
+    skos:notation "rest" ;
+    skos:definition "Generic REST API. An OpenAPI definition is recommended."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-odataV2 a skos:Concept ;
+    skos:prefLabel "odata-v2"@en ;
+    skos:notation "odata-v2" ;
+    skos:definition "OData version 2 API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-odataV4 a skos:Concept ;
+    skos:prefLabel "odata-v4"@en ;
+    skos:notation "odata-v4" ;
+    skos:definition "OData version 4 API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-graphql a skos:Concept ;
+    skos:prefLabel "graphql"@en ;
+    skos:notation "graphql" ;
+    skos:definition "GraphQL API. A GraphQL SDL definition is recommended."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-grpc a skos:Concept ;
+    skos:prefLabel "grpc"@en ;
+    skos:notation "grpc" ;
+    skos:definition "gRPC API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-websocket a skos:Concept ;
+    skos:prefLabel "websocket"@en ;
+    skos:notation "websocket" ;
+    skos:definition "WebSocket-based API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-deltaSharing a skos:Concept ;
+    skos:prefLabel "delta-sharing"@en ;
+    skos:notation "delta-sharing" ;
+    skos:definition "Delta Sharing protocol."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-sql a skos:Concept ;
+    skos:prefLabel "sql"@en ;
+    skos:notation "sql" ;
+    skos:definition "SQL-based API or endpoint."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-a2a a skos:Concept ;
+    skos:prefLabel "a2a"@en ;
+    skos:notation "a2a" ;
+    skos:definition "Agent-to-agent API protocol."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiDefType-openapiV2 a skos:Concept ;
+    skos:prefLabel "openapi-v2"@en ;
+    skos:notation "openapi-v2" ;
+    skos:definition "OpenAPI Specification version 2."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-openapiV3 a skos:Concept ;
+    skos:prefLabel "openapi-v3"@en ;
+    skos:notation "openapi-v3" ;
+    skos:definition "OpenAPI Specification version 3."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-openapiV31 a skos:Concept ;
+    skos:prefLabel "openapi-v3.1"@en ;
+    skos:notation "openapi-v3.1" ;
+    skos:definition "OpenAPI Specification version 3.1 and above."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-ramlV1 a skos:Concept ;
+    skos:prefLabel "raml-v1"@en ;
+    skos:notation "raml-v1" ;
+    skos:definition "RAML version 1.0 API definition."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-edmx a skos:Concept ;
+    skos:prefLabel "edmx"@en ;
+    skos:notation "edmx" ;
+    skos:definition "OData EDMX Entity Data Model XML definition."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-csdlJson a skos:Concept ;
+    skos:prefLabel "csdl-json"@en ;
+    skos:notation "csdl-json" ;
+    skos:definition "OData CSDL in JSON format."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-graphqlSdl a skos:Concept ;
+    skos:prefLabel "graphql-sdl"@en ;
+    skos:notation "graphql-sdl" ;
+    skos:definition "GraphQL Schema Definition Language."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-wsdlV1 a skos:Concept ;
+    skos:prefLabel "wsdl-v1"@en ;
+    skos:notation "wsdl-v1" ;
+    skos:definition "WSDL version 1.1 SOAP definition."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-wsdlV2 a skos:Concept ;
+    skos:prefLabel "wsdl-v2"@en ;
+    skos:notation "wsdl-v2" ;
+    skos:definition "WSDL version 2.0 SOAP definition."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-a2aAgentCard a skos:Concept ;
+    skos:prefLabel "a2a-agent-card"@en ;
+    skos:notation "a2a-agent-card" ;
+    skos:definition "A2A Agent Card definition, typically served at /.well-known/agent.json."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:DefinitionPurpose-main a skos:Concept ;
+    skos:prefLabel "main"@en ;
+    skos:notation "main" ;
+    skos:definition "Primary resource definition."@en ;
+    skos:inScheme ord:DefinitionPurposeScheme ;
+    skos:topConceptOf ord:DefinitionPurposeScheme .
+
+ord:DefinitionPurpose-aiEnrichment a skos:Concept ;
+    skos:prefLabel "ord:ai-enrichment"@en ;
+    skos:notation "ord:ai-enrichment" ;
+    skos:definition "Definition enriched with additional metadata specifically for AI or agent consumption."@en ;
+    ord:introducedInVersion "1.15.0" ;
+    skos:inScheme ord:DefinitionPurposeScheme ;
+    skos:topConceptOf ord:DefinitionPurposeScheme .
+
+ord:DefinitionPurpose-agentSecurityPermissions a skos:Concept ;
+    skos:prefLabel "ord:agent-security-permissions"@en ;
+    skos:notation "ord:agent-security-permissions" ;
+    skos:definition "Definition describing security permissions an AI agent requires to access the resource."@en ;
+    ord:introducedInVersion "1.16.2" ;
+    skos:inScheme ord:DefinitionPurposeScheme ;
+    skos:topConceptOf ord:DefinitionPurposeScheme .
+
+ord:DefinitionPurpose-custom a skos:Concept ;
+    skos:prefLabel "custom"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom definition purpose defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:DefinitionPurposeScheme ;
+    skos:topConceptOf ord:DefinitionPurposeScheme .
+
+ord:AccessStrategy-open a skos:Concept ;
+    skos:prefLabel "open"@en ;
+    skos:notation "open" ;
+    skos:definition "Definition or metadata can be accessed openly."@en ;
+    skos:inScheme ord:AccessStrategyScheme ;
+    skos:topConceptOf ord:AccessStrategyScheme .
+
+ord:AccessStrategy-protected a skos:Concept ;
+    skos:prefLabel "protected"@en ;
+    skos:notation "protected" ;
+    skos:definition "Definition or metadata requires authentication or authorization."@en ;
+    skos:inScheme ord:AccessStrategyScheme ;
+    skos:topConceptOf ord:AccessStrategyScheme .
+
+ord:AccessStrategy-restricted a skos:Concept ;
+    skos:prefLabel "restricted"@en ;
+    skos:notation "restricted" ;
+    skos:definition "Definition or metadata is restricted to selected consumers."@en ;
+    skos:inScheme ord:AccessStrategyScheme ;
+    skos:topConceptOf ord:AccessStrategyScheme .
+
+ord:AccessStrategy-custom a skos:Concept ;
+    skos:prefLabel "custom"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom access strategy defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:AccessStrategyScheme ;
+    skos:topConceptOf ord:AccessStrategyScheme .
+
+ord:ImplementationStandard-custom a skos:Concept ;
+    skos:prefLabel "Custom Implementation Standard"@en ;
+    skos:notation "custom" ;
+    skos:definition "A custom implementation standard defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:ImplementationStandardScheme ;
+    skos:topConceptOf ord:ImplementationStandardScheme .
+
+ord:ImplementationStandard-cffOpenServiceBrokerV2 a skos:Concept ;
+    skos:prefLabel "CFF Open Service Broker v2"@en ;
+    skos:notation "cff-open-service-broker-v2" ;
+    skos:definition "API follows the Open Service Broker API v2."@en ;
+    skos:inScheme ord:ImplementationStandardScheme ;
+    skos:topConceptOf ord:ImplementationStandardScheme .
+
+ord:Capability-custom a skos:Concept ;
+    skos:prefLabel "Custom Capability"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom capability defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:CapabilityScheme ;
+    skos:topConceptOf ord:CapabilityScheme .
+
+ord:CapabilityDefinition-custom a skos:Concept ;
+    skos:prefLabel "Custom Capability Definition"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom capability definition type defined outside the open ORD core vocabulary."@en ;
+    skos:inScheme ord:CapabilityDefinitionScheme ;
+    skos:topConceptOf ord:CapabilityDefinitionScheme .
+
+ord:PackageLinkType-authentication a skos:Concept ;
+    skos:prefLabel "authentication"@en ;
+    skos:notation "authentication" ;
+    skos:definition "Link to authentication information."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-clientRegistration a skos:Concept ;
+    skos:prefLabel "client-registration"@en ;
+    skos:notation "client-registration" ;
+    skos:definition "Link to client or application registration."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-console a skos:Concept ;
+    skos:prefLabel "console"@en ;
+    skos:notation "console" ;
+    skos:definition "Link to a management or administration console."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-custom a skos:Concept ;
+    skos:prefLabel "custom"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom package link type."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-license a skos:Concept ;
+    skos:prefLabel "license"@en ;
+    skos:notation "license" ;
+    skos:definition "Link to license information."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-payment a skos:Concept ;
+    skos:prefLabel "payment"@en ;
+    skos:notation "payment" ;
+    skos:definition "Link to payment or billing information."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-sandbox a skos:Concept ;
+    skos:prefLabel "sandbox"@en ;
+    skos:notation "sandbox" ;
+    skos:definition "Link to a sandbox or test environment."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-sla a skos:Concept ;
+    skos:prefLabel "service-level-agreement"@en ;
+    skos:notation "service-level-agreement" ;
+    skos:definition "Link to a service-level agreement."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-support a skos:Concept ;
+    skos:prefLabel "support"@en ;
+    skos:notation "support" ;
+    skos:definition "Link to support information."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+ord:PackageLinkType-termsOfUse a skos:Concept ;
+    skos:prefLabel "terms-of-use"@en ;
+    skos:notation "terms-of-use" ;
+    skos:definition "Link to terms of use."@en ;
+    skos:inScheme ord:PackageLinkTypeScheme ;
+    skos:topConceptOf ord:PackageLinkTypeScheme .
+
+# =============================================================================
+# End of ORD Open Vocabulary
+# =============================================================================

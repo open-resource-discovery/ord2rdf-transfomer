@@ -1,0 +1,196 @@
+{
+  "openResourceDiscovery": "1.9",
+  "baseUrl": "https://api.acme-demo.org",
+  "policyLevel": "none",
+  "description": "ORD document describing the Acme Corp retail platform APIs, events, and entity types.",
+
+  "vendors": [
+    {
+      "ordId": "acme.demo:vendor:AcmeCorp:",
+      "title": "Acme Corp",
+      "shortDescription": "Acme Corporation — operator of the retail demo platform"
+    }
+  ],
+
+  "packages": [
+    {
+      "ordId": "acme.demo:package:CorePackage:v1",
+      "title": "Core Package",
+      "shortDescription": "Core APIs and events for the Acme retail platform",
+      "description": "Bundles the primary API and event resources of the Acme retail platform, covering catalogue management, order processing, and customer lifecycle events.",
+      "version": "1.0.0",
+      "vendor": "acme.demo:vendor:AcmeCorp:",
+      "licenseType": "Apache-2.0",
+      "policyLevel": "none"
+    },
+    {
+      "ordId": "acme.demo:package:AnalyticsPackage:v1",
+      "title": "Analytics Package",
+      "shortDescription": "Analytical and reporting resources",
+      "description": "Provides analytical API resources for reporting, KPI dashboards, and data consumption use cases across the retail platform.",
+      "version": "1.0.0",
+      "vendor": "acme.demo:vendor:AcmeCorp:"
+    }
+  ],
+
+  "consumptionBundles": [
+    {
+      "ordId": "acme.demo:consumptionBundle:PublicBundle:v1",
+      "title": "Public API Bundle",
+      "shortDescription": "OAuth 2.0 client-credentials protected access to all public APIs",
+      "description": "Default consumption bundle granting access to all publicly visible API resources via the OAuth 2.0 client-credentials flow.",
+      "version": "1.0.0"
+    },
+    {
+      "ordId": "acme.demo:consumptionBundle:InternalBundle:v1",
+      "title": "Internal Service Bundle",
+      "shortDescription": "Internal access bundle for trusted back-end services",
+      "description": "Consumption bundle for internal microservices and trusted partners that require access to internal-visibility resources.",
+      "version": "1.0.0"
+    }
+  ],
+
+  "apiResources": [
+    {
+      "ordId": "acme.demo:apiResource:CatalogueAPI:v1",
+      "title": "Product Catalogue API",
+      "shortDescription": "REST API for managing the product catalogue",
+      "description": "Provides full CRUD operations for catalogue items, including product variants, pricing tiers, stock levels, and category assignments.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "partOfConsumptionBundles": [
+        { "ordId": "acme.demo:consumptionBundle:PublicBundle:v1" }
+      ],
+      "apiProtocol": "rest",
+      "resourceDefinitions": [
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "https://api.acme-demo.org/catalogue/v1/openapi.json"
+        }
+      ]
+    },
+    {
+      "ordId": "acme.demo:apiResource:OrderAPI:v1",
+      "title": "Order Management API",
+      "shortDescription": "OData V4 API for order lifecycle management",
+      "description": "Covers the full order lifecycle: create, update, confirm, ship, and cancel operations for orders and their line items.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "partOfConsumptionBundles": [
+        { "ordId": "acme.demo:consumptionBundle:PublicBundle:v1" }
+      ],
+      "apiProtocol": "odata-v4",
+      "resourceDefinitions": [
+        {
+          "type": "edmx",
+          "mediaType": "application/xml",
+          "url": "https://api.acme-demo.org/orders/v1/$metadata"
+        },
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "https://api.acme-demo.org/orders/v1/openapi.json"
+        }
+      ]
+    },
+    {
+      "ordId": "acme.demo:apiResource:ReportingAPI:v1",
+      "title": "Reporting & Analytics API",
+      "shortDescription": "GraphQL API for sales and inventory analytics",
+      "description": "Exposes analytical queries over sales figures, inventory levels, customer segments, and order KPIs for internal reporting dashboards.",
+      "version": "1.0.0",
+      "releaseStatus": "beta",
+      "visibility": "internal",
+      "partOfPackage": "acme.demo:package:AnalyticsPackage:v1",
+      "partOfConsumptionBundles": [
+        { "ordId": "acme.demo:consumptionBundle:InternalBundle:v1" }
+      ],
+      "apiProtocol": "graphql",
+      "resourceDefinitions": [
+        {
+          "type": "graphql-sdl",
+          "mediaType": "application/graphql",
+          "url": "https://api.acme-demo.org/reporting/v1/schema.graphql"
+        }
+      ]
+    }
+  ],
+
+  "eventResources": [
+    {
+      "ordId": "acme.demo:eventResource:CatalogueEvents:v1",
+      "title": "Catalogue Change Events",
+      "shortDescription": "CloudEvents for product catalogue changes",
+      "description": "Publishes domain events whenever catalogue items are created, updated, deactivated, or deleted. Follows the CloudEvents 1.0 specification.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "mediaType": "application/json",
+          "url": "https://api.acme-demo.org/events/catalogue/v1/asyncapi.json"
+        }
+      ]
+    },
+    {
+      "ordId": "acme.demo:eventResource:OrderEvents:v1",
+      "title": "Order Lifecycle Events",
+      "shortDescription": "Events for order state transitions",
+      "description": "Publishes events for order placement, confirmation, dispatch, delivery, and cancellation.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "mediaType": "application/json",
+          "url": "https://api.acme-demo.org/events/orders/v1/asyncapi.json"
+        }
+      ]
+    }
+  ],
+
+  "entityTypes": [
+    {
+      "ordId": "acme.demo:entityType:CatalogueItem:v1",
+      "title": "Catalogue Item",
+      "shortDescription": "A sellable item in the product catalogue",
+      "description": "Root aggregate entity representing a product offered for sale, including its variants, pricing, and stock information.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "level": "aggregate"
+    },
+    {
+      "ordId": "acme.demo:entityType:Order:v1",
+      "title": "Order",
+      "shortDescription": "A customer purchase order",
+      "description": "Root aggregate representing a customer order, comprising an order header and one or more order lines.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "level": "aggregate"
+    },
+    {
+      "ordId": "acme.demo:entityType:Customer:v1",
+      "title": "Customer",
+      "shortDescription": "A registered customer account",
+      "description": "Root aggregate for a customer account, including contact details, address book, and order history references.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "acme.demo:package:CorePackage:v1",
+      "level": "aggregate"
+    }
+  ]
+}

@@ -1,0 +1,1640 @@
+{
+  "$schema": "https://open-resource-discovery.org/spec-v1/interfaces/Document.schema.json",
+  "openResourceDiscovery": "1.16",
+  "perspective": "system-version",
+  "description": "Combined ORD example document — all resource types from example_ord_agent.json, example_ord_data_products.json, example_ord_document.json, example_ord_entity_types.json, example_ord_integration_dependency.json, example_ord_overlays.json, example_ord_special_protocol.json",
+  "policyLevels": [
+    "sap:core:v1"
+  ],
+  "describedSystemType": {
+    "systemNamespace": "sap.foo"
+  },
+  "describedSystemVersion": {
+    "version": "1.0.0"
+  },
+  "describedSystemInstance": {
+    "baseUrl": "https://tenant1.example-sap-system.com"
+  },
+  "products": [
+    {
+      "ordId": "sap:product:SampleProduct:",
+      "title": "Some Sample Product for Data Product Evaluation in Business Accelerator Hub",
+      "shortDescription": "The next generation digital core designed to help you run simple in a digital economy.",
+      "vendor": "sap:vendor:SAP:"
+    },
+    {
+      "ordId": "sap.foo:product:ord-reference-app:",
+      "title": "ORD Reference App",
+      "vendor": "sap:vendor:SAP:",
+      "shortDescription": "Open Resource Discovery Reference Application"
+    }
+  ],
+  "packages": [
+    {
+      "ordId": "sap.foo:package:ord-reference-app:v1",
+      "title": "ORD Reference Application Package",
+      "shortDescription": "Package containing reference application resources",
+      "description": "This package contains all resources related to the ORD reference application including agents and APIs.",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:",
+      "partOfProducts": [
+        "sap:product:S4HANA_OD:"
+      ]
+    },
+    {
+      "ordId": "sap.xref:package:SomePackageDataProduct:v1",
+      "title": "Sample Package DP",
+      "shortDescription": "Sample Package for Data Product Evaluation in Business Accelerator Hub",
+      "description": "...",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:",
+      "partOfProducts": [
+        "sap:product:SampleProduct:"
+      ]
+    },
+    {
+      "ordId": "sap.xref:package:SomePackageIntegrationDependencies:v1",
+      "title": "Sample Package Integration Dependencies",
+      "shortDescription": "Sample Package for Data Product Evaluation in Business Accelerator Hub",
+      "description": "...",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:",
+      "partOfProducts": [
+        "sap:product:SampleProduct:"
+      ]
+    },
+    {
+      "ordId": "sap.xref:package:SomePackageAPIs:v1",
+      "title": "Sample Package APIs",
+      "shortDescription": "Sample Package for Data Product Evaluation in Business Accelerator Hub",
+      "description": "...",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:",
+      "partOfProducts": [
+        "sap:product:SampleProduct:"
+      ]
+    },
+    {
+      "ordId": "sap.xref:package:SomePackageEvents:v1",
+      "title": "Sample Package Events",
+      "shortDescription": "Sample Package for Data Product Evaluation in Business Accelerator Hub",
+      "description": "...",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:",
+      "partOfProducts": [
+        "sap:product:SampleProduct:"
+      ]
+    },
+    {
+      "ordId": "sap.foo.sub:package:ord-reference-app:v0",
+      "title": "Open Resource Discovery Reference Application",
+      "shortDescription": "This is a reference application for the Open Resource Discovery standard",
+      "description": "This reference application demonstrates how Open Resource Discovery (ORD) can be implemented, demonstrating different resources and discovery aspects",
+      "version": "0.3.0",
+      "policyLevels": [
+        "sap:core:v1"
+      ],
+      "partOfProducts": [
+        "sap.foo:product:ord-reference-app:"
+      ],
+      "vendor": "sap:vendor:SAP:",
+      "tags": [
+        "reference application"
+      ],
+      "labels": {
+        "foo.bar:custom-label": [
+          "labels are more flexible than tags as you can define your own keys"
+        ]
+      },
+      "documentationLabels": {
+        "Some Aspect": [
+          "Markdown Documentation [with links](#)",
+          "With multiple values"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.odm:package:OdmEntities:v1",
+      "title": "ODM Entities",
+      "shortDescription": "This package includes all aligned ODM Entities",
+      "description": "The ODM Entities are governed by the ODM Governance Board. They are semantically cross-LoB aligned and provide an unambiguous taxonomy",
+      "version": "1.0.0",
+      "policyLevels": [
+        "sap:core:v1"
+      ],
+      "vendor": "sap:vendor:SAP:"
+    },
+    {
+      "ordId": "sap.xref:package:SomePackage:v1",
+      "title": "Sample Package",
+      "shortDescription": "Sample Package for Integration Dependency examples",
+      "description": "This package contains integration dependency resources demonstrating subscription replication and customer order data product patterns.",
+      "version": "1.0.0",
+      "vendor": "sap:vendor:SAP:"
+    }
+  ],
+  "consumptionBundles": [
+    {
+      "ordId": "sap.foo:consumptionBundle:someAuth:v1",
+      "title": "Protected with some auth",
+      "shortDescription": "Bundle of resources that...",
+      "description": "This Consumption Bundle contains all resources that share the same authentication method and access scope",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00"
+    },
+    {
+      "ordId": "sap.foo:consumptionBundle:noAuth:v1",
+      "title": "Unprotected resources",
+      "shortDescription": "Bundle of unprotected resources",
+      "description": "This Consumption Bundle contains all resources of the reference app which are unprotected and do not require authentication",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00"
+    },
+    {
+      "ordId": "sap.foo:consumptionBundle:basicAuth:v1",
+      "title": "BasicAuth protected resources",
+      "shortDescription": "Bundle of protected resources",
+      "description": "This Consumption Bundle contains all resources of the reference app which share the same BasicAuth access and identity realm",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "credentialExchangeStrategies": [
+        {
+          "type": "custom",
+          "customType": "sap.foo:basicAuthCredentialExchange:v1",
+          "customDescription": "The BasicAuth credentials must be created and retrieved manually.\nPlease refer to the documentation on the [ORD Reference App API access](https://github.com/open-resource-discovery/reference-application?tab=readme-ov-file#api-access)."
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "groupId": "sap.foo:groupTypeAbc:sap.foo:groupAssignmentValue",
+      "groupTypeId": "sap.foo:groupTypeAbc",
+      "title": "Title of group assignment / instance"
+    }
+  ],
+  "groupTypes": [
+    {
+      "groupTypeId": "sap.foo:groupTypeAbc",
+      "title": "Title of group type"
+    }
+  ],
+  "apiResources": [
+    {
+      "ordId": "sap.foo:apiResource:DisputeResolutionAgent:v1",
+      "title": "Dispute Resolution Agent",
+      "shortDescription": "This is an Agent short description...",
+      "description": "A longer description of this Agent with **markdown** \n## headers\n etc...",
+      "version": "1.0.3",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "apiProtocol": "a2a",
+      "resourceDefinitions": [
+        {
+          "type": "a2a-agent-card",
+          "mediaType": "application/json",
+          "url": "/definitions/DisputeResolutionAgentcard.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.joule:consumptionBundle:mTLS:v1"
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.foo:entityType:DisputeCase:v1"
+        },
+        {
+          "ordId": "sap.foo:entityType:DisputeResolution:v1"
+        },
+        {
+          "ordId": "sap.odm:entityType:Dispute:v1"
+        }
+      ],
+      "partOfGroups": [
+        "sap.eab:process:sap.foo:DisputeResolutionProcess"
+      ],
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "https://help.sap.com/some/agent-documentation"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:CSN_EXPOSURE:v1",
+      "title": "CSN EXPOSURE Endpoint",
+      "shortDescription": "Exposing CSN",
+      "description": "Internal CSN Exposure API",
+      "version": "1.2.3",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "releaseStatus": "active",
+      "apiProtocol": "rest",
+      "visibility": "internal",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "./CSN_EXPOSURE"
+      ],
+      "implementationStandard": "sap:csn-exposure:v1",
+      "resourceDefinitions": [
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "/api/csn_exposure-oa3.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:RetailTransactionSQL:v2",
+      "localId": "RetailTransactionSQL",
+      "title": "Retail Transactions",
+      "shortDescription": "Exposing Retail Transactions...",
+      "description": "Retail Transactions SQL API",
+      "version": "2.2.3",
+      "releaseStatus": "active",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "sap://my.lob.data.platform.endpoint:30015"
+      ],
+      "apiProtocol": "sap-sql-api-v1",
+      "resourceDefinitions": [
+        {
+          "type": "sap-sql-api-definition-v1",
+          "mediaType": "application/json",
+          "url": "/api/retail-transaction-sql-v1.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "implementationStandard": "sap:hana-cloud-sql:v1",
+      "supportedUseCases": [
+        "data-federation"
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:RetailTransaction:v1"
+        },
+        {
+          "ordId": "sap.xref:entityType:RetailTransaction:v1"
+        }
+      ],
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "/some/relative/url"
+        },
+        {
+          "type": "authentication",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "service-level-agreement",
+          "url": "https://example.com/some/absolute/url"
+        }
+      ],
+      "extensible": {
+        "supported": "manual",
+        "description": "API can be extended by custom fields on the following business contexts (field usage for this API needs to be selected):\r\n* Procurement: Purchasing Document (MM_PURDOC_HEADER)\r\n* Procurement: Purchasing Document Item (MM_PURDOC_ITEM)\r\n\r\n[How to add an extension field to an API](https://help.sap.com/viewer/9a281eac983f4f688d0deedc96b3c61c/latest/en-US/57909455bf7c4fdd8bcf48d76c1eae33.html)"
+      },
+      "countries": [
+        "DE",
+        "US"
+      ],
+      "lineOfBusiness": [
+        "Sales"
+      ],
+      "industry": [
+        "Retail",
+        "Consumer Products"
+      ],
+      "tags": [
+        "Commerce"
+      ],
+      "labels": {
+        "foo.bar:cost-center": [
+          "CC-12345",
+          "CC-67890"
+        ]
+      },
+      "documentationLabels": {
+        "Expected Access Performance ": [
+          "free text/markdown"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:RetailTransactionOData:v1",
+      "localId": "RetailTransactionOData",
+      "title": "Retail Transactions",
+      "shortDescription": "Exposing Retail Transactions...",
+      "description": "Retail Transactions OData API",
+      "version": "1.2.3",
+      "releaseStatus": "active",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "sap://my.lob.data.platform.endpoint:30015"
+      ],
+      "apiProtocol": "odata-v2",
+      "resourceDefinitions": [
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "/api/customer-order-openapi/oas3.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "type": "edmx",
+          "mediaType": "application/xml",
+          "url": "/api/customer-order-edmx.xml",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:CustomerOrderHeaderSQLPort:v1",
+      "localId": "CustomerOrderHeaderSQLPort",
+      "title": "Customer Order",
+      "shortDescription": "Exposing Customer Order...",
+      "description": "Customer Order SQL API ...",
+      "version": "1.2.3",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "sap://my.lob.data.platform.endpoint:30015"
+      ],
+      "apiProtocol": "sap-sql-api-v1",
+      "resourceDefinitions": [
+        {
+          "type": "sap-sql-api-definition-v1",
+          "mediaType": "application/json",
+          "url": "/api/customer-order-sql-v1.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "implementationStandard": "sap:hana-cloud-sql:v1",
+      "supportedUseCases": [
+        "data-federation"
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "/some/relative/url"
+        },
+        {
+          "type": "authentication",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "service-level-agreement",
+          "url": "https://example.com/some/absolute/url"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      },
+      "countries": [
+        "DE",
+        "US"
+      ],
+      "lineOfBusiness": [
+        "Sales"
+      ],
+      "industry": [
+        "Retail",
+        "Consumer Products"
+      ],
+      "tags": [
+        "Commerce"
+      ],
+      "labels": {
+        "foo.bar:cost-center": [
+          "CC-12345",
+          "CC-67890"
+        ]
+      },
+      "documentationLabels": {
+        "Expected Access Performance ": [
+          "free text/markdown"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:CustomerOrderDeltaSharing:v1",
+      "localId": "CustomerOrderDeltaSharing",
+      "title": "Customer Order",
+      "shortDescription": "Exposing Customer Order...",
+      "description": "Customer Order Delta Sharing API ...",
+      "version": "1.3.4",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "sap://my.lob.data.platform.endpoint:30015"
+      ],
+      "apiProtocol": "delta-sharing",
+      "implementationStandard": "sap:delta-sharing:v1",
+      "resourceDefinitions": [
+        {
+          "type": "sap-csn-interop-effective-v1",
+          "mediaType": "application/json",
+          "url": "/api/customer-order-csn.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "supportedUseCases": [
+        "streaming"
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "compatibleWith": [
+        {
+          "ordId": "sap.xref:apiResource:AbstractCustomerOrderDeltaSharing:v1",
+          "maxVersion": "1.2"
+        }
+      ],
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "/some/relative/url"
+        },
+        {
+          "type": "authentication",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "service-level-agreement",
+          "url": "https://example.com/some/absolute/url"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      },
+      "countries": [
+        "DE",
+        "US"
+      ],
+      "lineOfBusiness": [
+        "Sales"
+      ],
+      "industry": [
+        "Retail",
+        "Consumer Products"
+      ],
+      "tags": [
+        "Commerce"
+      ],
+      "labels": {
+        "foo.bar:cost-center": [
+          "CC-12345",
+          "CC-67890"
+        ]
+      },
+      "documentationLabels": {
+        "Expected Access Performance ": [
+          "free text/markdown"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:AbstractCustomerOrderDeltaSharing:v1",
+      "localId": "AbstractCustomerOrderDeltaSharing",
+      "title": "Customer Order Data Contract",
+      "shortDescription": "This is the contract to expose Customer Order data...",
+      "description": "Customer Order Delta Sharing API need to follow this contract...",
+      "version": "1.2.3",
+      "releaseStatus": "active",
+      "abstract": true,
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "apiProtocol": "delta-sharing",
+      "implementationStandard": "sap:delta-sharing:v1",
+      "resourceDefinitions": [
+        {
+          "type": "sap-csn-interop-effective-v1",
+          "mediaType": "application/json",
+          "url": "/api/customer-order-csn.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:apiResource:CustomerOrderRest:v1",
+      "localId": "CustomerOrderRest",
+      "title": "Customer Order",
+      "shortDescription": "Exposing Customer Order...",
+      "description": "Customer Order Rest API ...",
+      "version": "1.2.3",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageAPIs:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:someAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "sap://my.lob.data.platform.endpoint:30015"
+      ],
+      "apiProtocol": "rest",
+      "resourceDefinitions": [
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "/api/customer-order-oas3.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "supportedUseCases": [
+        "snapshot"
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "/some/relative/url"
+        },
+        {
+          "type": "authentication",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "service-level-agreement",
+          "url": "https://example.com/some/absolute/url"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      },
+      "countries": [
+        "DE",
+        "US"
+      ],
+      "lineOfBusiness": [
+        "Sales"
+      ],
+      "industry": [
+        "Retail",
+        "Consumer Products"
+      ],
+      "tags": [
+        "Commerce"
+      ],
+      "labels": {
+        "foo.bar:cost-center": [
+          "CC-12345",
+          "CC-67890"
+        ]
+      },
+      "documentationLabels": {
+        "Expected Access Performance ": [
+          "free text/markdown"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.foo:apiResource:astronomy:v1",
+      "title": "Astronomy API",
+      "shortDescription": "The API allows you to discover...",
+      "description": "A longer description of this API with **markdown** \n## headers\n etc...",
+      "version": "1.0.3",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "minSystemVersion": "2024.4.0",
+      "policyLevels": [
+        "sap.foo:custom:v1"
+      ],
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:noAuth:v1"
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.foo:entityType:Constellation:v1"
+        }
+      ],
+      "partOfGroups": [
+        "sap.foo:groupTypeAbc:sap.foo:groupAssignmentValue"
+      ],
+      "apiProtocol": "rest",
+      "apiResourceLinks": [
+        {
+          "type": "api-documentation",
+          "url": "/swagger-ui.html?urls.primaryName=Astronomy%20V1%20API"
+        }
+      ],
+      "resourceDefinitions": [
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "/ord/metadata/astronomy-v1.oas3.json",
+          "visibility": "public",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "type": "ord:overlay:v1",
+          "mediaType": "application/json",
+          "url": "/ord/overlays/astronomy-api-ai-enrichment.overlay.json",
+          "visibility": "public",
+          "purpose": "ord:ai-enrichment",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "type": "ord:overlay:v1",
+          "mediaType": "application/json",
+          "url": "/ord/overlays/astronomy-api-governance.overlay.json",
+          "visibility": "internal",
+          "purpose": "foo.bar:governance",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "entryPoints": [
+        "/astronomy/v1"
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.foo:apiResource:someRfcAPI:v1",
+      "title": "Some RFC API",
+      "shortDescription": "...",
+      "description": "Some long description",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "internal",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "apiProtocol": "sap-rfc",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:basicAuth:v1"
+        }
+      ],
+      "entryPoints": [
+        "/some/rfc/api/url/v1"
+      ],
+      "resourceDefinitions": [
+        {
+          "type": "sap-rfc-metadata-v1",
+          "mediaType": "application/xml",
+          "url": "/some/url/to/metadata.xml",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.foo:apiResource:someApeAPI:v1",
+      "title": "Some APE API",
+      "shortDescription": "...",
+      "description": "Some long description",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "internal",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "apiProtocol": "websocket",
+      "direction": "mixed",
+      "implementationStandard": "sap:ape-api:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:basicAuth:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.foo:apiResource:someCdiAPI:v1",
+      "title": "Some APE API",
+      "shortDescription": "...",
+      "description": "Some long description",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "internal",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "partOfConsumptionBundles": [
+        {
+          "ordId": "sap.foo:consumptionBundle:basicAuth:v1"
+        }
+      ],
+      "apiProtocol": "odata-v4",
+      "direction": "inbound",
+      "entryPoints": [
+        "/some/ape/api/url/v1"
+      ],
+      "implementationStandard": "sap:cdi-api:v1",
+      "resourceDefinitions": [
+        {
+          "type": "edmx",
+          "mediaType": "application/xml",
+          "url": "/path/to/metadata.edmx",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        },
+        {
+          "type": "openapi-v3",
+          "mediaType": "application/json",
+          "url": "/path/to/metadata.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    }
+  ],
+  "eventResources": [
+    {
+      "ordId": "sap.xref:eventResource:RawCustomerOrder:v1",
+      "version": "1.3.3",
+      "title": "Raw Customer Order events",
+      "shortDescription": "Exposing raw events",
+      "description": "Some longer description understanding that this event is exposing raw Customer Order events",
+      "releaseStatus": "active",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageEvents:v1",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "url": "/some/url/events/eventCatalog.json",
+          "mediaType": "application/json"
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:eventResource:RawCustomerOrder:v2",
+      "version": "2.2.3",
+      "title": "Raw Customer Order events",
+      "shortDescription": "Exposing raw events",
+      "description": "Some longer description understanding that this event is exposing raw Customer Order events",
+      "releaseStatus": "active",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageEvents:v1",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "url": "/some/url/events/eventCatalog2.json",
+          "mediaType": "application/json"
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.xref:eventResource:CustomerOrder:v1",
+      "version": "1.2.3",
+      "title": "Aggregated Customer Order events",
+      "shortDescription": "Exposing events",
+      "description": "Some longer description understanding that this event is exposing Customer Order events",
+      "releaseStatus": "active",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackageEvents:v1",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "url": "/some/url/events/eventCatalog2.json",
+          "mediaType": "application/json"
+        }
+      ],
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.odm:entityType:CustomerOrder:v1"
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      }
+    },
+    {
+      "ordId": "sap.foo:eventResource:ExampleEventResource:v1",
+      "title": "Event Example",
+      "shortDescription": "Simple Event Example",
+      "description": "Example long description",
+      "version": "1.2.1",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "releaseStatus": "beta",
+      "partOfPackage": "sap.foo:package:SomePackage:v1",
+      "visibility": "public",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "mediaType": "application/json",
+          "url": "/some/path/asyncApi2.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      },
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.foo:entityType:ExampleDomainObject:v1"
+        }
+      ]
+    },
+    {
+      "ordId": "sap.foo:eventResource:BillingDocumentEvents:v1",
+      "title": "Billing Document Events",
+      "shortDescription": "Informs a remote system about created, changed, and canceled billing documents",
+      "description": "Billing document is an umbrella term for invoices, credit memos, debit memos, pro forma invoices, and their respective cancellation documents. The following events are available for billing document:\n      Billing document canceled\n      Billing document changed\n      Billing Document created",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:SomePackage:v1",
+      "visibility": "public",
+      "resourceDefinitions": [
+        {
+          "type": "asyncapi-v2",
+          "mediaType": "application/json",
+          "url": "/api/eventCatalog.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "extensible": {
+        "supported": "no"
+      },
+      "exposedEntityTypes": [
+        {
+          "ordId": "sap.foo:entityType:ExampleDomainObject:v1"
+        }
+      ]
+    }
+  ],
+  "entityTypes": [
+    {
+      "ordId": "sap.foo:entityType:Constellation:v1",
+      "localId": "Constellation",
+      "level": "aggregate",
+      "title": "Constellation",
+      "shortDescription": "A group of stars forming a recognizable pattern",
+      "description": "A constellation is a group of stars that forms a recognizable pattern in the night sky. The pattern is usually named after a mythological figure, animal, or object.",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "visibility": "public",
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "sap.foo:entityType:Star:v1",
+      "localId": "Star",
+      "level": "sub-entity",
+      "title": "Star",
+      "shortDescription": "A star is a bright object on the night sky",
+      "description": "A star is a shiny thing...",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "relatedEntityTypes": [
+        {
+          "ordId": "sap.foo:entityType:Star:v1",
+          "relationType": "part-of"
+        }
+      ]
+    },
+    {
+      "ordId": "sap.foo:entityType:ExampleDomainObject:v1",
+      "localId": "ExampleDomainObject",
+      "level": "aggregate",
+      "title": "Example Domain Object",
+      "shortDescription": "An example domain object for demonstration purposes",
+      "description": "This is an example domain object used to demonstrate the capabilities of the Open Resource Discovery standard. It is not meant to represent any real-world entity.",
+      "version": "1.0.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "visibility": "public",
+      "releaseStatus": "active"
+    },
+    {
+      "ordId": "sap.odm:entityType:BusinessPartner:v1",
+      "localId": "BusinessPartner",
+      "level": "aggregate",
+      "title": "Business Partner",
+      "shortDescription": "Person, an organization, or a group of persons or organizations.",
+      "description": "A business partner is a person, an organization, or a group of persons or organizations in which a company has a business interest.",
+      "version": "1.0.0",
+      "lastUpdate": "2023-03-18T15:30:04+00:00",
+      "partOfPackage": "sap.odm:package:OdmEntities:v1",
+      "visibility": "public",
+      "links": [],
+      "releaseStatus": "active",
+      "relatedEntityTypes": [
+        {
+          "ordId": "sap.vdm.sot:entityType:BusinessPartner:v1"
+        }
+      ]
+    }
+  ],
+  "dataProducts": [
+    {
+      "ordId": "sap.xref:dataProduct:Customer:v1",
+      "localId": "Customer",
+      "correlationIds": [
+        "sap.xref:foo:bar"
+      ],
+      "title": "Customer",
+      "shortDescription": "A deprecated DP example",
+      "description": "The Customer data product offers access to all customers. And can be very long ........",
+      "partOfPackage": "sap.xref:package:SomePackageDataProduct:v1",
+      "visibility": "public",
+      "releaseStatus": "deprecated",
+      "version": "1.9.0",
+      "lastUpdate": "2020-12-08T15:47:04+00:00",
+      "deprecationDate": "2020-12-08T15:47:04+00:00",
+      "sunsetDate": "2022-01-08T15:47:04+00:00",
+      "successors": [
+        "sap.xref:dataProduct:Customer:v2"
+      ],
+      "type": "primary",
+      "category": "business-object",
+      "outputPorts": [
+        {
+          "ordId": "sap.xref:apiResource:Customer:v1"
+        }
+      ],
+      "responsible": "sap:ach:CIC-DP-CO"
+    },
+    {
+      "ordId": "sap.xref:dataProduct:Customer:v2",
+      "localId": "Customer",
+      "correlationIds": [
+        "sap.xref:foo:bar"
+      ],
+      "title": "Customer",
+      "shortDescription": "A minimal DP example",
+      "description": "The Customer data product offers access to all customers. And can be very long ........",
+      "partOfPackage": "sap.xref:package:SomePackageDataProduct:v1",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "version": "2.1.0",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "type": "primary",
+      "category": "business-object",
+      "outputPorts": [
+        {
+          "ordId": "sap.xref:apiResource:Customer:v1"
+        }
+      ],
+      "responsible": "sap:ach:CIC-DP-CO"
+    },
+    {
+      "ordId": "sap.xref:dataProduct:CustomerOrder:v1",
+      "localId": "CustomerOrder",
+      "correlationIds": [
+        "sap.xref:foo:bar"
+      ],
+      "title": "Customer Order",
+      "shortDescription": "The full example",
+      "description": "The data product Customer Order offers access to all online and offline orders submitted by customers. It provides a customer view on the orders. For fulfillment-specific aspects please refer to the data product Fulfillment Order.",
+      "partOfPackage": "sap.xref:package:SomePackageDataProduct:v1",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "version": "1.4.0",
+      "releaseStatus": "active",
+      "changelogEntries": [
+        {
+          "date": "2020-04-29",
+          "description": "## Changelog\n...",
+          "releaseStatus": "active",
+          "version": "1.1.3",
+          "url": "https://www.sap.com/foo/bar"
+        },
+        {
+          "date": "2022-04-29",
+          "description": "## Changelog\n...",
+          "releaseStatus": "active",
+          "version": "1.2.3",
+          "url": "https://www.sap.com/foo/bar"
+        }
+      ],
+      "type": "derived",
+      "category": "business-object",
+      "entityTypes": [
+        "sap.odm:entityType:CustomerOrder:v1",
+        "sap.odm:entityType:RetailTransaction:v1"
+      ],
+      "inputPorts": [
+        {
+          "ordId": "sap.xref:integrationDependency:CustomerOrder:v1"
+        }
+      ],
+      "outputPorts": [
+        {
+          "ordId": "sap.xref:apiResource:CustomerOrderHeaderSQLPort:v1"
+        },
+        {
+          "ordId": "sap.xref:apiResource:CustomerOrderDeltaSharing:v1"
+        },
+        {
+          "ordId": "sap.xref:apiResource:CustomerOrderRest:v1"
+        },
+        {
+          "ordId": "sap.xref:eventResource:CustomerOrder:v1"
+        }
+      ],
+      "responsible": "sap:ach:CIC-DP-CO",
+      "dataProductLinks": [
+        {
+          "type": "support",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "service-level-agreement",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "payment",
+          "url": "https://example.com/some/absolute/url"
+        },
+        {
+          "type": "custom",
+          "customType": "sap:some-custom-definition-format-type:v1",
+          "url": "https://example.com/some/absolute/url"
+        }
+      ],
+      "links": [
+        {
+          "title": "Greatest DP of all time",
+          "description": "This gives you an overview how a customer is using the data product.\n",
+          "url": "https://blogs.sap.com/2018/04/11/testing-of-s4hana-inventory-management-odata-apis-via-sap-api-hub/"
+        }
+      ],
+      "industry": [
+        "Retail",
+        "Consumer Products"
+      ],
+      "lineOfBusiness": [
+        "Sales"
+      ],
+      "tags": [
+        "CustomerOrder",
+        "Order",
+        "Online Sales",
+        "Offline Sales"
+      ],
+      "labels": {
+        "foo.bar:cost-center": [
+          "CC-12345",
+          "CC-67890"
+        ]
+      },
+      "documentationLabels": {
+        "Scope Items": [
+          "[Basic Bank Account Management (BFA)](https://rapid.sap.com/bp/#/scopeitems/BFA \\\" Link To BP \\\")"
+        ]
+      }
+    },
+    {
+      "ordId": "sap.xref:dataProduct:AbstractCustomer:v1",
+      "localId": "Customer",
+      "correlationIds": [
+        "sap.xref:foo:bar"
+      ],
+      "title": "Customer",
+      "abstract": true,
+      "shortDescription": "An abstract DP example",
+      "description": "The Customer data should be offered following the schema and descriptions of this abstract data product...",
+      "partOfPackage": "sap.xref:package:SomePackageDataProduct:v1",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "version": "1.9.0",
+      "lastUpdate": "2020-12-08T15:47:04+00:00",
+      "type": "primary",
+      "category": "business-object",
+      "outputPorts": [
+        {
+          "ordId": "sap.xref:apiResource:AbstractCustomer:v1"
+        }
+      ],
+      "responsible": "sap:ach:CIC-DP-CO"
+    }
+  ],
+  "capabilities": [
+    {
+      "ordId": "sap.foo.bar:capability:mdi:v1",
+      "title": "Master Data Integration Capability",
+      "type": "sap.mdo:mdi-capability:v1",
+      "shortDescription": "Short description of capability",
+      "description": "Optional, longer description",
+      "version": "1.0.0",
+      "lastUpdate": "2023-01-26T15:47:04+00:00",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.foo.bar:package:SomePackage:v1",
+      "definitions": [
+        {
+          "type": "sap.mdo:mdi-capability-definition:v1",
+          "mediaType": "application/json",
+          "url": "/capabilities/foo.bar.json",
+          "accessStrategies": [
+            {
+              "type": "open"
+            }
+          ]
+        }
+      ],
+      "relatedEntityTypes": [
+        "sap.foo:entityType:Constellation:v1"
+      ]
+    }
+  ],
+  "integrationDependencies": [
+    {
+      "ordId": "sap.foo:integrationDependency:DisputeCaseManagement:v1",
+      "title": "Dispute Case Management Integration",
+      "shortDescription": "Integration dependency for dispute case management system",
+      "description": "This integration dependency is required to access external dispute case management capabilities.",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "mandatory": true,
+      "aspects": [
+        {
+          "title": "Case Management API Access",
+          "description": "Access to dispute case management APIs",
+          "mandatory": true,
+          "apiResources": [
+            {
+              "ordId": "sap.bar:apiResource:DisputeResolutionAPI:v1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordId": "sap.xref:integrationDependency:CustomerOrder:v1",
+      "localId": "CustomerOrder",
+      "title": "Customer Order Integration Needs",
+      "shortDescription": "Integration dependency to realize customer order data product",
+      "description": "This integration dependency describes all the necessary aspects needed for the custom order data product to get data from. ...",
+      "partOfPackage": "sap.xref:package:SomePackageIntegrationDependencies:v1",
+      "version": "1.2.3",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "mandatory": true,
+      "aspects": [
+        {
+          "title": "RawCustomerOrder",
+          "description": "Raw Custom Order Data (For this test case the API reference is not part of this ORD document and will eventually be uploaded to Business Accelerator Hub!)",
+          "mandatory": true,
+          "supportMultipleProviders": true,
+          "apiResources": [
+            {
+              "ordId": "sap.s4:apiResource:RawCustomerOrderData:v1"
+            }
+          ],
+          "eventResources": [
+            {
+              "ordId": "sap.xref:eventResource:RawCustomerOrder:v1",
+              "minVersion": "1.3.0",
+              "subset": [
+                {
+                  "eventType": "sap.xref.Order.OrderTransferred.v1"
+                }
+              ]
+            },
+            {
+              "ordId": "sap.xref:eventResource:RawCustomerOrder:v2",
+              "subset": [
+                {
+                  "eventType": "sap.xref.Order.OrderTransferred.v2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "RetailTransaction",
+          "description": "Optional aspect to include retail transactions as customer orders (in this test case the alternative is between different APIs that can be used to injest data",
+          "mandatory": false,
+          "apiResources": [
+            {
+              "ordId": "sap.xref:apiResource:RetailTransactionOData:v1",
+              "minVersion": "1.3.3"
+            },
+            {
+              "ordId": "sap.xref:apiResource:RetailTransactionSQL:v2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordId": "sap.s4:integrationDependency:subscriptionReplication:v2",
+      "version": "2.2.3",
+      "title": "Subscription Billing Replication",
+      "description": "Replication of Subscription Billing data into S/4. This integration dependency expresses that some events are needed together for the SAP Event Broker to provide the Subscription Content related feature.",
+      "correlationIds": [
+        "sap.s4:communicationScenario:SAP_COM_123"
+      ],
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackage:v1",
+      "mandatory": false,
+      "lastUpdate": "2023-08-03T10:14:26.941Z",
+      "aspects": [
+        {
+          "title": "SAPSubscriptionBillingBusinessEvents Title",
+          "mandatory": true,
+          "eventResources": [
+            {
+              "ordId": "sap.billing.sb:eventResource:SAPSubscriptionBillingBusinessEvents:v2",
+              "systemTypeRestriction": [
+                "sap.billing"
+              ],
+              "subset": [
+                {
+                  "eventType": "sap.billing.sb.Subscription.Created.v2"
+                },
+                {
+                  "eventType": "sap.billing.sb.Subscription.Updated.v2"
+                },
+                {
+                  "eventType": "sap.billing.sb.Subscription.Deleted.v2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Billing Forecast Events",
+          "description": "The second aspect is interpreted as AND condition and used in case events from multiple event resources or catalog need to be subscribed.",
+          "mandatory": true,
+          "eventResources": [
+            {
+              "ordId": "sap.billing.sb:eventResource:SAPSubscriptionBillingBusinessEvents_BillingForecastEvents:v1",
+              "systemTypeRestriction": [
+                "sap.billing"
+              ],
+              "subset": [
+                {
+                  "eventType": "sap.billing.sb.billingForecast.created.v1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordId": "sap.s4:integrationDependency:CustomerOrder:v1",
+      "version": "1.2.3",
+      "title": "Integration Dependency to realize Customer Order data product",
+      "description": "This integration dependency describes all necessary aspects needed for the customer order data product to get data from external systems.",
+      "mandatory": true,
+      "correlationIds": [
+        "sap.s4:communicationScenario:SAP_COM_1234"
+      ],
+      "releaseStatus": "active",
+      "visibility": "public",
+      "partOfPackage": "sap.xref:package:SomePackage:v1",
+      "lastUpdate": "2023-08-03T10:14:26.941Z",
+      "aspects": [
+        {
+          "title": "RawCustomerOrder",
+          "description": "Exchange Customer Order Data",
+          "mandatory": true,
+          "supportMultipleProviders": true,
+          "eventResources": [
+            {
+              "ordId": "sap.cic:eventResource:RawCustomerOrder:v1",
+              "systemTypeRestriction": [
+                "sap.cic"
+              ],
+              "subset": [
+                {
+                  "eventType": "sap.cic.Order.OrderTransferred.v1"
+                }
+              ]
+            },
+            {
+              "ordId": "sap.cic:eventResource:RawCustomerOrder:v2",
+              "subset": [
+                {
+                  "eventType": "sap.cic.Order.OrderTransferred.v2"
+                }
+              ]
+            }
+          ],
+          "apiResources": [
+            {
+              "ordId": "sap.cic:apiResource:RawCustomerOrderSQL:v1",
+              "minVersion": "1.3.0"
+            }
+          ]
+        },
+        {
+          "title": "RetailTransaction",
+          "description": "Optional aspect to include retail transactions. The subset property allows narrowing down to specific API operations.",
+          "mandatory": false,
+          "supportMultipleProviders": false,
+          "apiResources": [
+            {
+              "ordId": "sap.cic:apiResource:RetailTransactionOData:v1",
+              "minVersion": "1.3.0",
+              "subset": [
+                {
+                  "operationId": "getRetailTransactions"
+                },
+                {
+                  "operationId": "getRetailTransactionById"
+                }
+              ]
+            },
+            {
+              "ordId": "sap.cic:apiResource:RetailTransactionSQL:v2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "ordId": "sap.foo:agent:disputeAgent:v1",
+      "title": "Dispute Resolution Agent",
+      "shortDescription": "AI agent specialized in financial dispute case resolution",
+      "description": "A longer description of this Agent with **markdown** \n## headers\n etc...",
+      "version": "1.0.3",
+      "lastUpdate": "2022-12-19T15:47:04+00:00",
+      "visibility": "public",
+      "releaseStatus": "active",
+      "partOfPackage": "sap.foo:package:ord-reference-app:v1",
+      "partOfGroups": [
+        "sap.aicore:llmModel:sap.aicore:anthropic--claude-3.7-sonnet"
+      ],
+      "partOfProducts": [
+        "sap:product:S4HANA_OD:"
+      ],
+      "responsible": "sap:ach:FIN-DR-AG",
+      "industry": [
+        "Financial Services"
+      ],
+      "lineOfBusiness": [
+        "Finance"
+      ],
+      "countries": [
+        "DE",
+        "US"
+      ],
+      "minSystemVersion": "1.0.0",
+      "deprecationDate": "2025-12-08T15:47:04+00:00",
+      "sunsetDate": "2027-12-08T15:47:04+00:00",
+      "changelogEntries": [
+        {
+          "date": "2024-04-29",
+          "description": "## Changelog\n\nInitial release of the Dispute Resolution Agent with core capabilities.",
+          "releaseStatus": "active",
+          "version": "1.0.3",
+          "url": "https://www.sap.com/foo/bar"
+        }
+      ],
+      "relatedEntityTypes": [
+        "sap.foo:entityType:DisputeCase:v1",
+        "sap.foo:entityType:DisputeResolution:v1",
+        "sap.odm:entityType:Dispute:v1"
+      ],
+      "exposedApiResources": [
+        {
+          "ordId": "sap.foo:apiResource:DisputeResolutionAgent:v1"
+        }
+      ],
+      "integrationDependencies": [
+        "sap.foo:integrationDependency:DisputeCaseManagement:v1"
+      ],
+      "labels": {
+        "foo.ai:interaction-mode": [
+          "conversational",
+          "system-triggered"
+        ]
+      },
+      "tags": [
+        "finance",
+        "billing",
+        "dispute-resolution",
+        "invoicing",
+        "ai-agent"
+      ],
+      "links": [
+        {
+          "title": "Agent Documentation",
+          "url": "https://help.sap.com/some/agent-documentation",
+          "description": "Comprehensive documentation for the Dispute Resolution Agent"
+        }
+      ]
+    }
+  ],
+  "overlays": [
+    {
+      "ordId": "sap.foo:overlay:astronomy-api-ai-enrichment:v1",
+      "title": "Astronomy API AI Enrichment Overlay",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "public",
+      "relatedApiResources": [
+        {
+          "ordId": "sap.foo:apiResource:astronomy:v1",
+          "relationType": "ord:patches"
+        }
+      ],
+      "definitions": [
+        {
+          "type": "ord:overlay:v1",
+          "mediaType": "application/json",
+          "url": "/open-resource-discovery/v1/overlays/astronomy-api-ai-enrichment.overlay.json",
+          "purpose": "ord:ai-enrichment"
+        }
+      ]
+    },
+    {
+      "ordId": "sap.foo:overlay:astronomy-api-governance:v1",
+      "title": "Astronomy API Governance Overlay",
+      "version": "1.0.0",
+      "releaseStatus": "active",
+      "visibility": "internal",
+      "relatedApiResources": [
+        {
+          "ordId": "sap.foo:apiResource:astronomy:v1",
+          "relationType": "ord:patches"
+        }
+      ],
+      "definitions": [
+        {
+          "type": "ord:overlay:v1",
+          "mediaType": "application/json",
+          "url": "/open-resource-discovery/v1/overlays/astronomy-api-governance.overlay.json",
+          "purpose": "foo.bar:governance"
+        }
+      ]
+    }
+  ],
+  "tombstones": [
+    {
+      "ordId": "sap.foo:apiResource:astronomy:v0",
+      "removalDate": "2020-12-02T14:12:59Z"
+    }
+  ]
+}

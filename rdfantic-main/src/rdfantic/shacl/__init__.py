@@ -1,0 +1,63 @@
+"""SHACL vocabulary models for RDFantic.
+
+This module provides Pydantic models representing SHACL (Shapes Constraint Language)
+concepts like Shape, PropertyShape, NodeShape, etc.
+"""
+
+from rdfantic.shacl.models import (
+    ConstraintComponent,
+    Expression,
+    Function,
+    NodeKindEnum,
+    NodeShape,
+    Parameter,
+    Parameterizable,
+    PrefixDeclaration,
+    PropertyGroup,
+    PropertyPath,
+    PropertyShape,
+    ResultAnnotation,
+    SeverityEnum,
+    Shape,
+    SPARQLAskExecutable,
+    SPARQLAskValidator,
+    SPARQLConstraint,
+    SPARQLConstructExecutable,
+    SPARQLExecutable,
+    SPARQLFunction,
+    SPARQLSelectExecutable,
+    SPARQLSelectValidator,
+    SPARQLTarget,
+    SPARQLUpdateExecutable,
+    Target,
+    Validator,
+)
+
+__all__ = (
+    "ConstraintComponent",
+    "Expression",
+    "Function",
+    "NodeKindEnum",
+    "NodeShape",
+    "Parameter",
+    "Parameterizable",
+    "PrefixDeclaration",
+    "PropertyGroup",
+    "PropertyPath",
+    "PropertyShape",
+    "ResultAnnotation",
+    "SeverityEnum",
+    "Shape",
+    "SPARQLAskExecutable",
+    "SPARQLAskValidator",
+    "SPARQLConstraint",
+    "SPARQLConstructExecutable",
+    "SPARQLExecutable",
+    "SPARQLFunction",
+    "SPARQLSelectExecutable",
+    "SPARQLSelectValidator",
+    "SPARQLTarget",
+    "SPARQLUpdateExecutable",
+    "Target",
+    "Validator",
+)

@@ -1,0 +1,43 @@
+name: "SAST Scans"
+run-name: "SAST Scans on ${{ github.ref_name }}"
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Scheduled on every Wednesday at 3h23 (random moment)
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │  ┌───────────── hour (0 - 23)
+    #        │  │ ┌───────────── day of the month (1 - 31)
+    #        │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    #        *  * * * *
+    - cron: '23 3 * * 3'
+  workflow_dispatch:
+
+jobs:
+  secret-scans:
+    name: Secrets Scanning
+    uses: "Security-Testing/security-tools-workflows/.github/workflows/secret-scan-report.yml@main"
+    secrets: inherit
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+      id-token: write
+
+  codeql:
+    name: Static Code Scanning
+    uses: "Security-Testing/security-tools-workflows/.github/workflows/codeql.yml@main"
+    secrets: inherit
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+      id-token: write
+    with:
+      languages: "python"

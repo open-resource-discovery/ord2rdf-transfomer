@@ -1,0 +1,48 @@
+name: Piper
+run-name: Piper CI/CD pipeline for ${{ github.head_ref || github.ref_name }}
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  # This job is run before `piper` to make quick checks without running the slower Piper job
+  pre-piper:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: '0.12.2'
+          python-version: '3.12'
+          enable-cache: true
+
+      - name: Install dev dependencies
+        run: uv sync --only-dev
+
+      - name: Run formatter
+        shell: bash
+        run: uv run ruff format --check
+
+      - name: Run linter
+        shell: bash
+        run: uv run ruff check
+
+  piper:
+    # We use a customized version of Piper GPP (General Purpose Pipeline)
+    #   because it is not supporting uv-based monorepo projects in its Build phase.
+    needs: [pre-piper]
+    uses: "DL-COE/bkg-piper-pipeline-github/.github/workflows/sap-piper-uv-workflow.yml@main"
+    with:
+      extensibility-enabled: true
+      python-version: 3.12
+      uv-version: 0.12.2
+    secrets: inherit
+    permissions:
+      contents: write
+      id-token: write
