@@ -1,0 +1,852 @@
+@prefix ord: <https://open-resource-discovery.org/vocab/v1#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://open-resource-discovery.org/instance/sap.foo.bar/capability/mdi/v1> a ord:Capability ;
+    ord:description "Optional, longer description"^^xsd:string ;
+    ord:lastUpdate "2023-01-26T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo.bar:capability:mdi:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo.bar/package/SomePackage/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "Short description of capability"^^xsd:string ;
+    ord:title "Master Data Integration Capability"^^xsd:string ;
+    ord:type "sap.mdo:mdi-capability:v1"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo.sub/package/ord-reference-app/v0> a ord:Package ;
+    ord:description "This reference application demonstrates how Open Resource Discovery (ORD) can be implemented, demonstrating different resources and discovery aspects"^^xsd:string ;
+    ord:ordId "sap.foo.sub:package:ord-reference-app:v0"^^xsd:string ;
+    ord:shortDescription "This is a reference application for the Open Resource Discovery standard"^^xsd:string ;
+    ord:title "Open Resource Discovery Reference Application"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "0.3.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/agent/disputeAgent/v1> a ord:Agent ;
+    ord:changelogEntry [ a ord:ChangelogEntry ;
+            ord:date "2024-04-29"^^xsd:date ;
+            ord:description """## Changelog
+
+Initial release of the Dispute Resolution Agent with core capabilities."""^^xsd:string ;
+            ord:releaseStatus ord:ReleaseStatus-active ;
+            ord:version "1.0.3"^^xsd:string ] ;
+    ord:deprecationDate "2025-12-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:description """A longer description of this Agent with **markdown** 
+## headers
+ etc..."""^^xsd:string ;
+    ord:industry ord:Finance ;
+    ord:integrationDependency "sap.foo:integrationDependency:DisputeCaseManagement:v1"^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:lineOfBusiness ord:Finance ;
+    ord:link [ a ord:Link ;
+            ord:description "Comprehensive documentation for the Dispute Resolution Agent"^^xsd:string ;
+            ord:title "Agent Documentation"^^xsd:string ;
+            ord:url "https://help.sap.com/some/agent-documentation"^^xsd:anyURI ] ;
+    ord:minSystemVersion "1.0.0"^^xsd:string ;
+    ord:ordId "sap.foo:agent:disputeAgent:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:relatedEntityType <https://open-resource-discovery.org/instance/sap.foo/entityType/DisputeCase/v1>,
+        <https://open-resource-discovery.org/instance/sap.foo/entityType/DisputeResolution/v1>,
+        <https://open-resource-discovery.org/instance/sap.odm/entityType/Dispute/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:responsible "sap:ach:FIN-DR-AG"^^xsd:string ;
+    ord:shortDescription "AI agent specialized in financial dispute case resolution"^^xsd:string ;
+    ord:sunsetDate "2027-12-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:title "Dispute Resolution Agent"^^xsd:string ;
+    ord:version "1.0.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/DisputeResolutionAgent/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-a2a ;
+    ord:description """A longer description of this Agent with **markdown** 
+## headers
+ etc..."""^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:apiResource:DisputeResolutionAgent:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.joule/consumptionBundle/mTLS/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </definitions/DisputeResolutionAgentcard.json> ;
+    ord:shortDescription "This is an Agent short description..."^^xsd:string ;
+    ord:title "Dispute Resolution Agent"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "https://help.sap.com/some/agent-documentation"^^xsd:anyURI ] ;
+    ord:version "1.0.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/astronomy/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-rest ;
+    ord:baseUrl "/astronomy/v1"^^xsd:string ;
+    ord:description """A longer description of this API with **markdown** 
+## headers
+ etc..."""^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:minSystemVersion "2024.4.0"^^xsd:string ;
+    ord:ordId "sap.foo:apiResource:astronomy:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/noAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </ord/metadata/astronomy-v1.oas3.json>,
+        </ord/overlays/astronomy-api-ai-enrichment.overlay.json>,
+        </ord/overlays/astronomy-api-governance.overlay.json> ;
+    ord:shortDescription "The API allows you to discover..."^^xsd:string ;
+    ord:title "Astronomy API"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "/swagger-ui.html?urls.primaryName=Astronomy%20V1%20API"^^xsd:anyURI ] ;
+    ord:version "1.0.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/someApeAPI/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-websocket ;
+    ord:description "Some long description"^^xsd:string ;
+    ord:direction "mixed"^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:ape-api:v1"^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:apiResource:someApeAPI:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/basicAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "..."^^xsd:string ;
+    ord:title "Some APE API"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-internal .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/someCdiAPI/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-odataV4 ;
+    ord:baseUrl "/some/ape/api/url/v1"^^xsd:string ;
+    ord:description "Some long description"^^xsd:string ;
+    ord:direction "inbound"^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:cdi-api:v1"^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:apiResource:someCdiAPI:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/basicAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </path/to/metadata.edmx>,
+        </path/to/metadata.json> ;
+    ord:shortDescription "..."^^xsd:string ;
+    ord:title "Some APE API"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-internal .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/someRfcAPI/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-sapRfc ;
+    ord:baseUrl "/some/rfc/api/url/v1"^^xsd:string ;
+    ord:description "Some long description"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:apiResource:someRfcAPI:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/basicAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </some/url/to/metadata.xml> ;
+    ord:shortDescription "..."^^xsd:string ;
+    ord:title "Some RFC API"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-internal .
+
+<https://open-resource-discovery.org/instance/sap.foo/entityType/Constellation/v1> a ord:OrdEntityType ;
+    ord:description "A constellation is a group of stars that forms a recognizable pattern in the night sky. The pattern is usually named after a mythological figure, animal, or object."^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:level "aggregate"^^xsd:string ;
+    ord:localId "Constellation"^^xsd:string ;
+    ord:ordId "sap.foo:entityType:Constellation:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "A group of stars forming a recognizable pattern"^^xsd:string ;
+    ord:title "Constellation"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/entityType/ExampleDomainObject/v1> a ord:OrdEntityType ;
+    ord:description "This is an example domain object used to demonstrate the capabilities of the Open Resource Discovery standard. It is not meant to represent any real-world entity."^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:level "aggregate"^^xsd:string ;
+    ord:localId "ExampleDomainObject"^^xsd:string ;
+    ord:ordId "sap.foo:entityType:ExampleDomainObject:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "An example domain object for demonstration purposes"^^xsd:string ;
+    ord:title "Example Domain Object"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/eventResource/BillingDocumentEvents/v1> a ord:EventResource ;
+    ord:description """Billing document is an umbrella term for invoices, credit memos, debit memos, pro forma invoices, and their respective cancellation documents. The following events are available for billing document:
+      Billing document canceled
+      Billing document changed
+      Billing Document created"""^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:eventResource:BillingDocumentEvents:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/SomePackage/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/eventCatalog.json> ;
+    ord:shortDescription "Informs a remote system about created, changed, and canceled billing documents"^^xsd:string ;
+    ord:title "Billing Document Events"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/eventResource/ExampleEventResource/v1> a ord:EventResource ;
+    ord:description "Example long description"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.foo:eventResource:ExampleEventResource:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/SomePackage/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-beta ;
+    ord:resourceDefinition </some/path/asyncApi2.json> ;
+    ord:shortDescription "Simple Event Example"^^xsd:string ;
+    ord:title "Event Example"^^xsd:string ;
+    ord:version "1.2.1"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/groupTypeAbc/sap.foo/groupAssignmentValue> a ord:Group ;
+    ord:ordId "sap.foo:groupTypeAbc:sap.foo:groupAssignmentValue"^^xsd:string ;
+    ord:title "Title of group assignment / instance"^^xsd:string ;
+    ord:type <https://open-resource-discovery.org/instance/sap.foo/groupTypeAbc> .
+
+<https://open-resource-discovery.org/instance/sap.foo/integrationDependency/DisputeCaseManagement/v1> a ord:IntegrationDependency ;
+    ord:description "This integration dependency is required to access external dispute case management capabilities."^^xsd:string ;
+    ord:mandatory true ;
+    ord:ordId "sap.foo:integrationDependency:DisputeCaseManagement:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "Integration dependency for dispute case management system"^^xsd:string ;
+    ord:title "Dispute Case Management Integration"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/overlay/astronomy-api-ai-enrichment/v1> a ord:Overlay ;
+    ord:ordId "sap.foo:overlay:astronomy-api-ai-enrichment:v1"^^xsd:string ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:title "Astronomy API AI Enrichment Overlay"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/overlay/astronomy-api-governance/v1> a ord:Overlay ;
+    ord:ordId "sap.foo:overlay:astronomy-api-governance:v1"^^xsd:string ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:title "Astronomy API Governance Overlay"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-internal .
+
+<https://open-resource-discovery.org/instance/sap.foo/product/ord-reference-app/> a ord:Product ;
+    ord:ordId "sap.foo:product:ord-reference-app:"^^xsd:string ;
+    ord:shortDescription "Open Resource Discovery Reference Application"^^xsd:string ;
+    ord:title "ORD Reference App"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> .
+
+<https://open-resource-discovery.org/instance/sap.odm/entityType/BusinessPartner/v1> a ord:OrdEntityType ;
+    ord:description "A business partner is a person, an organization, or a group of persons or organizations in which a company has a business interest."^^xsd:string ;
+    ord:lastUpdate "2023-03-18T15:30:04+00:00"^^xsd:dateTime ;
+    ord:level "aggregate"^^xsd:string ;
+    ord:localId "BusinessPartner"^^xsd:string ;
+    ord:ordId "sap.odm:entityType:BusinessPartner:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.odm/package/OdmEntities/v1> ;
+    ord:relatedEntityType <https://open-resource-discovery.org/instance/sap.vdm.sot/entityType/BusinessPartner/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "Person, an organization, or a group of persons or organizations."^^xsd:string ;
+    ord:title "Business Partner"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.s4/integrationDependency/CustomerOrder/v1> a ord:IntegrationDependency ;
+    ord:description "This integration dependency describes all necessary aspects needed for the customer order data product to get data from external systems."^^xsd:string ;
+    ord:lastUpdate "2023-08-03T10:14:26.941000+00:00"^^xsd:dateTime ;
+    ord:mandatory true ;
+    ord:ordId "sap.s4:integrationDependency:CustomerOrder:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackage/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:title "Integration Dependency to realize Customer Order data product"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.s4/integrationDependency/subscriptionReplication/v2> a ord:IntegrationDependency ;
+    ord:description "Replication of Subscription Billing data into S/4. This integration dependency expresses that some events are needed together for the SAP Event Broker to provide the Subscription Content related feature."^^xsd:string ;
+    ord:lastUpdate "2023-08-03T10:14:26.941000+00:00"^^xsd:dateTime ;
+    ord:mandatory false ;
+    ord:ordId "sap.s4:integrationDependency:subscriptionReplication:v2"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackage/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:title "Subscription Billing Replication"^^xsd:string ;
+    ord:version "2.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/AbstractCustomerOrderDeltaSharing/v1> a ord:APIResource ;
+    ord:abstract true ;
+    ord:apiProtocol ord:ApiProtocol-deltaSharing ;
+    ord:description "Customer Order Delta Sharing API need to follow this contract..."^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:delta-sharing:v1"^^xsd:string ;
+    ord:localId "AbstractCustomerOrderDeltaSharing"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:AbstractCustomerOrderDeltaSharing:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/customer-order-csn.json> ;
+    ord:shortDescription "This is the contract to expose Customer Order data..."^^xsd:string ;
+    ord:title "Customer Order Data Contract"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/CSN_EXPOSURE/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-rest ;
+    ord:baseUrl "./CSN_EXPOSURE"^^xsd:string ;
+    ord:description "Internal CSN Exposure API"^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:csn-exposure:v1"^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.xref:apiResource:CSN_EXPOSURE:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/csn_exposure-oa3.json> ;
+    ord:shortDescription "Exposing CSN"^^xsd:string ;
+    ord:title "CSN EXPOSURE Endpoint"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-internal .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/RetailTransactionOData/v1> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-odataV2 ;
+    ord:baseUrl "sap://my.lob.data.platform.endpoint:30015"^^xsd:string ;
+    ord:description "Retail Transactions OData API"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:localId "RetailTransactionOData"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:RetailTransactionOData:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/customer-order-edmx.xml>,
+        </api/customer-order-openapi/oas3.json> ;
+    ord:shortDescription "Exposing Retail Transactions..."^^xsd:string ;
+    ord:title "Retail Transactions"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/RetailTransactionSQL/v2> a ord:APIResource ;
+    ord:apiProtocol ord:ApiProtocol-sap-sql-api-v1 ;
+    ord:baseUrl "sap://my.lob.data.platform.endpoint:30015"^^xsd:string ;
+    ord:description "Retail Transactions SQL API"^^xsd:string ;
+    ord:extensible true ;
+    ord:implementationStandard "sap:hana-cloud-sql:v1"^^xsd:string ;
+    ord:industry ord:ConsumerProducts,
+        ord:Retail ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:lineOfBusiness ord:Sales ;
+    ord:localId "RetailTransactionSQL"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:RetailTransactionSQL:v2"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/retail-transaction-sql-v1.json> ;
+    ord:shortDescription "Exposing Retail Transactions..."^^xsd:string ;
+    ord:supportedUseCases "data-federation"^^xsd:string ;
+    ord:title "Retail Transactions"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "/some/relative/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:LinkType-service-level-agreement ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:PackageLinkType-authentication ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ] ;
+    ord:version "2.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/dataProduct/AbstractCustomer/v1> a ord:DataProduct ;
+    ord:category "business-object"^^xsd:string ;
+    ord:description "The Customer data should be offered following the schema and descriptions of this abstract data product..."^^xsd:string ;
+    ord:lastUpdate "2020-12-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:localId "Customer"^^xsd:string ;
+    ord:ordId "sap.xref:dataProduct:AbstractCustomer:v1"^^xsd:string ;
+    ord:outputPort <https://open-resource-discovery.org/instance/sap.xref/apiResource/AbstractCustomer/v1> ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageDataProduct/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:responsible "sap:ach:CIC-DP-CO"^^xsd:string ;
+    ord:shortDescription "An abstract DP example"^^xsd:string ;
+    ord:title "Customer"^^xsd:string ;
+    ord:type "primary"^^xsd:string ;
+    ord:version "1.9.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/dataProduct/Customer/v1> a ord:DataProduct ;
+    ord:category "business-object"^^xsd:string ;
+    ord:deprecationDate "2020-12-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:description "The Customer data product offers access to all customers. And can be very long ........"^^xsd:string ;
+    ord:lastUpdate "2020-12-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:localId "Customer"^^xsd:string ;
+    ord:ordId "sap.xref:dataProduct:Customer:v1"^^xsd:string ;
+    ord:outputPort <https://open-resource-discovery.org/instance/sap.xref/apiResource/Customer/v1> ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageDataProduct/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-deprecated ;
+    ord:responsible "sap:ach:CIC-DP-CO"^^xsd:string ;
+    ord:shortDescription "A deprecated DP example"^^xsd:string ;
+    ord:sunsetDate "2022-01-08T15:47:04+00:00"^^xsd:dateTime ;
+    ord:title "Customer"^^xsd:string ;
+    ord:type "primary"^^xsd:string ;
+    ord:version "1.9.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/dataProduct/Customer/v2> a ord:DataProduct ;
+    ord:category "business-object"^^xsd:string ;
+    ord:description "The Customer data product offers access to all customers. And can be very long ........"^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:localId "Customer"^^xsd:string ;
+    ord:ordId "sap.xref:dataProduct:Customer:v2"^^xsd:string ;
+    ord:outputPort <https://open-resource-discovery.org/instance/sap.xref/apiResource/Customer/v1> ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageDataProduct/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:responsible "sap:ach:CIC-DP-CO"^^xsd:string ;
+    ord:shortDescription "A minimal DP example"^^xsd:string ;
+    ord:title "Customer"^^xsd:string ;
+    ord:type "primary"^^xsd:string ;
+    ord:version "2.1.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/dataProduct/CustomerOrder/v1> a ord:DataProduct ;
+    ord:category "business-object"^^xsd:string ;
+    ord:changelogEntry [ a ord:ChangelogEntry ;
+            ord:date "2020-04-29"^^xsd:date ;
+            ord:description """## Changelog
+..."""^^xsd:string ;
+            ord:releaseStatus ord:ReleaseStatus-active ;
+            ord:version "1.1.3"^^xsd:string ],
+        [ a ord:ChangelogEntry ;
+            ord:date "2022-04-29"^^xsd:date ;
+            ord:description """## Changelog
+..."""^^xsd:string ;
+            ord:releaseStatus ord:ReleaseStatus-active ;
+            ord:version "1.2.3"^^xsd:string ] ;
+    ord:description "The data product Customer Order offers access to all online and offline orders submitted by customers. It provides a customer view on the orders. For fulfillment-specific aspects please refer to the data product Fulfillment Order."^^xsd:string ;
+    ord:industry ord:ConsumerProducts,
+        ord:Retail ;
+    ord:inputPort <https://open-resource-discovery.org/instance/sap.xref/integrationDependency/CustomerOrder/v1> ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:lineOfBusiness ord:Sales ;
+    ord:link [ a ord:Link ;
+            ord:description """This gives you an overview how a customer is using the data product.
+"""^^xsd:string ;
+            ord:title "Greatest DP of all time"^^xsd:string ;
+            ord:url "https://blogs.sap.com/2018/04/11/testing-of-s4hana-inventory-management-odata-apis-via-sap-api-hub/"^^xsd:anyURI ] ;
+    ord:localId "CustomerOrder"^^xsd:string ;
+    ord:ordId "sap.xref:dataProduct:CustomerOrder:v1"^^xsd:string ;
+    ord:outputPort <https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderDeltaSharing/v1>,
+        <https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderHeaderSQLPort/v1>,
+        <https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderRest/v1>,
+        <https://open-resource-discovery.org/instance/sap.xref/eventResource/CustomerOrder/v1> ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageDataProduct/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:responsible "sap:ach:CIC-DP-CO"^^xsd:string ;
+    ord:shortDescription "The full example"^^xsd:string ;
+    ord:title "Customer Order"^^xsd:string ;
+    ord:type "derived"^^xsd:string ;
+    ord:url [ a ord:DataProductLink ;
+            ord:linkType ord:PackageLinkType-support ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:DataProductLink ;
+            ord:linkType ord:PackageLinkType-payment ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:DataProductLink ;
+            ord:linkType ord:LinkType-service-level-agreement ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:DataProductLink ;
+            ord:customType "sap:some-custom-definition-format-type:v1"^^xsd:string ;
+            ord:linkType ord:PackageLinkType-custom ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ] ;
+    ord:version "1.4.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/eventResource/RawCustomerOrder/v1> a ord:EventResource ;
+    ord:description "Some longer description understanding that this event is exposing raw Customer Order events"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.xref:eventResource:RawCustomerOrder:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageEvents/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </some/url/events/eventCatalog.json> ;
+    ord:shortDescription "Exposing raw events"^^xsd:string ;
+    ord:title "Raw Customer Order events"^^xsd:string ;
+    ord:version "1.3.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/eventResource/RawCustomerOrder/v2> a ord:EventResource ;
+    ord:description "Some longer description understanding that this event is exposing raw Customer Order events"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.xref:eventResource:RawCustomerOrder:v2"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageEvents/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </some/url/events/eventCatalog2.json> ;
+    ord:shortDescription "Exposing raw events"^^xsd:string ;
+    ord:title "Raw Customer Order events"^^xsd:string ;
+    ord:version "2.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap/product/SampleProduct/> a ord:Product ;
+    ord:ordId "sap:product:SampleProduct:"^^xsd:string ;
+    ord:shortDescription "The next generation digital core designed to help you run simple in a digital economy."^^xsd:string ;
+    ord:title "Some Sample Product for Data Product Evaluation in Business Accelerator Hub"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> .
+
+<urn:ord:document:4447442640> a ord:Document ;
+    ord:describedSystemInstance [ a ord:SystemInstance ;
+            ord:baseUrl "https://tenant1.example-sap-system.com"^^xsd:anyURI ] ;
+    ord:describedSystemType [ a ord:SystemType ;
+            ord:systemNamespace "sap.foo"^^xsd:string ] ;
+    ord:describedSystemVersion [ a ord:SystemVersion ;
+            ord:version "1.0.0"^^xsd:string ] ;
+    ord:description "Combined ORD example document — all resource types from example_ord_agent.json, example_ord_data_products.json, example_ord_document.json, example_ord_entity_types.json, example_ord_integration_dependency.json, example_ord_overlays.json, example_ord_special_protocol.json"^^xsd:string ;
+    ord:openResourceDiscovery "1.16"^^xsd:string ;
+    ord:perspective "system-version"^^xsd:string .
+
+</api/csn_exposure-oa3.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-openapiV3 ;
+    ord:url "/api/csn_exposure-oa3.json"^^xsd:anyURI .
+
+</api/customer-order-edmx.xml> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/xml"^^xsd:string ;
+    ord:type ord:ApiDefType-edmx ;
+    ord:url "/api/customer-order-edmx.xml"^^xsd:anyURI .
+
+</api/customer-order-oas3.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-openapiV3 ;
+    ord:url "/api/customer-order-oas3.json"^^xsd:anyURI .
+
+</api/customer-order-openapi/oas3.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-openapiV3 ;
+    ord:url "/api/customer-order-openapi/oas3.json"^^xsd:anyURI .
+
+</api/customer-order-sql-v1.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-sap-sql-api-definition-v1 ;
+    ord:url "/api/customer-order-sql-v1.json"^^xsd:anyURI .
+
+</api/eventCatalog.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-asyncapi-v2 ;
+    ord:url "/api/eventCatalog.json"^^xsd:anyURI .
+
+</api/retail-transaction-sql-v1.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-sap-sql-api-definition-v1 ;
+    ord:url "/api/retail-transaction-sql-v1.json"^^xsd:anyURI .
+
+</definitions/DisputeResolutionAgentcard.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-a2aAgentCard ;
+    ord:url "/definitions/DisputeResolutionAgentcard.json"^^xsd:anyURI .
+
+</ord/metadata/astronomy-v1.oas3.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-openapiV3 ;
+    ord:url "/ord/metadata/astronomy-v1.oas3.json"^^xsd:anyURI .
+
+</ord/overlays/astronomy-api-ai-enrichment.overlay.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:purpose "ord:ai-enrichment"^^xsd:string ;
+    ord:type ord:ApiDefType-overlayV1 ;
+    ord:url "/ord/overlays/astronomy-api-ai-enrichment.overlay.json"^^xsd:anyURI .
+
+</ord/overlays/astronomy-api-governance.overlay.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:purpose "foo.bar:governance"^^xsd:string ;
+    ord:type ord:ApiDefType-overlayV1 ;
+    ord:url "/ord/overlays/astronomy-api-governance.overlay.json"^^xsd:anyURI .
+
+</path/to/metadata.edmx> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/xml"^^xsd:string ;
+    ord:type ord:ApiDefType-edmx ;
+    ord:url "/path/to/metadata.edmx"^^xsd:anyURI .
+
+</path/to/metadata.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-openapiV3 ;
+    ord:url "/path/to/metadata.json"^^xsd:anyURI .
+
+</some/path/asyncApi2.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-asyncapi-v2 ;
+    ord:url "/some/path/asyncApi2.json"^^xsd:anyURI .
+
+</some/url/events/eventCatalog.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-asyncapi-v2 ;
+    ord:url "/some/url/events/eventCatalog.json"^^xsd:anyURI .
+
+</some/url/to/metadata.xml> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/xml"^^xsd:string ;
+    ord:type ord:ApiDefType-sap-rfc-metadata-v1 ;
+    ord:url "/some/url/to/metadata.xml"^^xsd:anyURI .
+
+<https://open-resource-discovery.org/instance/sap.foo/apiResource/astronomy/v0> a ord:Tombstone ;
+    ord:ordId "sap.foo:apiResource:astronomy:v0"^^xsd:string ;
+    ord:removedDate "2020-12-02T14:12:59+00:00"^^xsd:dateTime ;
+    ord:removedResource <https://open-resource-discovery.org/instance/sap.foo/apiResource/astronomy/v0> .
+
+<https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/noAuth/v1> a ord:ConsumptionBundle ;
+    ord:description "This Consumption Bundle contains all resources of the reference app which are unprotected and do not require authentication"^^xsd:string ;
+    ord:ordId "sap.foo:consumptionBundle:noAuth:v1"^^xsd:string ;
+    ord:shortDescription "Bundle of unprotected resources"^^xsd:string ;
+    ord:title "Unprotected resources"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/entityType/DisputeCase/v1> a ord:RelatedEntityType ;
+    ord:ordId "sap.foo:entityType:DisputeCase:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/entityType/DisputeResolution/v1> a ord:RelatedEntityType ;
+    ord:ordId "sap.foo:entityType:DisputeResolution:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/entityType/Star/v1> a ord:OrdEntityType,
+        ord:RelatedEntityType ;
+    ord:description "A star is a shiny thing..."^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:level "sub-entity"^^xsd:string ;
+    ord:localId "Star"^^xsd:string ;
+    ord:ordId "sap.foo:entityType:Star:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> ;
+    ord:relatedEntityType <https://open-resource-discovery.org/instance/sap.foo/entityType/Star/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "A star is a bright object on the night sky"^^xsd:string ;
+    ord:title "Star"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.foo/groupTypeAbc> a ord:GroupType ;
+    ord:ordId "sap.foo:groupTypeAbc"^^xsd:string ;
+    ord:title "Title of group type"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.odm/entityType/Dispute/v1> a ord:RelatedEntityType ;
+    ord:ordId "sap.odm:entityType:Dispute:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.odm/package/OdmEntities/v1> a ord:Package ;
+    ord:description "The ODM Entities are governed by the ODM Governance Board. They are semantically cross-LoB aligned and provide an unambiguous taxonomy"^^xsd:string ;
+    ord:ordId "sap.odm:package:OdmEntities:v1"^^xsd:string ;
+    ord:shortDescription "This package includes all aligned ODM Entities"^^xsd:string ;
+    ord:title "ODM Entities"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.vdm.sot/entityType/BusinessPartner/v1> a ord:RelatedEntityType ;
+    ord:ordId "sap.vdm.sot:entityType:BusinessPartner:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/AbstractCustomer/v1> a ord:DataProductOutputPort ;
+    ord:ordId "sap.xref:apiResource:AbstractCustomer:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderDeltaSharing/v1> a ord:APIResource,
+        ord:DataProductOutputPort ;
+    ord:apiProtocol ord:ApiProtocol-deltaSharing ;
+    ord:baseUrl "sap://my.lob.data.platform.endpoint:30015"^^xsd:string ;
+    ord:description "Customer Order Delta Sharing API ..."^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:delta-sharing:v1"^^xsd:string ;
+    ord:industry ord:ConsumerProducts,
+        ord:Retail ;
+    ord:lineOfBusiness ord:Sales ;
+    ord:localId "CustomerOrderDeltaSharing"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:CustomerOrderDeltaSharing:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/customer-order-csn.json> ;
+    ord:shortDescription "Exposing Customer Order..."^^xsd:string ;
+    ord:supportedUseCases "streaming"^^xsd:string ;
+    ord:title "Customer Order"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:PackageLinkType-authentication ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "/some/relative/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:LinkType-service-level-agreement ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ] ;
+    ord:version "1.3.4"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderHeaderSQLPort/v1> a ord:APIResource,
+        ord:DataProductOutputPort ;
+    ord:apiProtocol ord:ApiProtocol-sap-sql-api-v1 ;
+    ord:baseUrl "sap://my.lob.data.platform.endpoint:30015"^^xsd:string ;
+    ord:description "Customer Order SQL API ..."^^xsd:string ;
+    ord:extensible false ;
+    ord:implementationStandard "sap:hana-cloud-sql:v1"^^xsd:string ;
+    ord:industry ord:ConsumerProducts,
+        ord:Retail ;
+    ord:lineOfBusiness ord:Sales ;
+    ord:localId "CustomerOrderHeaderSQLPort"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:CustomerOrderHeaderSQLPort:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/customer-order-sql-v1.json> ;
+    ord:shortDescription "Exposing Customer Order..."^^xsd:string ;
+    ord:supportedUseCases "data-federation"^^xsd:string ;
+    ord:title "Customer Order"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:PackageLinkType-authentication ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:LinkType-service-level-agreement ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "/some/relative/url"^^xsd:anyURI ] ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/CustomerOrderRest/v1> a ord:APIResource,
+        ord:DataProductOutputPort ;
+    ord:apiProtocol ord:ApiProtocol-rest ;
+    ord:baseUrl "sap://my.lob.data.platform.endpoint:30015"^^xsd:string ;
+    ord:description "Customer Order Rest API ..."^^xsd:string ;
+    ord:extensible false ;
+    ord:industry ord:ConsumerProducts,
+        ord:Retail ;
+    ord:lineOfBusiness ord:Sales ;
+    ord:localId "CustomerOrderRest"^^xsd:string ;
+    ord:ordId "sap.xref:apiResource:CustomerOrderRest:v1"^^xsd:string ;
+    ord:partOfConsumptionBundle [ a ord:ConsumptionBundleReference ;
+            ord:consumptionBundle <https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> ] ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </api/customer-order-oas3.json> ;
+    ord:shortDescription "Exposing Customer Order..."^^xsd:string ;
+    ord:supportedUseCases "snapshot"^^xsd:string ;
+    ord:title "Customer Order"^^xsd:string ;
+    ord:url [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:ApiEventLinkType-apiDocumentation ;
+            ord:url "/some/relative/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:LinkType-service-level-agreement ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ],
+        [ a ord:ApiEventResourceLink ;
+            ord:linkType ord:PackageLinkType-authentication ;
+            ord:url "https://example.com/some/absolute/url"^^xsd:anyURI ] ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/eventResource/CustomerOrder/v1> a ord:DataProductOutputPort,
+        ord:EventResource ;
+    ord:description "Some longer description understanding that this event is exposing Customer Order events"^^xsd:string ;
+    ord:extensible false ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:ordId "sap.xref:eventResource:CustomerOrder:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageEvents/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:resourceDefinition </some/url/events/eventCatalog2.json> ;
+    ord:shortDescription "Exposing events"^^xsd:string ;
+    ord:title "Aggregated Customer Order events"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/integrationDependency/CustomerOrder/v1> a ord:DataProductInputPort,
+        ord:IntegrationDependency ;
+    ord:description "This integration dependency describes all the necessary aspects needed for the custom order data product to get data from. ..."^^xsd:string ;
+    ord:lastUpdate "2022-12-19T15:47:04+00:00"^^xsd:dateTime ;
+    ord:localId "CustomerOrder"^^xsd:string ;
+    ord:mandatory true ;
+    ord:ordId "sap.xref:integrationDependency:CustomerOrder:v1"^^xsd:string ;
+    ord:partOfPackage <https://open-resource-discovery.org/instance/sap.xref/package/SomePackageIntegrationDependencies/v1> ;
+    ord:releaseStatus ord:ReleaseStatus-active ;
+    ord:shortDescription "Integration dependency to realize customer order data product"^^xsd:string ;
+    ord:title "Customer Order Integration Needs"^^xsd:string ;
+    ord:version "1.2.3"^^xsd:string ;
+    ord:visibility ord:Visibility-public .
+
+<https://open-resource-discovery.org/instance/sap.xref/package/SomePackageIntegrationDependencies/v1> a ord:Package ;
+    ord:description "..."^^xsd:string ;
+    ord:ordId "sap.xref:package:SomePackageIntegrationDependencies:v1"^^xsd:string ;
+    ord:shortDescription "Sample Package for Data Product Evaluation in Business Accelerator Hub"^^xsd:string ;
+    ord:title "Sample Package Integration Dependencies"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+</api/customer-order-csn.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-sap-csn-interop-effective-v1 ;
+    ord:url "/api/customer-order-csn.json"^^xsd:anyURI .
+
+</some/url/events/eventCatalog2.json> a ord:ORDResourceDefinition ;
+    ord:mediaType "application/json"^^xsd:string ;
+    ord:type ord:ApiDefType-asyncapi-v2 ;
+    ord:url "/some/url/events/eventCatalog2.json"^^xsd:anyURI .
+
+<https://open-resource-discovery.org/instance/sap.xref/apiResource/Customer/v1> a ord:DataProductOutputPort ;
+    ord:ordId "sap.xref:apiResource:Customer:v1"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/package/SomePackage/v1> a ord:Package ;
+    ord:description "This package contains integration dependency resources demonstrating subscription replication and customer order data product patterns."^^xsd:string ;
+    ord:ordId "sap.xref:package:SomePackage:v1"^^xsd:string ;
+    ord:shortDescription "Sample Package for Integration Dependency examples"^^xsd:string ;
+    ord:title "Sample Package"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/basicAuth/v1> a ord:ConsumptionBundle ;
+    ord:credentialExchangeStrategy [ a ord:CredentialExchangeStrategy ;
+            ord:customType "sap.foo:basicAuthCredentialExchange:v1"^^xsd:string ;
+            ord:type "custom"^^xsd:string ] ;
+    ord:description "This Consumption Bundle contains all resources of the reference app which share the same BasicAuth access and identity realm"^^xsd:string ;
+    ord:ordId "sap.foo:consumptionBundle:basicAuth:v1"^^xsd:string ;
+    ord:shortDescription "Bundle of protected resources"^^xsd:string ;
+    ord:title "BasicAuth protected resources"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/package/SomePackageEvents/v1> a ord:Package ;
+    ord:description "..."^^xsd:string ;
+    ord:ordId "sap.xref:package:SomePackageEvents:v1"^^xsd:string ;
+    ord:shortDescription "Sample Package for Data Product Evaluation in Business Accelerator Hub"^^xsd:string ;
+    ord:title "Sample Package Events"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/package/SomePackageDataProduct/v1> a ord:Package ;
+    ord:description "..."^^xsd:string ;
+    ord:ordId "sap.xref:package:SomePackageDataProduct:v1"^^xsd:string ;
+    ord:shortDescription "Sample Package for Data Product Evaluation in Business Accelerator Hub"^^xsd:string ;
+    ord:title "Sample Package DP"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/consumptionBundle/someAuth/v1> a ord:ConsumptionBundle ;
+    ord:description "This Consumption Bundle contains all resources that share the same authentication method and access scope"^^xsd:string ;
+    ord:ordId "sap.foo:consumptionBundle:someAuth:v1"^^xsd:string ;
+    ord:shortDescription "Bundle of resources that..."^^xsd:string ;
+    ord:title "Protected with some auth"^^xsd:string ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.xref/package/SomePackageAPIs/v1> a ord:Package ;
+    ord:description "..."^^xsd:string ;
+    ord:ordId "sap.xref:package:SomePackageAPIs:v1"^^xsd:string ;
+    ord:shortDescription "Sample Package for Data Product Evaluation in Business Accelerator Hub"^^xsd:string ;
+    ord:title "Sample Package APIs"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+
+<https://open-resource-discovery.org/instance/sap.foo/package/ord-reference-app/v1> a ord:Package ;
+    ord:description "This package contains all resources related to the ORD reference application including agents and APIs."^^xsd:string ;
+    ord:ordId "sap.foo:package:ord-reference-app:v1"^^xsd:string ;
+    ord:shortDescription "Package containing reference application resources"^^xsd:string ;
+    ord:title "ORD Reference Application Package"^^xsd:string ;
+    ord:vendor <https://open-resource-discovery.org/instance/sap/vendor/SAP/> ;
+    ord:version "1.0.0"^^xsd:string .
+

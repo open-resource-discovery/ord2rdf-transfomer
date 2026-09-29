@@ -1,0 +1,19 @@
+name: PreBuild
+description: Piper pre-builds steps (run unit tests)
+runs:
+  using: composite
+  steps:
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        version: '0.12.2'
+        python-version: '3.12'
+        enable-cache: true
+
+    - name: Install dependencies
+      shell: bash
+      run: uv sync # test dependencies should be included by default
+
+    - name: Run unit tests
+      shell: bash
+      run: uv run pytest tests --cov --cov-report xml:junit/cobertura-coverage.xml
