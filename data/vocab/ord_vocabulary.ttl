@@ -1,7 +1,7 @@
 # =============================================================================
 # ORD Vocabulary — Open Resource Discovery
 #
-# Namespace: https://open-resource-discovery.org/vocab/v1#
+# Namespace: https://open-resource-discovery.org/vocab#
 # Prefix: ord
 #
 # Standards used:
@@ -15,7 +15,7 @@
 @prefix dcat:     <http://www.w3.org/ns/dcat#> .
 @prefix foaf:     <http://xmlns.com/foaf/0.1/> .
 @prefix dcterms:  <http://purl.org/dc/terms/> .
-@prefix ord:      <https://open-resource-discovery.org/vocab/v1#> .
+@prefix ord:      <https://open-resource-discovery.org/vocab#> .
 @prefix ordspec:  <https://open-resource-discovery.org/spec-v1/> .
 
 # =============================================================================
@@ -565,6 +565,41 @@ ord:Tombstone
     rdfs:comment "A tombstone indicates that a previously published ORD resource or taxonomy entity has been removed or decommissioned."@en ;
     rdfs:isDefinedBy ord: .
 
+ord:RelatedApiResource
+    a rdfs:Class ;
+    rdfs:subClassOf ord:APIResource ;
+    rdfs:label "Related API Resource"@en ;
+    rdfs:comment "Typed reference to a related API resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:RelatedEventResource
+    a rdfs:Class ;
+    rdfs:subClassOf ord:EventResource ;
+    rdfs:label "Related Event Resource"@en ;
+    rdfs:comment "Typed reference to a related Event resource."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:RelatedCapability
+    a rdfs:Class ;
+    rdfs:subClassOf ord:Capability ;
+    rdfs:label "Related Capability"@en ;
+    rdfs:comment "Typed reference to a related Capability."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataProductInputPort
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "Data Product Input Port"@en ;
+    rdfs:comment "Port through which a Data Product retrieves its input data (references an IntegrationDependency)."@en ;
+    rdfs:isDefinedBy ord: .
+
+ord:DataProductOutputPort
+    a rdfs:Class ;
+    rdfs:subClassOf ord:ORDEntity ;
+    rdfs:label "Data Product Output Port"@en ;
+    rdfs:comment "Port through which a Data Product exposes its output data (references an API or Event resource)."@en ;
+    rdfs:isDefinedBy ord: .
+
 # =============================================================================
 # Link Type Classes
 # =============================================================================
@@ -849,6 +884,62 @@ ord:extensible
     rdfs:range xsd:boolean ;
     rdfs:isDefinedBy ord: .
 
+ord:openResourceDiscovery
+    a rdf:Property ;
+    rdfs:label "Open Resource Discovery Version"@en ;
+    rdfs:comment "ORD specification version implemented by this document, e.g. '1.9'."@en ;
+    rdfs:domain ord:Document ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:perspective
+    a rdf:Property ;
+    rdfs:label "Perspective"@en ;
+    rdfs:comment "Perspective or context from which this ORD document is published."@en ;
+    rdfs:domain ord:Document ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:describedSystemType
+    a rdf:Property ;
+    rdfs:label "Described System Type"@en ;
+    rdfs:comment "System type that this ORD document describes."@en ;
+    rdfs:domain ord:Document ;
+    rdfs:range ord:SystemType ;
+    rdfs:isDefinedBy ord: .
+
+ord:describedSystemVersion
+    a rdf:Property ;
+    rdfs:label "Described System Version"@en ;
+    rdfs:comment "System version that this ORD document describes."@en ;
+    rdfs:domain ord:Document ;
+    rdfs:range ord:SystemVersion ;
+    rdfs:isDefinedBy ord: .
+
+ord:licenseType
+    a rdf:Property ;
+    rdfs:label "License Type"@en ;
+    rdfs:comment "SPDX license identifier or license type for resources in this package."@en ;
+    rdfs:domain ord:Package ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:runtimeRestriction
+    a rdf:Property ;
+    rdfs:label "Runtime Restriction"@en ;
+    rdfs:comment "Runtime environment restriction that applies to this package."@en ;
+    rdfs:domain ord:Package ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:supportInfo
+    a rdf:Property ;
+    rdfs:label "Support Info"@en ;
+    rdfs:comment "Human-readable support information or URL for this package."@en ;
+    rdfs:domain ord:Package ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
 # =============================================================================
 # Relationship Properties
 # =============================================================================
@@ -956,6 +1047,22 @@ ord:removedResource
     rdfs:comment "Resource or taxonomy entity removed by a tombstone."@en ;
     rdfs:domain ord:Tombstone ;
     rdfs:range rdfs:Resource ;
+    rdfs:isDefinedBy ord: .
+
+ord:parent
+    a rdf:Property ;
+    rdfs:label "Parent"@en ;
+    rdfs:comment "ORD ID of the parent product in a product hierarchy."@en ;
+    rdfs:domain ord:Product ;
+    rdfs:range ord:Product ;
+    rdfs:isDefinedBy ord: .
+
+ord:customType
+    a rdf:Property ;
+    rdfs:label "Custom Type"@en ;
+    rdfs:comment "Custom type identifier used when the link or credential-exchange type is 'custom'."@en ;
+    rdfs:domain ord:Concept ;
+    rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
 # =============================================================================
@@ -1116,6 +1223,14 @@ ord:jsonPointer
     rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
+ord:level
+    a rdf:Property ;
+    rdfs:label "Level"@en ;
+    rdfs:comment "Hierarchy level of the entity type (e.g. 'root', 'child')."@en ;
+    rdfs:domain ord:OrdEntityType ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
 # =============================================================================
 # Label, Documentation, and Changelog Properties
 # =============================================================================
@@ -1161,6 +1276,30 @@ ord:changelogEntry
     ord:introducedInVersion "1.0" ;
     rdfs:isDefinedBy ord: .
 
+ord:relatedApiResources
+    a rdf:Property ;
+    rdfs:label "Related API Resources"@en ;
+    rdfs:comment "Typed ORD ID references to related API resources."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:RelatedApiResource ;
+    rdfs:isDefinedBy ord: .
+
+ord:relatedCapabilities
+    a rdf:Property ;
+    rdfs:label "Related Capabilities"@en ;
+    rdfs:comment "Typed ORD ID references to related capabilities."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range ord:RelatedCapability ;
+    rdfs:isDefinedBy ord: .
+
+ord:responsible
+    a rdf:Property ;
+    rdfs:label "Responsible"@en ;
+    rdfs:comment "Person, team, or organizational unit responsible for this resource."@en ;
+    rdfs:domain ord:ORDEntity ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
 # =============================================================================
 # System Context Properties
 # =============================================================================
@@ -1192,6 +1331,14 @@ ord:minSystemVersion
     rdfs:label "Minimum System Version"@en ;
     rdfs:comment "Minimum system version from which a resource is available."@en ;
     rdfs:domain ord:ORDResource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:systemNamespace
+    a rdf:Property ;
+    rdfs:label "System Namespace"@en ;
+    rdfs:comment "Reverse-DNS namespace that identifies the system type (e.g. 'sap.s4')."@en ;
+    rdfs:domain ord:SystemType ;
     rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
@@ -1255,6 +1402,46 @@ ord:credentialExchangeStrategy
     rdfs:range ord:CredentialExchangeStrategy ;
     rdfs:isDefinedBy ord: .
 
+ord:category
+    a rdf:Property ;
+    rdfs:label "Category"@en ;
+    rdfs:comment "Category of the data product (e.g. 'base', 'derived')."@en ;
+    rdfs:domain ord:DataProduct ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:lifecycleStatus
+    a rdf:Property ;
+    rdfs:label "Lifecycle Status"@en ;
+    rdfs:comment "Current lifecycle status of the data product."@en ;
+    rdfs:domain ord:DataProduct ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:mandatory
+    a rdf:Property ;
+    rdfs:label "Mandatory"@en ;
+    rdfs:comment "Indicates whether this integration dependency is mandatory."@en ;
+    rdfs:domain ord:IntegrationDependency ;
+    rdfs:range xsd:boolean ;
+    rdfs:isDefinedBy ord: .
+
+ord:relatedIntegrationDependency
+    a rdf:Property ;
+    rdfs:label "Related Integration Dependency"@en ;
+    rdfs:comment "ORD ID of a related integration dependency."@en ;
+    rdfs:domain ord:IntegrationDependency ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:integrationDependency
+    a rdf:Property ;
+    rdfs:label "Integration Dependency"@en ;
+    rdfs:comment "ORD ID of an integration dependency associated with this agent."@en ;
+    rdfs:domain ord:Agent ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
 # =============================================================================
 # API / Resource Implementation Properties
 # =============================================================================
@@ -1290,6 +1477,63 @@ ord:usage
     rdfs:comment "Usage classification of a resource."@en ;
     rdfs:domain ord:ORDResource ;
     rdfs:range skos:Concept ;
+    rdfs:isDefinedBy ord: .
+
+ord:deprecationDate
+    a rdf:Property ;
+    rdfs:label "Deprecation Date"@en ;
+    rdfs:comment "ISO 8601 date-time after which this resource is considered deprecated."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range xsd:dateTime ;
+    rdfs:isDefinedBy ord: .
+
+
+ord:partOfConsumptionBundle
+    a rdf:Property ;
+    rdfs:label "Part of Consumption Bundle"@en ;
+    rdfs:comment "Consumption bundle reference that this resource is part of."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:ConsumptionBundleReference ;
+    rdfs:isDefinedBy ord: .
+
+ord:defaultConsumptionBundle
+    a rdf:Property ;
+    rdfs:label "Default Consumption Bundle"@en ;
+    rdfs:comment "ORD ID of the default consumption bundle for this resource."@en ;
+    rdfs:domain ord:ORDResource ;
+    rdfs:range ord:ConsumptionBundle ;
+    rdfs:isDefinedBy ord: .
+
+ord:direction
+    a rdf:Property ;
+    rdfs:label "Direction"@en ;
+    rdfs:comment "Data-flow direction of the API resource: inbound, outbound, or mixed."@en ;
+    rdfs:domain ord:APIResource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:customImplementationStandard
+    a rdf:Property ;
+    rdfs:label "Custom Implementation Standard"@en ;
+    rdfs:comment "Custom implementation standard identifier used when implementationStandard is 'custom'."@en ;
+    rdfs:domain ord:APIResource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:customImplementationStandardDescription
+    a rdf:Property ;
+    rdfs:label "Custom Implementation Standard Description"@en ;
+    rdfs:comment "Human-readable description of the custom implementation standard."@en ;
+    rdfs:domain ord:APIResource ;
+    rdfs:range xsd:string ;
+    rdfs:isDefinedBy ord: .
+
+ord:supportedUseCases
+    a rdf:Property ;
+    rdfs:label "Supported Use Cases"@en ;
+    rdfs:comment "Supported use-case identifiers for this API resource."@en ;
+    rdfs:domain ord:APIResource ;
+    rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
 # =============================================================================
