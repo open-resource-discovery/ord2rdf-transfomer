@@ -19,7 +19,7 @@ Usage::
 
 Step 2 is skipped automatically when the shapes file already exists AND is
 newer than every model source file (``src/ord_transformer/models/**/*.py``)
-and the vocabulary file (``data/vocab/ord_open_vocab.ttl``).  Pass
+and the vocabulary file (``data/vocab/ord_vocabulary.ttl``).  Pass
 ``--force-shapes`` to override this check.
 """
 
@@ -41,7 +41,7 @@ from ord_transformer.validator import SHACLValidator
 OUTPUT = _project_root / "output"
 OUTPUT.mkdir(exist_ok=True)
 
-VOCAB_FILE      = _project_root / "data" / "vocab" / "ord_open_vocab.ttl"
+VOCAB_FILE      = _project_root / "data" / "vocab" / "ord_vocabulary.ttl"
 SHAPES_DIR      = _project_root / "data" / "shapes"
 SHAPES_PREBUILT = SHAPES_DIR / "ord_open_shapes.ttl"      # hand-authored, ships with the project
 SHAPES_GENERATED = SHAPES_DIR / "ord_shapes_generated.ttl"  # auto-generated from models + vocab

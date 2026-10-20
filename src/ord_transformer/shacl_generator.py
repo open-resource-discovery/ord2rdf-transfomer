@@ -5,7 +5,7 @@ Public API
 :func:`generate_combined_shapes`
     The single entry point for callers.  Merges model-derived shapes with
     vocabulary-derived shapes into one graph.  Pass *vocab_path* to include
-    shapes from ``ord_open_vocab.ttl``; omit it to get model shapes only.
+    shapes from ``ord_vocabulary.ttl``; omit it to get model shapes only.
 
 Internal helpers (not part of the public API)
 ---------------------------------------------
@@ -15,7 +15,7 @@ Internal helpers (not part of the public API)
     cardinality) and ``RdfanticFieldInfoMetaModel`` metadata.
 
 :func:`_generate_vocab_shapes`
-    Parses ``ord_open_vocab.ttl`` and converts ``rdfs:Class`` definitions
+    Parses ``ord_vocabulary.ttl`` and converts ``rdfs:Class`` definitions
     together with their ``rdfs:domain`` / ``rdfs:range`` property constraints
     directly into SHACL NodeShape + PropertyShape triples.
 """
@@ -114,7 +114,7 @@ def _generate_vocab_shapes(vocab_path: Path) -> Graph:
 
     Internal helper — use :func:`generate_combined_shapes` instead.
 
-    Reads ``ord_open_vocab.ttl``, iterates over every ``rdfs:Class`` in the
+    Reads ``ord_vocabulary.ttl``, iterates over every ``rdfs:Class`` in the
     ``ord:`` namespace, and creates:
 
     - One ``sh:NodeShape`` per class (``sh:targetClass``)
@@ -126,7 +126,7 @@ def _generate_vocab_shapes(vocab_path: Path) -> Graph:
     Parameters
     ----------
     vocab_path:
-        Filesystem path to ``ord_open_vocab.ttl``.
+        Filesystem path to ``ord_vocabulary.ttl``.
 
     Returns
     -------
@@ -273,7 +273,7 @@ def generate_combined_shapes(vocab_path: Optional[Path] = None) -> Graph:
     Parameters
     ----------
     vocab_path:
-        Optional path to ``ord_open_vocab.ttl``.  Pass ``None`` to skip
+        Optional path to ``ord_vocabulary.ttl``.  Pass ``None`` to skip
         vocabulary-based shape generation.
 
     Returns

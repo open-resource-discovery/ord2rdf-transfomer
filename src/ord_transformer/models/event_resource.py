@@ -9,7 +9,15 @@ from rdflib import XSD
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 
-from ..namespaces import ORD, ord_id_to_uri, release_status_uri, visibility_uri, industry_uri, lob_uri
+from ..namespaces import (
+    ORD,
+    implementation_standard_uri,
+    industry_uri,
+    lob_uri,
+    ord_id_to_uri,
+    release_status_uri,
+    visibility_uri,
+)
 from .base import ORDBaseModel
 from .supporting import (
     ApiEventResourceLink,
@@ -131,7 +139,7 @@ class EventResource(ORDBaseModel):
 
     implementation_standard: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.implementationStandard}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.implementationStandard}, uri_factory=implementation_standard_uri),
         Field(alias="implementationStandard", default=None),
     ]
 

@@ -1,9 +1,9 @@
 # =============================================================================
 # ORD Open Vocabulary SHACL Shapes
-# Namespace: https://open-resource-discovery.org/vocab/v1#
+# Namespace: https://open-resource-discovery.org/vocab#
 # =============================================================================
 
-@prefix ord:      <https://open-resource-discovery.org/vocab/v1#> .
+@prefix ord:      <https://open-resource-discovery.org/vocab#> .
 @prefix sh:       <http://www.w3.org/ns/shacl#> .
 @prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
@@ -394,6 +394,20 @@ ord:DefinitionTypePropertyShape
     sh:name "Type"@en ;
     sh:class skos:Concept ;
     sh:nodeKind sh:IRI ;
+    sh:in (
+        ord:ApiDefType-openapiV2
+        ord:ApiDefType-openapiV3
+        ord:ApiDefType-openapiV31
+        ord:ApiDefType-ramlV1
+        ord:ApiDefType-edmx
+        ord:ApiDefType-csdlJson
+        ord:ApiDefType-graphqlSdl
+        ord:ApiDefType-wsdlV1
+        ord:ApiDefType-wsdlV2
+        ord:ApiDefType-a2aAgentCard
+        ord:ApiDefType-overlayV1
+        ord:ApiDefType-custom
+    ) ;
     sh:severity sh:Violation .
 
 ord:RequiredDefinitionTypePropertyShape
@@ -404,6 +418,20 @@ ord:RequiredDefinitionTypePropertyShape
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
+    sh:in (
+        ord:ApiDefType-openapiV2
+        ord:ApiDefType-openapiV3
+        ord:ApiDefType-openapiV31
+        ord:ApiDefType-ramlV1
+        ord:ApiDefType-edmx
+        ord:ApiDefType-csdlJson
+        ord:ApiDefType-graphqlSdl
+        ord:ApiDefType-wsdlV1
+        ord:ApiDefType-wsdlV2
+        ord:ApiDefType-a2aAgentCard
+        ord:ApiDefType-overlayV1
+        ord:ApiDefType-custom
+    ) ;
     sh:severity sh:Violation .
 
 ord:LinkTypePropertyShape
@@ -415,6 +443,158 @@ ord:LinkTypePropertyShape
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:severity sh:Violation .
+
+ord:ImplementationStandardPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:implementationStandard ;
+    sh:name "Implementation Standard"@en ;
+    sh:description "Implementation standard must be a SKOS concept from ord:ImplementationStandardScheme or a compatible extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:PurposePropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:purpose ;
+    sh:name "Purpose"@en ;
+    sh:description "Definition purpose must be a SKOS concept from ord:DefinitionPurposeScheme or a compatible extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+ord:SupportedUseCasesPropertyShape
+    a sh:PropertyShape ;
+    sh:path ord:supportedUseCases ;
+    sh:name "Supported Use Cases"@en ;
+    sh:description "Supported use case must be a SKOS concept from ord:SupportedUseCasesScheme or a compatible extension scheme."@en ;
+    sh:class skos:Concept ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# SKOS Concept Scheme Membership Shapes
+# Warn when a concept value does not declare skos:inScheme.
+# =============================================================================
+
+ord:OrdReleaseStatusConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:releaseStatus ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Release status concepts should declare skos:inScheme, preferably ord:ReleaseStatusScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdVisibilityConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:visibility ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Visibility concepts should declare skos:inScheme, preferably ord:VisibilityScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdPolicyLevelConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:policyLevel ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Policy level concepts should declare skos:inScheme, preferably ord:PolicyLevelScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdUsageConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:usage ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Usage concepts should declare skos:inScheme, preferably ord:UsageScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdApiProtocolConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:apiProtocol ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "API protocol concepts should declare skos:inScheme, preferably ord:ApiProtocolScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdAccessStrategyConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:accessStrategy ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Access strategy concepts should declare skos:inScheme, preferably ord:AccessStrategyScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdLinkTypeConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:linkType ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Link type concepts should declare skos:inScheme, preferably ord:PackageLinkTypeScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdRelationTypeConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:relationType ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Relation type concepts should declare skos:inScheme, preferably ord:RelationTypeScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdDefinitionTypeConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:type ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Definition type concepts should declare skos:inScheme, preferably ord:ApiResourceDefinitionTypeScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdImplementationStandardConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:implementationStandard ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Implementation standard concepts should declare skos:inScheme, preferably ord:ImplementationStandardScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdPurposeConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:purpose ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Purpose concepts should declare skos:inScheme, preferably ord:DefinitionPurposeScheme or a compatible extension scheme."@en
+    ] .
+
+ord:OrdSupportedUseCasesConceptShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ord:supportedUseCases ;
+    sh:property [
+        sh:path skos:inScheme ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "Supported use case concepts should declare skos:inScheme, preferably ord:SupportedUseCasesScheme or a compatible extension scheme."@en
+    ] .
 
 # =============================================================================
 # Deprecated Property Shapes
@@ -823,7 +1003,7 @@ ord:SystemInstanceShape
 
 ord:ApiResourceShape
     a sh:NodeShape ;
-    sh:targetClass ord:APIResource ;
+    sh:targetClass ord:ApiResource ;
     sh:name "API Resource"@en ;
     sh:property ord:RequiredOrdIdPropertyShape ;
     sh:property ord:RequiredTitlePropertyShape ;

@@ -49,6 +49,7 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+pytest-of-*/
 cover/
 
 # Translations
@@ -210,3 +211,10 @@ __marimo__/
 .DS_Store
 **/.DS_Store
 Thumbs.db
+
+# Build / project tooling
+Makefile
+
+# Generated output files
+output/
+data/shapes/ord_shapes_generated.ttl

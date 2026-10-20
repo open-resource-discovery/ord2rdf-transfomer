@@ -15,7 +15,16 @@ from rdflib import BNode, URIRef, XSD
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 from rdfantic.context import ShaclMaterializationContext
 
-from ..namespaces import ORD, definition_type_uri, link_type_uri, ord_id_to_uri, release_status_uri
+from ..namespaces import (
+    ORD,
+    access_strategy_uri,
+    definition_type_uri,
+    link_type_uri,
+    ord_id_to_uri,
+    purpose_uri,
+    relation_type_uri,
+    release_status_uri,
+)
 from .base import ORDBaseModel
 
 
@@ -68,7 +77,7 @@ class ResourceDefinition(ORDBaseModel):
     type: Annotated[
         str,
         RdfanticFieldInfoMetaModel(predicates={ORD.type}, uri_factory=definition_type_uri),
-        Field(description="Definition format: openapi-v3 | asyncapi-v2 | edmx | graphql-sdl | …"),
+        Field(description="Definition format: openapi-v2 | openapi-v3 | openapi-v3.1+ | raml-v1 | edmx | csdl-json | graphql-sdl | wsdl-v1 | wsdl-v2 | a2a-agent-card | ord:overlay:v1 | custom | …"),
     ]
     media_type: Annotated[
         Optional[str],
@@ -82,8 +91,13 @@ class ResourceDefinition(ORDBaseModel):
     ]
     purpose: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.purpose}),
-        Field(default=None),
+        RdfanticFieldInfoMetaModel(predicates={ORD.purpose}, uri_factory=purpose_uri),
+        Field(default=None, description="main | ord:ai-enrichment | ord:agent-security-permissions | custom"),
+    ]
+    access_strategy: Annotated[
+        Optional[str],
+        RdfanticFieldInfoMetaModel(predicates={ORD.accessStrategy}, uri_factory=access_strategy_uri),
+        Field(alias="accessStrategy", default=None, description="open | protected | restricted | custom"),
     ]
 
 
@@ -303,9 +317,6 @@ class ConsumptionBundleReference(ORDBaseModel):
             uri_factory=lambda v: __import__(
                 "ord_transformer.namespaces", fromlist=["ord_id_to_uri"]
             ).ord_id_to_uri(v),
-            # field_class_uris removed: typing the referenced ConsumptionBundle
-            # as ord:ConsumptionBundle creates validated stubs for cross-namespace
-            # bundles not defined in this document set, causing false SHACL violations.
         ),
         Field(alias="ordId"),
     ]
@@ -395,6 +406,11 @@ class RelatedApiResource(ORDBaseModel):
         ),
         Field(alias="ordId", description="ORD ID of the related API Resource"),
     ]
+    relation_type: Annotated[
+        Optional[str],
+        RdfanticFieldInfoMetaModel(predicates={ORD.relationType}, uri_factory=relation_type_uri),
+        Field(alias="relationType", default=None, description="Semantic type of the relation: part-of | ord:patches | custom | …"),
+    ]
 
 
 class RelatedEventResource(ORDBaseModel):
@@ -438,8 +454,6 @@ class RelatedEntityType(ORDBaseModel):
         str,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.ordId},
-            # uri_factory removed: ordId is stored as xsd:string literal.
-            # The term_builder (see Meta) handles making this node itself an IRI.
         ),
         Field(alias="ordId", description="ORD ID of the related Entity Type"),
     ]
@@ -466,6 +480,11 @@ class RelatedCapability(ORDBaseModel):
             field_class_uris={ORD.Capability},
         ),
         Field(alias="ordId", description="ORD ID of the related Capability"),
+    ]
+    relation_type: Annotated[
+        Optional[str],
+        RdfanticFieldInfoMetaModel(predicates={ORD.relationType}, uri_factory=relation_type_uri),
+        Field(alias="relationType", default=None, description="Semantic type of the relation: part-of | ord:patches | custom | …"),
     ]
 
 
@@ -556,8 +575,6 @@ class ExposedEntityType(ORDBaseModel):
         str,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.ordId},
-            # uri_factory removed: ordId is stored as xsd:string literal.
-            # The term_builder handles making this node itself an IRI.
         ),
         Field(alias="ordId", description="ORD ID of the exposed EntityType"),
     ]
