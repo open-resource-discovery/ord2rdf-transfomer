@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from rdflib import Graph
+from rdflib import Graph, Literal
+from rdflib.namespace import RDF, SKOS
 
 from rdfantic import ShaclMaterializationContext
 
@@ -30,7 +31,23 @@ from .models import (
     Tombstone,
     Vendor,
 )
-from .namespaces import bind_standard_namespaces
+from .namespaces import (
+    ORD,
+    VOCAB_IMPL_STDS,
+    bind_standard_namespaces,
+    implementation_standard_uri,
+)
+
+# Resource types whose items may carry a "resourceDefinitions" array with
+# relative URL paths that must be resolved before model validation.
+_RESOURCE_DEFINITION_HOSTS: tuple[str, ...] = (
+    "apiResources",
+    "eventResources",
+    "capabilities",
+    "entityTypes",
+    "agents",
+    "overlays",
+)
 
 # Mapping: ORD JSON top-level array key → RDFantic model class
 # All keys follow the ORD spec document structure.
@@ -133,6 +150,8 @@ class ORDTransformer:
             predicates=set(),
         )
 
+        self._resolve_definition_urls(ord_doc, self._extract_base_url(ord_doc))
+
         # ── Serialize each top-level entity array ─────────────────────────────
         for json_key, model_cls in _ARRAY_KEY_TO_MODEL.items():
             items = ord_doc.get(json_key, []) or []
@@ -150,7 +169,119 @@ class ORDTransformer:
                     predicates=set(),
                 )
 
+        # ── Emit stub skos:Concept triples for vendor-extension values ─────────
+        self._mint_extension_concepts(g, ord_doc)
+
         return g
+
+    # ------------------------------------------------------------------
+    # Private helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _extract_base_url(ord_doc: dict[str, Any]) -> str | None:
+        """Extract the system base URL from an ORD document.
+
+        The ORD spec allows ``baseUrl`` in two locations:
+
+        1. Top-level field — used by simpler, single-perspective documents::
+
+               { "openResourceDiscovery": "1.9", "baseUrl": "https://..." }
+
+        2. Nested under ``describedSystemInstance`` — used by documents written
+           from the *system-instance* perspective::
+
+               { "describedSystemInstance": { "baseUrl": "https://..." } }
+
+        Returns the first non-empty value found, or ``None``.
+        """
+        return (
+            ord_doc.get("baseUrl")
+            or (ord_doc.get("describedSystemInstance") or {}).get("baseUrl")
+        )
+
+    @staticmethod
+    def _resolve_definition_urls(
+        ord_doc: dict[str, Any], base_url: str | None
+    ) -> None:
+        """Resolve relative ``url`` fields in ``resourceDefinitions`` to absolute IRIs.
+
+        ORD resource-definition ``url`` values are often root-relative paths such
+        as ``/api/openapi.json``.  ``ResourceDefinition.Meta.term_builder`` calls
+        ``URIRef(self.url)`` directly (the ``_build_subject`` hook is not wired into
+        rdfantic), so the field must already contain an absolute IRI by the time
+        ``model_validate`` runs — otherwise rdflib emits a relative-IRI subject node
+        (``</api/openapi.json>``) that many triple stores reject.
+
+        Parameters
+        ----------
+        ord_doc:
+            The parsed ORD document dict, as returned by ``json.load``.
+        base_url:
+            Value of the document's ``baseUrl`` field, e.g.
+            ``"https://tenant.example.com"``.  If ``None`` or empty the method
+            returns immediately and leaves all URLs unchanged.
+        """
+        if not base_url:
+            return
+        base = base_url.rstrip("/")
+        for array_key in _RESOURCE_DEFINITION_HOSTS:
+            for item in ord_doc.get(array_key, []) or []:
+                for defn in item.get("resourceDefinitions", []) or []:
+                    url = defn.get("url")
+                    if not url or url.startswith(("http://", "https://", "urn:")):
+                        continue
+                    path = url if url.startswith("/") else "/" + url
+                    defn["url"] = base + path
+
+    def _mint_extension_concepts(
+        self, g: Graph, ord_doc: dict[str, Any]
+    ) -> None:
+        """Emit ``skos:Concept`` stub triples for vendor-extension implementationStandard values.
+
+        ORD allows any Specification ID (``<vendor>:<name>:<version>``) as
+        ``implementationStandard``, beyond the two concepts defined in the ORD
+        core vocabulary.  The property's ``rdfs:range`` is ``skos:Concept``, so
+        unknown values need at least a type declaration and scheme membership to
+        be well-formed in the graph.
+
+        For each value not already covered by ``VOCAB_IMPL_STDS``, three triples
+        are added::
+
+            ord:ImplementationStandard-sap-ape-api-v1
+                a skos:Concept ;
+                skos:notation "sap:ape-api:v1" ;
+                skos:inScheme ord:ImplementationStandardScheme .
+
+        ``skos:notation`` preserves the original Specification ID string so the
+        value is round-trippable without loss.
+
+        Parameters
+        ----------
+        g:
+            The graph to extend (mutated in place).
+        ord_doc:
+            The raw ORD JSON dict, used to collect ``implementationStandard``
+            values before any IRI transformation.
+        """
+        seen: set[str] = set()
+        # JSON keys whose items may carry implementationStandard
+        _IMPL_STD_KEYS = ("apiResources", "eventResources")
+
+        for array_key in _IMPL_STD_KEYS:
+            for item in ord_doc.get(array_key, []) or []:
+                value = item.get("implementationStandard")
+                if (
+                    value is None
+                    or value in VOCAB_IMPL_STDS
+                    or value in seen
+                ):
+                    continue
+                seen.add(value)
+                concept = implementation_standard_uri(value)
+                g.add((concept, RDF.type, SKOS.Concept))
+                g.add((concept, SKOS.notation, Literal(value)))
+                g.add((concept, SKOS.inScheme, ORD.ImplementationStandardScheme))
 
     # ------------------------------------------------------------------
     # Convenience: serialize directly to a file

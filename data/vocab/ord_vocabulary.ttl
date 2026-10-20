@@ -248,7 +248,7 @@ ord:SystemInstance
     ord:vocabularyVersion ord:v1 ;
     rdfs:isDefinedBy ord: .
 
-ord:APIResource
+ord:ApiResource
     a rdfs:Class ;
     rdfs:subClassOf ord:ORDResource ;
     rdfs:label "API Resource"@en ;
@@ -567,7 +567,7 @@ ord:Tombstone
 
 ord:RelatedApiResource
     a rdfs:Class ;
-    rdfs:subClassOf ord:APIResource ;
+    rdfs:subClassOf ord:ApiResource ;
     rdfs:label "Related API Resource"@en ;
     rdfs:comment "Typed reference to a related API resource."@en ;
     rdfs:isDefinedBy ord: .
@@ -1450,7 +1450,7 @@ ord:apiProtocol
     a rdf:Property ;
     rdfs:label "API Protocol"@en ;
     rdfs:comment "Protocol used by an API resource. Values should be SKOS concepts from ord:ApiProtocolScheme or a compatible extension scheme."@en ;
-    rdfs:domain ord:APIResource ;
+    rdfs:domain ord:ApiResource ;
     rdfs:range skos:Concept ;
     rdfs:isDefinedBy ord: .
 
@@ -1508,7 +1508,7 @@ ord:direction
     a rdf:Property ;
     rdfs:label "Direction"@en ;
     rdfs:comment "Data-flow direction of the API resource: inbound, outbound, or mixed."@en ;
-    rdfs:domain ord:APIResource ;
+    rdfs:domain ord:ApiResource ;
     rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
@@ -1516,7 +1516,7 @@ ord:customImplementationStandard
     a rdf:Property ;
     rdfs:label "Custom Implementation Standard"@en ;
     rdfs:comment "Custom implementation standard identifier used when implementationStandard is 'custom'."@en ;
-    rdfs:domain ord:APIResource ;
+    rdfs:domain ord:ApiResource ;
     rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
@@ -1524,16 +1524,16 @@ ord:customImplementationStandardDescription
     a rdf:Property ;
     rdfs:label "Custom Implementation Standard Description"@en ;
     rdfs:comment "Human-readable description of the custom implementation standard."@en ;
-    rdfs:domain ord:APIResource ;
+    rdfs:domain ord:ApiResource ;
     rdfs:range xsd:string ;
     rdfs:isDefinedBy ord: .
 
 ord:supportedUseCases
     a rdf:Property ;
     rdfs:label "Supported Use Cases"@en ;
-    rdfs:comment "Supported use-case identifiers for this API resource."@en ;
-    rdfs:domain ord:APIResource ;
-    rdfs:range xsd:string ;
+    rdfs:comment "Technical data-access patterns supported by this API resource. Values should be SKOS concepts from ord:SupportedUseCasesScheme or a compatible extension scheme."@en ;
+    rdfs:domain ord:ApiResource ;
+    rdfs:range skos:Concept ;
     rdfs:isDefinedBy ord: .
 
 # =============================================================================
@@ -1658,10 +1658,18 @@ ord:UsageScheme
     a skos:ConceptScheme ;
     rdfs:label "Usage Scheme"@en ;
     skos:prefLabel "Usage Scheme"@en ;
-    skos:definition "Controlled vocabulary for resource usage patterns."@en ;
+    skos:definition "Controlled vocabulary for how a resource is accessed or exposed."@en ;
     skos:hasTopConcept
         ord:Usage-local,
-        ord:Usage-external,
+        ord:Usage-external ;
+    rdfs:isDefinedBy ord: .
+
+ord:SupportedUseCasesScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Supported Use Cases Scheme"@en ;
+    skos:prefLabel "Supported Use Cases Scheme"@en ;
+    skos:definition "Controlled vocabulary for technical data-access patterns supported by an ORD resource (e.g. data federation, snapshots, streaming)."@en ;
+    skos:hasTopConcept
         ord:Usage-dataFederation,
         ord:Usage-snapshot,
         ord:Usage-incremental,
@@ -1682,7 +1690,10 @@ ord:ApiProtocolScheme
         ord:ApiProtocol-websocket,
         ord:ApiProtocol-deltaSharing,
         ord:ApiProtocol-sql,
-        ord:ApiProtocol-a2a ;
+        ord:ApiProtocol-a2a,
+        ord:ApiProtocol-mcp,
+        ord:ApiProtocol-soapInbound,
+        ord:ApiProtocol-soapOutbound ;
     rdfs:isDefinedBy ord: .
 
 ord:ApiResourceDefinitionTypeScheme
@@ -1700,7 +1711,9 @@ ord:ApiResourceDefinitionTypeScheme
         ord:ApiDefType-graphqlSdl,
         ord:ApiDefType-wsdlV1,
         ord:ApiDefType-wsdlV2,
-        ord:ApiDefType-a2aAgentCard ;
+        ord:ApiDefType-a2aAgentCard,
+        ord:ApiDefType-overlayV1,
+        ord:ApiDefType-custom ;
     rdfs:isDefinedBy ord: .
 
 ord:DefinitionPurposeScheme
@@ -1769,6 +1782,17 @@ ord:PackageLinkTypeScheme
         ord:PackageLinkType-sla,
         ord:PackageLinkType-support,
         ord:PackageLinkType-termsOfUse ;
+    rdfs:isDefinedBy ord: .
+
+ord:RelationTypeScheme
+    a skos:ConceptScheme ;
+    rdfs:label "Relation Type Scheme"@en ;
+    skos:prefLabel "Relation Type Scheme"@en ;
+    skos:definition "Controlled vocabulary for the semantic type of a directional relationship between two ORD resources."@en ;
+    skos:hasTopConcept
+        ord:RelationType-partOf,
+        ord:RelationType-patches,
+        ord:RelationType-custom ;
     rdfs:isDefinedBy ord: .
 
 # =============================================================================
@@ -2185,30 +2209,30 @@ ord:Usage-external a skos:Concept ;
 ord:Usage-dataFederation a skos:Concept ;
     skos:prefLabel "data-federation"@en ;
     skos:notation "data-federation" ;
-    skos:definition "Resource is intended for data federation use cases."@en ;
-    skos:inScheme ord:UsageScheme ;
-    skos:topConceptOf ord:UsageScheme .
+    skos:definition "Resource supports data federation use cases."@en ;
+    skos:inScheme ord:SupportedUseCasesScheme ;
+    skos:topConceptOf ord:SupportedUseCasesScheme .
 
 ord:Usage-snapshot a skos:Concept ;
     skos:prefLabel "snapshot"@en ;
     skos:notation "snapshot" ;
     skos:definition "Resource can be used to retrieve a snapshot with inherent consistency."@en ;
-    skos:inScheme ord:UsageScheme ;
-    skos:topConceptOf ord:UsageScheme .
+    skos:inScheme ord:SupportedUseCasesScheme ;
+    skos:topConceptOf ord:SupportedUseCasesScheme .
 
 ord:Usage-incremental a skos:Concept ;
     skos:prefLabel "incremental"@en ;
     skos:notation "incremental" ;
     skos:definition "Resource provides incremental updates on top of snapshots."@en ;
-    skos:inScheme ord:UsageScheme ;
-    skos:topConceptOf ord:UsageScheme .
+    skos:inScheme ord:SupportedUseCasesScheme ;
+    skos:topConceptOf ord:SupportedUseCasesScheme .
 
 ord:Usage-streaming a skos:Concept ;
     skos:prefLabel "streaming"@en ;
     skos:notation "streaming" ;
     skos:definition "Resource can be used to get streaming updates."@en ;
-    skos:inScheme ord:UsageScheme ;
-    skos:topConceptOf ord:UsageScheme .
+    skos:inScheme ord:SupportedUseCasesScheme ;
+    skos:topConceptOf ord:SupportedUseCasesScheme .
 
 ord:ApiProtocol-rest a skos:Concept ;
     skos:prefLabel "rest"@en ;
@@ -2270,6 +2294,27 @@ ord:ApiProtocol-a2a a skos:Concept ;
     skos:prefLabel "a2a"@en ;
     skos:notation "a2a" ;
     skos:definition "Agent-to-agent API protocol."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-mcp a skos:Concept ;
+    skos:prefLabel "mcp"@en ;
+    skos:notation "mcp" ;
+    skos:definition "Model Context Protocol API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-soapInbound a skos:Concept ;
+    skos:prefLabel "soap-inbound"@en ;
+    skos:notation "soap-inbound" ;
+    skos:definition "Inbound SOAP API."@en ;
+    skos:inScheme ord:ApiProtocolScheme ;
+    skos:topConceptOf ord:ApiProtocolScheme .
+
+ord:ApiProtocol-soapOutbound a skos:Concept ;
+    skos:prefLabel "soap-outbound"@en ;
+    skos:notation "soap-outbound" ;
+    skos:definition "Outbound SOAP API."@en ;
     skos:inScheme ord:ApiProtocolScheme ;
     skos:topConceptOf ord:ApiProtocolScheme .
 
@@ -2343,6 +2388,20 @@ ord:ApiDefType-a2aAgentCard a skos:Concept ;
     skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
     skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
 
+ord:ApiDefType-overlayV1 a skos:Concept ;
+    skos:prefLabel "ord:overlay:v1"@en ;
+    skos:notation "ord:overlay:v1" ;
+    skos:definition "ORD Overlay definition version 1."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
+ord:ApiDefType-custom a skos:Concept ;
+    skos:prefLabel "custom"@en ;
+    skos:notation "custom" ;
+    skos:definition "Custom or proprietary resource definition format."@en ;
+    skos:inScheme ord:ApiResourceDefinitionTypeScheme ;
+    skos:topConceptOf ord:ApiResourceDefinitionTypeScheme .
+
 ord:DefinitionPurpose-main a skos:Concept ;
     skos:prefLabel "main"@en ;
     skos:notation "main" ;
@@ -2410,7 +2469,7 @@ ord:ImplementationStandard-custom a skos:Concept ;
 
 ord:ImplementationStandard-cffOpenServiceBrokerV2 a skos:Concept ;
     skos:prefLabel "CFF Open Service Broker v2"@en ;
-    skos:notation "cff-open-service-broker-v2" ;
+    skos:notation "cff:open-service-broker:v2" ;
     skos:definition "API follows the Open Service Broker API v2."@en ;
     skos:inScheme ord:ImplementationStandardScheme ;
     skos:topConceptOf ord:ImplementationStandardScheme .
@@ -2500,5 +2559,34 @@ ord:PackageLinkType-termsOfUse a skos:Concept ;
     skos:topConceptOf ord:PackageLinkTypeScheme .
 
 # =============================================================================
-# End of ORD Open Vocabulary
+# Relation Type Concepts
 # =============================================================================
+
+ord:RelationType-partOf a skos:Concept ;
+    skos:prefLabel "Part Of"@en ;
+    skos:notation "part-of" ;
+    skos:definition "The current resource is logically a part of or contained within the related resource."@en ;
+    skos:inScheme ord:RelationTypeScheme ;
+    skos:topConceptOf ord:RelationTypeScheme .
+
+ord:RelationType-patches a skos:Concept ;
+    skos:prefLabel "Patches"@en ;
+    skos:notation "ord:patches" ;
+    skos:definition "This overlay or resource patches (extends or modifies) the definition files of the related resource."@en ;
+    skos:inScheme ord:RelationTypeScheme ;
+    skos:topConceptOf ord:RelationTypeScheme .
+
+ord:RelationType-custom a skos:Concept ;
+    skos:prefLabel "Custom Relation Type"@en ;
+    skos:notation "custom" ;
+    skos:definition "A custom relation type defined outside the open ORD core vocabulary. Use customType to specify the vendor-defined value."@en ;
+    skos:inScheme ord:RelationTypeScheme ;
+    skos:topConceptOf ord:RelationTypeScheme .
+
+# =============================================================================
+# End of ORD Open Vocabulary
+# ====================================================================================================================   skos:topConceptOf ord:RelationTypeScheme .
+
+# =============================================================================
+# End of ORD Open Vocabulary
+# ====================================================================================================================

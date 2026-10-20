@@ -9,7 +9,7 @@ from rdflib import XSD
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 
-from ..namespaces import ORD, ord_id_to_uri
+from ..namespaces import ORD, industry_uri, lob_uri, ord_id_to_uri, policy_level_uri
 from .base import ORDBaseModel
 from .supporting import ChangelogEntry, Link, PackageLink
 
@@ -70,7 +70,7 @@ class Package(ORDBaseModel):
     ]
     policy_level: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}, uri_factory=policy_level_uri),
         Field(alias="policyLevel", default=None),
     ]
     runtime_restriction: Annotated[

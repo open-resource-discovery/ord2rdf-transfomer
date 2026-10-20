@@ -8,7 +8,7 @@ from rdflib.namespace import DCAT, DCTERMS, FOAF, RDF, RDFS, SKOS, XSD
 # ── ORD namespaces ────────────────────────────────────────────────────────────
 
 #: ORD vocabulary namespace  (classes, properties)
-ORD = Namespace("https://open-resource-discovery.org/vocab/v1#")
+ORD = Namespace("https://open-resource-discovery.org/vocab#")
 
 #: ORD instance namespace  (individual resource URIs)
 ORD_INSTANCE = Namespace("https://open-resource-discovery.org/instance/")
@@ -28,6 +28,9 @@ __all__ = [
     "RDFS",
     "SKOS",
     "XSD",
+    # Controlled-vocabulary helpers
+    "VOCAB_IMPL_STDS",
+    "implementation_standard_uri",
 ]
 
 
@@ -68,7 +71,7 @@ def concept_uri(scheme_local: str, value: str) -> URIRef:
 
 
 # ── Controlled-vocabulary concept URI factories ───────────────────────────────
-# New open vocabulary (ord_new_open_vocab.ttl) represents controlled values as
+# vocabulary represents controlled values as
 # SKOS concepts in the ord: namespace rather than plain xsd:string literals.
 # Each factory maps a JSON string value to the correct concept URI.
 
@@ -80,6 +83,24 @@ def release_status_uri(value: str) -> URIRef:
 def visibility_uri(value: str) -> URIRef:
     """Map a visibility string to ``ord:Visibility-{value}``."""
     return ORD[f"Visibility-{value}"]
+
+
+def _to_local_name(value: str) -> str:
+    """Sanitize a raw ORD value into a valid IRI local name (NCName).
+
+    ORD Specification IDs use the form ``<vendor>:<name>:<version>`` (e.g.
+    ``"sap:ape-api:v1"``) which contains colons that are illegal in Turtle
+    prefixed names and rejected by many triplestores.  Dots used in vendor
+    namespace prefixes (e.g. ``"foo.bar:custom:v2"``) are similarly
+    problematic.
+
+    Both characters are replaced with hyphens so the resulting fragment is a
+    valid XML NCName accepted by all triplestores::
+
+        "sap:ape-api:v1"    → "sap-ape-api-v1"
+        "foo.bar:custom:v2" → "foo-bar-custom-v2"
+    """
+    return value.replace(":", "-").replace(".", "-")
 
 
 # JSON protocol strings may use kebab-case; concept names use camelCase.
@@ -96,14 +117,14 @@ _PROTOCOL_NORM: dict[str, str] = {
 
 def api_protocol_uri(value: str) -> URIRef:
     """Map an apiProtocol string to ``ord:ApiProtocol-{normalised}``."""
-    return ORD[f"ApiProtocol-{_PROTOCOL_NORM.get(value, value)}"]
+    return ORD[f"ApiProtocol-{_PROTOCOL_NORM.get(value, _to_local_name(value))}"]
 
 
 # ResourceDefinition type strings → ApiDefType concept URIs
 _DEF_TYPE_NORM: dict[str, str] = {
     "openapi-v2": "openapiV2",
     "openapi-v3": "openapiV3",
-    "openapi-v3.1": "openapiV31",
+    "openapi-v3.1+": "openapiV31",
     "edmx": "edmx",
     "csdl-json": "csdlJson",
     "graphql-sdl": "graphqlSdl",
@@ -117,7 +138,7 @@ _DEF_TYPE_NORM: dict[str, str] = {
 
 def definition_type_uri(value: str) -> URIRef:
     """Map a resource-definition type string to ``ord:ApiDefType-{normalised}``."""
-    return ORD[f"ApiDefType-{_DEF_TYPE_NORM.get(value, value)}"]
+    return ORD[f"ApiDefType-{_DEF_TYPE_NORM.get(value, _to_local_name(value))}"]
 
 
 # API/Event resource link-type strings → PackageLinkType / ApiEventLinkType concepts
@@ -138,7 +159,7 @@ _LINK_TYPE_NORM: dict[str, str] = {
 
 def link_type_uri(value: str) -> URIRef:
     """Map a link-type string to the appropriate ORD concept URI."""
-    local = _LINK_TYPE_NORM.get(value, f"LinkType-{value}")
+    local = _LINK_TYPE_NORM.get(value, f"LinkType-{_to_local_name(value)}")
     return ORD[local]
 
 
@@ -222,6 +243,82 @@ def lob_uri(value: str) -> URIRef:
     return ORD[local]
 
 
+# Usage concept URIs (ord:UsageScheme members: "external" and "local" only)
+_USAGE_NORM: dict[str, str] = {}  # values pass through directly
+
+
+def usage_uri(value: str) -> URIRef:
+    """Map a usage string to ``ord:Usage-{value}`` (ord:UsageScheme: external | local)."""
+    return ORD[f"Usage-{value}"]
+
+
+# SupportedUseCases concept URIs (ord:SupportedUseCasesScheme members)
+_SUPPORTED_USE_CASE_NORM: dict[str, str] = {
+    "data-federation": "dataFederation",
+}
+
+
+def supported_use_case_uri(value: str) -> URIRef:
+    """Map a supportedUseCases string to ``ord:Usage-{normalised}`` (ord:SupportedUseCasesScheme)."""
+    return ORD[f"Usage-{_SUPPORTED_USE_CASE_NORM.get(value, _to_local_name(value))}"]
+
+
+def policy_level_uri(value: str) -> URIRef:
+    """Map a policyLevel string to ``ord:PolicyLevel-{value}`` (ord:PolicyLevelScheme)."""
+    return ORD[f"PolicyLevel-{_to_local_name(value)}"]
+
+
+# ImplementationStandard concept URIs (ord:ImplementationStandardScheme members)
+_IMPL_STD_NORM: dict[str, str] = {
+    # Schema uses colon-separated form: "cff:open-service-broker:v2"
+    "cff:open-service-broker:v2": "cffOpenServiceBrokerV2",
+    # Keep hyphen alias for backward compatibility with older ORD documents
+    "cff-open-service-broker-v2": "cffOpenServiceBrokerV2",
+}
+
+
+#: Values already declared as ``skos:Concept`` in ``ord:ImplementationStandardScheme``
+#: inside the ORD vocabulary (``data/vocab/ord_vocabulary.ttl``).
+#: The transformer emits stub concept triples only for values **not** in this set.
+VOCAB_IMPL_STDS: frozenset[str] = frozenset(_IMPL_STD_NORM) | {"custom"}
+
+
+def implementation_standard_uri(value: str) -> URIRef:
+    """Map an implementationStandard string to ``ord:ImplementationStandard-{normalised}``."""
+    return ORD[f"ImplementationStandard-{_IMPL_STD_NORM.get(value, _to_local_name(value))}"]
+
+
+# DefinitionPurpose concept URIs (ord:DefinitionPurposeScheme members)
+_PURPOSE_NORM: dict[str, str] = {
+    "ord:ai-enrichment": "aiEnrichment",
+    "ord:agent-security-permissions": "agentSecurityPermissions",
+}
+
+
+def purpose_uri(value: str) -> URIRef:
+    """Map a purpose string to ``ord:DefinitionPurpose-{normalised}`` (ord:DefinitionPurposeScheme)."""
+    return ORD[f"DefinitionPurpose-{_PURPOSE_NORM.get(value, _to_local_name(value))}"]
+
+
+def access_strategy_uri(value: str) -> URIRef:
+    """Map an accessStrategy string to ``ord:AccessStrategy-{value}`` (ord:AccessStrategyScheme)."""
+    return ORD[f"AccessStrategy-{_to_local_name(value)}"]
+
+
+# RelationType concept URIs (ord:RelationTypeScheme members)
+_RELATION_TYPE_NORM: dict[str, str] = {
+    "part-of": "partOf",
+    "ord:patches": "patches",
+    "custom": "custom",
+}
+
+
+def relation_type_uri(value: str) -> URIRef:
+    """Map a relationType string to ``ord:RelationType-{normalised}`` (ord:RelationTypeScheme)."""
+    local = _RELATION_TYPE_NORM.get(value, _to_local_name(value))
+    return ORD[f"RelationType-{local}"]
+
+
 # ── Standard namespace binding helper ─────────────────────────────────────────
 
 def bind_standard_namespaces(graph) -> None:  # type: ignore[type-arg]
@@ -232,6 +329,9 @@ def bind_standard_namespaces(graph) -> None:  # type: ignore[type-arg]
     graph.bind("dcterms", DCTERMS)
     graph.bind("foaf", FOAF)
     graph.bind("rdf", RDF)
+    graph.bind("rdfs", RDFS)
+    graph.bind("skos", SKOS)
+    graph.bind("xsd", XSD)
     graph.bind("rdfs", RDFS)
     graph.bind("skos", SKOS)
     graph.bind("xsd", XSD)

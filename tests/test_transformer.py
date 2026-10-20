@@ -104,3 +104,153 @@ class TestORDTransformer:
         prefixes = set(str(k) for k in ns_dict.keys())
         assert "ord" in prefixes
         assert "rdf" in prefixes or "rdf" in str(ns_dict)
+
+
+# ── Extension concept stub generation ─────────────────────────────────────────
+
+class TestExtensionConceptStubs:
+    """Verify that vendor-extension implementationStandard values get stub
+    skos:Concept triples so the graph satisfies rdfs:range skos:Concept."""
+
+    # Minimal ORD document with a vendor Spec ID on an API resource
+    _DOC_API = {
+        "openResourceDiscovery": "1.9",
+        "apiResources": [
+            {
+                "ordId": "test.stub:apiResource:ApeApi:v1",
+                "title": "APE API",
+                "version": "1.0.0",
+                "releaseStatus": "active",
+                "visibility": "public",
+                "partOfPackage": "test.stub:package:TestPackage:v1",
+                "implementationStandard": "sap:ape-api:v1",
+            }
+        ],
+    }
+
+    # Document with two different vendor Spec IDs (API + Event)
+    _DOC_BOTH = {
+        "openResourceDiscovery": "1.9",
+        "apiResources": [
+            {
+                "ordId": "test.stub:apiResource:ApeApi:v1",
+                "title": "APE API",
+                "version": "1.0.0",
+                "releaseStatus": "active",
+                "visibility": "public",
+                "partOfPackage": "test.stub:package:TestPackage:v1",
+                "implementationStandard": "sap:ape-api:v1",
+            }
+        ],
+        "eventResources": [
+            {
+                "ordId": "test.stub:eventResource:CdiEvents:v1",
+                "title": "CDI Events",
+                "version": "1.0.0",
+                "releaseStatus": "active",
+                "visibility": "public",
+                "partOfPackage": "test.stub:package:TestPackage:v1",
+                "implementationStandard": "sap:cdi-api:v1",
+            }
+        ],
+    }
+
+    # Document using the known vocab value — no stub should be emitted
+    _DOC_KNOWN = {
+        "openResourceDiscovery": "1.9",
+        "apiResources": [
+            {
+                "ordId": "test.stub:apiResource:OsbApi:v1",
+                "title": "OSB API",
+                "version": "1.0.0",
+                "releaseStatus": "active",
+                "visibility": "public",
+                "partOfPackage": "test.stub:package:TestPackage:v1",
+                "implementationStandard": "cff:open-service-broker:v2",
+            }
+        ],
+    }
+
+    def _transform(self, doc: dict) -> Graph:
+        return ORDTransformer().transform(doc)
+
+    def test_stub_type_triple_emitted(self):
+        """Vendor Spec ID concept gets a:skos:Concept type declaration."""
+        from rdflib.namespace import SKOS
+
+        g = self._transform(self._DOC_API)
+        concept = ORD["ImplementationStandard-sap-ape-api-v1"]
+        assert (concept, RDF.type, SKOS.Concept) in g
+
+    def test_stub_notation_preserves_spec_id(self):
+        """skos:notation on the stub equals the original Specification ID string."""
+        from rdflib.namespace import SKOS
+
+        g = self._transform(self._DOC_API)
+        concept = ORD["ImplementationStandard-sap-ape-api-v1"]
+        notations = list(g.objects(concept, SKOS.notation))
+        assert len(notations) == 1
+        assert str(notations[0]) == "sap:ape-api:v1"
+
+    def test_stub_in_scheme(self):
+        """Stub concept is declared as a member of ord:ImplementationStandardScheme."""
+        from rdflib.namespace import SKOS
+
+        g = self._transform(self._DOC_API)
+        concept = ORD["ImplementationStandard-sap-ape-api-v1"]
+        assert (concept, SKOS.inScheme, ORD.ImplementationStandardScheme) in g
+
+    def test_stubs_emitted_for_both_api_and_event_resources(self):
+        """Stub generation covers both apiResources and eventResources arrays."""
+        from rdflib.namespace import SKOS
+
+        g = self._transform(self._DOC_BOTH)
+        ape = ORD["ImplementationStandard-sap-ape-api-v1"]
+        cdi = ORD["ImplementationStandard-sap-cdi-api-v1"]
+        assert (ape, RDF.type, SKOS.Concept) in g
+        assert (cdi, RDF.type, SKOS.Concept) in g
+
+    def test_no_stub_for_known_vocab_value(self):
+        """A value in VOCAB_IMPL_STDS does NOT get a stub — it is in the vocab."""
+        from rdflib.namespace import SKOS
+
+        from ord_transformer.namespaces import VOCAB_IMPL_STDS
+
+        g = self._transform(self._DOC_KNOWN)
+        # cff:open-service-broker:v2 maps to cffOpenServiceBrokerV2 via _IMPL_STD_NORM
+        assert "cff:open-service-broker:v2" in VOCAB_IMPL_STDS
+        concept = ORD["ImplementationStandard-cffOpenServiceBrokerV2"]
+        # The concept IRI is referenced but no stub triples were minted
+        assert (concept, RDF.type, SKOS.Concept) not in g
+
+    def test_duplicate_spec_id_emits_one_stub(self):
+        """The same Spec ID appearing on multiple resources produces one stub, not duplicates."""
+        from rdflib.namespace import SKOS
+
+        doc = {
+            "openResourceDiscovery": "1.9",
+            "apiResources": [
+                {
+                    "ordId": "test.stub:apiResource:ApeApi1:v1",
+                    "title": "APE API 1",
+                    "version": "1.0.0",
+                    "releaseStatus": "active",
+                    "visibility": "public",
+                    "partOfPackage": "test.stub:package:TestPackage:v1",
+                    "implementationStandard": "sap:ape-api:v1",
+                },
+                {
+                    "ordId": "test.stub:apiResource:ApeApi2:v1",
+                    "title": "APE API 2",
+                    "version": "1.0.0",
+                    "releaseStatus": "active",
+                    "visibility": "public",
+                    "partOfPackage": "test.stub:package:TestPackage:v1",
+                    "implementationStandard": "sap:ape-api:v1",
+                },
+            ],
+        }
+        g = self._transform(doc)
+        concept = ORD["ImplementationStandard-sap-ape-api-v1"]
+        type_triples = list(g.triples((concept, RDF.type, SKOS.Concept)))
+        assert len(type_triples) == 1

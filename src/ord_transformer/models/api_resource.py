@@ -9,7 +9,19 @@ from rdflib import XSD
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 
-from ..namespaces import ORD, ord_id_to_uri, release_status_uri, visibility_uri, api_protocol_uri, industry_uri, lob_uri
+from ..namespaces import (
+    ORD,
+    api_protocol_uri,
+    implementation_standard_uri,
+    industry_uri,
+    lob_uri,
+    ord_id_to_uri,
+    policy_level_uri,
+    release_status_uri,
+    supported_use_case_uri,
+    usage_uri,
+    visibility_uri,
+)
 from .base import ORDBaseModel
 from .supporting import (
     ApiEventResourceLink,
@@ -26,12 +38,12 @@ from .supporting import (
 class ApiResource(ORDBaseModel):
     """An ORD API Resource describes a single API (REST, OData, SOAP, gRPC, etc.).
 
-    Maps to ``ord:ApiResource`` (subclass of ``ord:ORDResource`` and ``ord:DataService``).
+    Maps to ``ord:ApiResource`` (subclass of ``ord:ORDResource``).
     """
 
     class Meta(RdfanticModelMetadata):
         name = "ApiResource"
-        class_uris = {ORD.APIResource}
+        class_uris = {ORD.ApiResource}
         term_builder = lambda self: ord_id_to_uri(self.ord_id)  # noqa: E731
 
     # ── Core identity ─────────────────────────────────────────────────────────
@@ -140,7 +152,7 @@ class ApiResource(ORDBaseModel):
         Optional[str],
         RdfanticFieldInfoMetaModel(predicates={ORD.apiProtocol}, uri_factory=api_protocol_uri),
         Field(alias="apiProtocol", default=None,
-              description="rest | odata-v2 | odata-v4 | soap | graphql | grpc | …"),
+              description="rest | odata-v2 | odata-v4 | graphql | grpc | websocket | delta-sharing | sql | a2a | mcp | soap-inbound | soap-outbound | …"),
     ]
     direction: Annotated[
         Optional[str],
@@ -149,7 +161,7 @@ class ApiResource(ORDBaseModel):
     ]
     implementation_standard: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.implementationStandard}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.implementationStandard}, uri_factory=implementation_standard_uri),
         Field(alias="implementationStandard", default=None),
     ]
     custom_implementation_standard: Annotated[
@@ -164,13 +176,13 @@ class ApiResource(ORDBaseModel):
     ]
     supported_use_cases: Annotated[
         Optional[List[str]],
-        RdfanticFieldInfoMetaModel(predicates={ORD.supportedUseCases}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.supportedUseCases}, uri_factory=supported_use_case_uri),
         Field(alias="supportedUseCases", default=None,
               description="data-federation | snapshot | incremental | streaming | …"),
     ]
     usage: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.usage}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.usage}, uri_factory=usage_uri),
         Field(default=None, description="external | local"),
     ]
     entry_points: Annotated[
@@ -249,7 +261,7 @@ class ApiResource(ORDBaseModel):
     ]
     policy_level: Annotated[
         Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
+        RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}, uri_factory=policy_level_uri),
         Field(alias="policyLevel", default=None),
     ]
     line_of_business: Annotated[
