@@ -254,3 +254,136 @@ class TestExtensionConceptStubs:
         concept = ORD["ImplementationStandard-sap-ape-api-v1"]
         type_triples = list(g.triples((concept, RDF.type, SKOS.Concept)))
         assert len(type_triples) == 1
+
+
+# ── External reference stub generation ────────────────────────────────────────
+
+class TestExternalReferenceStubs:
+    """Verify that cross-namespace referenced-but-undefined instance URIs are
+    marked with ``rdf:type ord:ExternalReference`` by the transformer.
+
+    This prevents RDFS inference during SHACL validation from re-inferring the
+    real ORD class for stub nodes (via ``rdfs:range``) and creating spurious
+    ``sh:MinCountConstraintComponent`` violations.
+    """
+
+    # ── Minimal documents ────────────────────────────────────────────────────
+
+    # API resource that references a package not defined in this document
+    _DOC_UNDEFINED_PACKAGE = {
+        "openResourceDiscovery": "1.9",
+        "apiResources": [
+            {
+                "ordId": "test.xref:apiResource:SomeApi:v1",
+                "title": "Some API",
+                "version": "1.0.0",
+                "releaseStatus": "active",
+                "visibility": "public",
+                "partOfPackage": "test.external:package:ExtPkg:v1",
+            }
+        ],
+    }
+
+    # Package + vendor where the vendor is not defined in this document
+    _DOC_UNDEFINED_VENDOR = {
+        "openResourceDiscovery": "1.9",
+        "packages": [
+            {
+                "ordId": "test.xref:package:LocalPkg:v1",
+                "title": "Local Package",
+                "version": "1.0.0",
+                "vendor": "test.external:vendor:ExtVendor:",
+            }
+        ],
+    }
+
+    # Well-formed document — all referenced resources are also defined locally
+    _DOC_SELF_CONTAINED = {
+        "openResourceDiscovery": "1.9",
+        "vendors": [
+            {
+                "ordId": "test.self:vendor:LocalVendor:",
+                "title": "Local Vendor",
+            }
+        ],
+        "packages": [
+            {
+                "ordId": "test.self:package:LocalPkg:v1",
+                "title": "Local Package",
+                "version": "1.0.0",
+                "vendor": "test.self:vendor:LocalVendor:",
+            }
+        ],
+    }
+
+    def _transform(self, doc: dict) -> Graph:
+        return ORDTransformer().transform(doc)
+
+    # ── Stub detection ───────────────────────────────────────────────────────
+
+    def test_undefined_package_gets_external_reference_type(self):
+        """A package that is only referenced via partOfPackage — never defined —
+        must receive ``rdf:type ord:ExternalReference``."""
+        g = self._transform(self._DOC_UNDEFINED_PACKAGE)
+        stub_uri = ord_id_to_uri("test.external:package:ExtPkg:v1")
+        assert (stub_uri, RDF.type, ORD.ExternalReference) in g
+
+    def test_undefined_vendor_gets_external_reference_type(self):
+        """A vendor that is only referenced via the vendor field — never defined —
+        must receive ``rdf:type ord:ExternalReference``."""
+        g = self._transform(self._DOC_UNDEFINED_VENDOR)
+        stub_uri = ord_id_to_uri("test.external:vendor:ExtVendor:")
+        assert (stub_uri, RDF.type, ORD.ExternalReference) in g
+
+    def test_stub_has_no_ord_class_type(self):
+        """A stub must NOT carry ``rdf:type ord:Package`` — only the marker type.
+        This ensures SHACL shapes with ``sh:targetClass ord:Package`` ignore it."""
+        g = self._transform(self._DOC_UNDEFINED_PACKAGE)
+        stub_uri = ord_id_to_uri("test.external:package:ExtPkg:v1")
+        assert (stub_uri, RDF.type, ORD.Package) not in g
+
+    def test_defined_resource_does_not_get_external_reference_type(self):
+        """A resource that is both referenced and fully defined in the same document
+        must NOT be labelled ``ord:ExternalReference``."""
+        g = self._transform(self._DOC_SELF_CONTAINED)
+        vendor_uri = ord_id_to_uri("test.self:vendor:LocalVendor:")
+        pkg_uri = ord_id_to_uri("test.self:package:LocalPkg:v1")
+        assert (vendor_uri, RDF.type, ORD.ExternalReference) not in g
+        assert (pkg_uri, RDF.type, ORD.ExternalReference) not in g
+
+    def test_stub_gets_exactly_one_external_reference_triple(self):
+        """Even when the same undefined resource is referenced by multiple resources,
+        the graph must contain exactly one ``ord:ExternalReference`` type triple for it."""
+        doc = {
+            "openResourceDiscovery": "1.9",
+            "apiResources": [
+                {
+                    "ordId": "test.xref:apiResource:Api1:v1",
+                    "title": "API 1",
+                    "version": "1.0.0",
+                    "releaseStatus": "active",
+                    "visibility": "public",
+                    "partOfPackage": "test.external:package:SharedPkg:v1",
+                },
+                {
+                    "ordId": "test.xref:apiResource:Api2:v1",
+                    "title": "API 2",
+                    "version": "1.0.0",
+                    "releaseStatus": "active",
+                    "visibility": "public",
+                    "partOfPackage": "test.external:package:SharedPkg:v1",
+                },
+            ],
+        }
+        g = self._transform(doc)
+        stub_uri = ord_id_to_uri("test.external:package:SharedPkg:v1")
+        type_triples = list(g.triples((stub_uri, RDF.type, ORD.ExternalReference)))
+        assert len(type_triples) == 1
+
+    def test_api_resource_itself_is_not_a_stub(self):
+        """The defining resource (the API resource) must still have its real
+        ``rdf:type ord:ApiResource`` triple — the stub logic must not touch it."""
+        g = self._transform(self._DOC_UNDEFINED_PACKAGE)
+        api_uri = ord_id_to_uri("test.xref:apiResource:SomeApi:v1")
+        assert (api_uri, RDF.type, ORD.ApiResource) in g
+        assert (api_uri, RDF.type, ORD.ExternalReference) not in g

@@ -135,9 +135,15 @@ def generate_shapes_cmd(
     type=click.Choice(["turtle", "n3", "nt", "json-ld", "xml"], case_sensitive=False),
 )
 @click.option(
-    "--inference", default="rdfs", show_default=True,
+    "--inference", default="none", show_default=True,
     type=click.Choice(["none", "rdfs", "owlrl", "both"], case_sensitive=False),
-    help="RDFS/OWL inference level applied before validation.",
+    help=(
+        "RDFS/OWL inference level applied before validation.  "
+        "Defaults to 'none' because the transformer explicitly marks "
+        "cross-namespace stubs with ord:ExternalReference; using 'rdfs' "
+        "would re-infer their real class from rdfs:range and reinstate "
+        "spurious SHACL violations."
+    ),
 )
 @click.option(
     "--report-file",

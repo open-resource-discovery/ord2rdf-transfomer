@@ -90,6 +90,37 @@ def _generate_model_shapes() -> Graph:
 
 # ── Shared helpers ────────────────────────────────────────────────────────────
 
+def _replace_targetclass_with_sparql(g: Graph) -> None:
+    """Replace every ``sh:targetClass`` triple in *g* with a SPARQL-based target.
+
+    The SPARQL SELECT query selects instances of the original target class that
+    are **not** typed as ``ord:ExternalReference``.  This makes every NodeShape
+    inference-proof: even when RDFS inference adds inferred class types to stub
+    nodes (e.g. via ``rdfs:range`` on ``ord:partOfPackage``), those stubs are
+    never selected as SHACL focus nodes and therefore never trigger spurious
+    ``MinCountConstraintComponent`` violations.
+
+    Parameters
+    ----------
+    g:
+        Shape graph to mutate in-place.  All ``sh:targetClass`` triples are
+        removed and replaced with equivalent ``sh:target / sh:SPARQLTarget``
+        blocks.
+    """
+    pairs = list(g.subject_objects(SH.targetClass))
+    for shape_uri, class_uri in pairs:
+        g.remove((shape_uri, SH.targetClass, class_uri))
+        sparql_target = BNode()
+        g.add((shape_uri, SH["target"], sparql_target))
+        g.add((sparql_target, RDF.type, SH["SPARQLTarget"]))
+        g.add((sparql_target, SH["select"], Literal(
+            f"SELECT ?this WHERE {{ "
+            f"?this a <{class_uri}> . "
+            f"FILTER NOT EXISTS {{ ?this a <{ORD.ExternalReference}> }} "
+            f"}}"
+        )))
+
+
 def _emit_str_or_iri(g: Graph, prop_shape: BNode) -> None:
     """Add ``sh:or ( [ sh:datatype xsd:string ] [ sh:nodeKind sh:IRI ] )`` to *prop_shape*.
 
@@ -287,5 +318,11 @@ def generate_combined_shapes(vocab_path: Optional[Path] = None) -> Graph:
         if vocab_path.exists():
             vocab_g = _generate_vocab_shapes(vocab_path)
             g += vocab_g
+
+    # Replace every sh:targetClass with a SPARQL-based target that excludes
+    # ord:ExternalReference stubs.  A single pass here covers both model-derived
+    # and vocabulary-derived shapes, so neither generator needs to know about
+    # the ExternalReference pattern.
+    _replace_targetclass_with_sparql(g)
 
     return g

@@ -63,8 +63,18 @@ class SHACLValidator:
     Parameters
     ----------
     inference:
-        RDFS inference mode passed to pyshacl: ``"rdfs"``, ``"owlrl"``,
-        ``"both"``, or ``"none"``.  Defaults to ``"rdfs"``.
+        RDFS inference mode passed to pyshacl: ``"none"``, ``"rdfs"``,
+        ``"owlrl"``, or ``"both"``.  Defaults to ``"none"``.
+
+        The transformer's :meth:`~ORDTransformer._mint_external_reference_stubs`
+        step explicitly marks cross-namespace stub nodes with
+        ``rdf:type ord:ExternalReference`` before the graph reaches the
+        validator.  Running with ``"rdfs"`` inference would cause pyshacl to
+        re-infer the *real* ORD class for those stubs from ``rdfs:range``
+        declarations in the vocabulary (e.g. ``ord:partOfPackage rdfs:range
+        ord:Package``), reinstating the spurious SHACL violations.
+        ``"none"`` prevents that re-injection and is therefore the correct
+        default for graphs produced by this transformer.
     abort_on_first:
         If ``True``, stop validation after the first violation.
     allow_infos:
@@ -84,7 +94,7 @@ class SHACLValidator:
 
     def __init__(
         self,
-        inference: str = "rdfs",
+        inference: str = "none",
         abort_on_first: bool = False,
         allow_infos: bool = False,
         allow_warnings: bool = False,

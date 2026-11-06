@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from rdflib import Graph, Literal
+from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, SKOS
 
 from rdfantic import ShaclMaterializationContext
@@ -33,6 +33,7 @@ from .models import (
 )
 from .namespaces import (
     ORD,
+    ORD_INSTANCE,
     VOCAB_IMPL_STDS,
     bind_standard_namespaces,
     implementation_standard_uri,
@@ -172,6 +173,9 @@ class ORDTransformer:
         # ── Emit stub skos:Concept triples for vendor-extension values ─────────
         self._mint_extension_concepts(g, ord_doc)
 
+        # ── Mark referenced-but-undefined instance URIs as ExternalReferences ──
+        self._mint_external_reference_stubs(g)
+
         return g
 
     # ------------------------------------------------------------------
@@ -282,6 +286,59 @@ class ORDTransformer:
                 g.add((concept, RDF.type, SKOS.Concept))
                 g.add((concept, SKOS.notation, Literal(value)))
                 g.add((concept, SKOS.inScheme, ORD.ImplementationStandardScheme))
+
+    @staticmethod
+    def _mint_external_reference_stubs(g: Graph) -> None:
+        """Emit ``ord:ExternalReference`` type triples for cross-namespace stub nodes.
+
+        When an ORD resource references another resource by ORD ID (e.g. via
+        ``partOfPackage``, ``vendor``, or ``consumptionBundle``), the transformer
+        emits a URI triple for the referenced node but does **not** materialise any
+        subject triples for it — the referenced node is a *stub*.
+
+        Without this step, RDFS inference during SHACL validation would infer the
+        stub's class from the property's ``rdfs:range`` declaration in the ORD
+        vocabulary (e.g. ``ord:partOfPackage rdfs:range ord:Package``).  That makes
+        the stub a SHACL focus node for ``sh:targetClass ord:Package``, which then
+        fires ``sh:MinCountConstraintComponent`` violations for every mandatory
+        property (``ord:ordId``, ``ord:title``, ``ord:version``) that the stub
+        naturally lacks.
+
+        This method detects stubs as instance-namespace URIs that appear as RDF
+        *objects* but never as RDF *subjects* in the graph, and marks each one with
+        ``rdf:type ord:ExternalReference``.  Because no SHACL shape targets
+        ``ord:ExternalReference``, and the :class:`SHACLValidator` now defaults to
+        ``inference="none"`` (preventing RDFS from re-injecting inferred types),
+        stubs are transparently excluded from all constraint checking.
+
+        This is the correct approach when the transformer is expected to handle ORD
+        documents that *reference* resources defined in other ORD documents — a
+        valid and common pattern in multi-system deployments.
+
+        Parameters
+        ----------
+        g:
+            The RDF graph to inspect and extend (mutated in place).
+        """
+        instance_prefix = str(ORD_INSTANCE)
+
+        # All instance URIs that are fully materialised (appear as subjects)
+        defined: set[URIRef] = {
+            s
+            for s, _p, _o in g
+            if isinstance(s, URIRef) and str(s).startswith(instance_prefix)
+        }
+
+        # All instance URIs that are cross-referenced (appear as objects)
+        referenced: set[URIRef] = {
+            o
+            for _s, _p, o in g
+            if isinstance(o, URIRef) and str(o).startswith(instance_prefix)
+        }
+
+        # Stubs = referenced but never materialised as a subject
+        for stub_uri in referenced - defined:
+            g.add((stub_uri, RDF.type, ORD.ExternalReference))
 
     # ------------------------------------------------------------------
     # Convenience: serialize directly to a file
