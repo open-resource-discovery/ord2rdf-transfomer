@@ -1,0 +1,4 @@
+# Review owners for CI and build configuration.
+/.github/ @open-resource-discovery/ord2rdf-transfomer-admin
+/pyproject.toml @open-resource-discovery/ord2rdf-transfomer-admin
+/rdfantic-main/.pipeline/extensions/prebuild/action.yaml @open-resource-discovery/ord2rdf-transfomer-admin
