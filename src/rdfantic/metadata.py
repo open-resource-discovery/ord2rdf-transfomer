@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, Optional, Set
+from collections.abc import Callable
 
 from rdflib import URIRef
 
@@ -32,5 +32,5 @@ class RdfanticModelMetadata:
     """
 
     name: str = ""
-    class_uris: Set[URIRef] = set()
-    term_builder: Optional[Callable] = None
+    class_uris: set[URIRef] = set()
+    term_builder: Callable | None = None

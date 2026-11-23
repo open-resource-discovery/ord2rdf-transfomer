@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import Field, field_validator
 from rdflib import XSD
@@ -54,7 +54,7 @@ class ApiResource(ORDBaseModel):
         Field(alias="ordId"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -64,12 +64,12 @@ class ApiResource(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
@@ -92,32 +92,34 @@ class ApiResource(ORDBaseModel):
         Field(description="public | internal | private"),
     ]
     last_update: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lastUpdate}, datatype=XSD.dateTime),
         Field(alias="lastUpdate", default=None, description="RFC 3339 date-time of last change"),
     ]
     deprecation_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.deprecationDate}, datatype=XSD.dateTime),
         Field(alias="deprecationDate", default=None),
     ]
     sunset_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.sunsetDate}, datatype=XSD.dateTime),
         Field(alias="sunsetDate", default=None),
     ]
     disabled: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.disabled}),
         Field(default=None),
     ]
     abstract: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.abstract}),
-        Field(default=None, description="True if this resource is an abstract interface definition"),
+        Field(
+            default=None, description="True if this resource is an abstract interface definition"
+        ),
     ]
     responsible: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.responsible}),
         Field(default=None),
     ]
@@ -133,12 +135,12 @@ class ApiResource(ORDBaseModel):
         Field(alias="partOfPackage", description="ORD ID of the owning Package"),
     ]
     part_of_consumption_bundles: Annotated[
-        Optional[List[ConsumptionBundleReference]],
+        list[ConsumptionBundleReference] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.partOfConsumptionBundle}),
         Field(alias="partOfConsumptionBundles", default=None),
     ]
     default_consumption_bundle: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.defaultConsumptionBundle},
             uri_factory=ord_id_to_uri,
@@ -149,44 +151,57 @@ class ApiResource(ORDBaseModel):
     # ── Protocol / technical ──────────────────────────────────────────────────
 
     api_protocol: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.apiProtocol}, uri_factory=api_protocol_uri),
-        Field(alias="apiProtocol", default=None,
-              description="rest | odata-v2 | odata-v4 | graphql | grpc | websocket | delta-sharing | sql | a2a | mcp | soap-inbound | soap-outbound | …"),
+        Field(
+            alias="apiProtocol",
+            default=None,
+            description=(
+                "rest | odata-v2 | odata-v4 | graphql | grpc | websocket | "
+                "delta-sharing | sql | a2a | mcp | soap-inbound | soap-outbound | …"
+            ),
+        ),
     ]
     direction: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.direction}),
         Field(default=None, description="inbound | outbound | mixed"),
     ]
     implementation_standard: Annotated[
-        Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.implementationStandard}, uri_factory=implementation_standard_uri),
+        str | None,
+        RdfanticFieldInfoMetaModel(
+            predicates={ORD.implementationStandard}, uri_factory=implementation_standard_uri
+        ),
         Field(alias="implementationStandard", default=None),
     ]
     custom_implementation_standard: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customImplementationStandard}),
         Field(alias="customImplementationStandard", default=None),
     ]
     custom_implementation_standard_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customImplementationStandardDescription}),
         Field(alias="customImplementationStandardDescription", default=None),
     ]
     supported_use_cases: Annotated[
-        Optional[List[str]],
-        RdfanticFieldInfoMetaModel(predicates={ORD.supportedUseCases}, uri_factory=supported_use_case_uri),
-        Field(alias="supportedUseCases", default=None,
-              description="data-federation | snapshot | incremental | streaming | …"),
+        list[str] | None,
+        RdfanticFieldInfoMetaModel(
+            predicates={ORD.supportedUseCases}, uri_factory=supported_use_case_uri
+        ),
+        Field(
+            alias="supportedUseCases",
+            default=None,
+            description="data-federation | snapshot | incremental | streaming | …",
+        ),
     ]
     usage: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.usage}, uri_factory=usage_uri),
         Field(default=None, description="external | local"),
     ]
     entry_points: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.baseUrl}),
         Field(alias="entryPoints", default=None),
     ]
@@ -194,23 +209,26 @@ class ApiResource(ORDBaseModel):
     # ── Definitions / links ───────────────────────────────────────────────────
 
     resource_definitions: Annotated[
-        Optional[List[ResourceDefinition]],
+        list[ResourceDefinition] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.resourceDefinition}),
         Field(alias="resourceDefinitions", default=None),
     ]
     api_resource_links: Annotated[
-        Optional[List[ApiEventResourceLink]],
+        list[ApiEventResourceLink] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.url}),
-        Field(alias="apiResourceLinks", default=None,
-              description="Typed links specific to API resources"),
+        Field(
+            alias="apiResourceLinks",
+            default=None,
+            description="Typed links specific to API resources",
+        ),
     ]
     links: Annotated[
-        Optional[List[Link]],
+        list[Link] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.link}),
         Field(default=None),
     ]
     changelog_entries: Annotated[
-        Optional[List[ChangelogEntry]],
+        list[ChangelogEntry] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.changelogEntry}),
         Field(alias="changelogEntries", default=None),
     ]
@@ -218,22 +236,22 @@ class ApiResource(ORDBaseModel):
     # ── Cross-resource relations ───────────────────────────────────────────────
 
     related_api_resources: Annotated[
-        Optional[List[RelatedApiResource]],
+        list[RelatedApiResource] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relatedApiResources}),
         Field(alias="relatedApiResources", default=None),
     ]
     related_event_resources: Annotated[
-        Optional[List[RelatedEventResource]],
+        list[RelatedEventResource] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relatedEventResources}),
         Field(alias="relatedEventResources", default=None),
     ]
     related_entity_types: Annotated[
-        Optional[List[RelatedEntityType]],
+        list[RelatedEntityType] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relatedEntityType}),
         Field(alias="relatedEntityTypes", default=None),
     ]
     extensible: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.extensible}),
         Field(default=None),
     ]
@@ -250,27 +268,27 @@ class ApiResource(ORDBaseModel):
     # ── Metadata ──────────────────────────────────────────────────────────────
 
     ai_hint: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.aiHint}),
         Field(alias="aiHint", default=None),
     ]
     min_system_version: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.minSystemVersion}),
         Field(alias="minSystemVersion", default=None),
     ]
     policy_level: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}, uri_factory=policy_level_uri),
         Field(alias="policyLevel", default=None),
     ]
     line_of_business: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lineOfBusiness}, uri_factory=lob_uri),
         Field(alias="lineOfBusiness", default=None),
     ]
     industry: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.industry}, uri_factory=industry_uri),
         Field(default=None),
     ]

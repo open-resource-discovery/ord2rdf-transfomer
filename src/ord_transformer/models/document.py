@@ -2,18 +2,18 @@
 
 from __future__ import annotations
 
-from typing import Annotated, Optional
+from typing import Annotated
 
 from pydantic import Field
-from rdflib import BNode, URIRef, XSD
+from rdflib import XSD, BNode, URIRef
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 
-from ..namespaces import ORD, ord_id_to_uri
+from ..namespaces import ORD
 from .base import ORDBaseModel
 
-
 # ── Inline system-context reference models ────────────────────────────────────
+
 
 class SystemType(ORDBaseModel):
     """Inline reference to the SystemType described by this document.
@@ -29,8 +29,9 @@ class SystemType(ORDBaseModel):
     system_namespace: Annotated[
         str,
         RdfanticFieldInfoMetaModel(predicates={ORD.systemNamespace}),
-        Field(alias="systemNamespace",
-              description="Unique namespace that identifies the system type"),
+        Field(
+            alias="systemNamespace", description="Unique namespace that identifies the system type"
+        ),
     ]
 
 
@@ -64,14 +65,14 @@ class SystemInstance(ORDBaseModel):
         term_builder = lambda self: BNode()  # noqa: E731
 
     base_url: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.baseUrl}, datatype=XSD.anyURI),
-        Field(alias="baseUrl", default=None,
-              description="Base URL of the running system instance"),
+        Field(alias="baseUrl", default=None, description="Base URL of the running system instance"),
     ]
 
 
 # ── Top-level document model ──────────────────────────────────────────────────
+
 
 class OrdDocument(ORDBaseModel):
     """The top-level ORD document that carries document-level metadata.
@@ -88,7 +89,7 @@ class OrdDocument(ORDBaseModel):
         class_uris = {ORD.Document}
 
         @staticmethod
-        def term_builder(self: "OrdDocument") -> URIRef:  # type: ignore[override]
+        def term_builder(self: OrdDocument) -> URIRef:  # type: ignore[override]
             if self.base_url:
                 return URIRef(self.base_url)
             return URIRef(f"urn:ord:document:{id(self)}")
@@ -102,41 +103,54 @@ class OrdDocument(ORDBaseModel):
         ),
     ]
     base_url: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.baseUrl}, datatype=XSD.anyURI),
-        Field(alias="baseUrl", default=None, description="Base URL of the described system instance"),
+        Field(
+            alias="baseUrl", default=None, description="Base URL of the described system instance"
+        ),
     ]
     policy_level: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
         Field(alias="policyLevel", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
     perspective: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.perspective}),
-        Field(default=None,
-              description="Document perspective: system-type | system-version | system-instance"),
+        Field(
+            default=None,
+            description="Document perspective: system-type | system-version | system-instance",
+        ),
     ]
     described_system_type: Annotated[
-        Optional[SystemType],
+        SystemType | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.describedSystemType}),
-        Field(alias="describedSystemType", default=None,
-              description="Inline SystemType object identifying the described system type"),
+        Field(
+            alias="describedSystemType",
+            default=None,
+            description="Inline SystemType object identifying the described system type",
+        ),
     ]
     described_system_version: Annotated[
-        Optional[SystemVersion],
+        SystemVersion | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.describedSystemVersion}),
-        Field(alias="describedSystemVersion", default=None,
-              description="Inline SystemVersion object with the design-time version"),
+        Field(
+            alias="describedSystemVersion",
+            default=None,
+            description="Inline SystemVersion object with the design-time version",
+        ),
     ]
     described_system_instance: Annotated[
-        Optional[SystemInstance],
+        SystemInstance | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.describedSystemInstance}),
-        Field(alias="describedSystemInstance", default=None,
-              description="Inline SystemInstance object for the described running instance"),
+        Field(
+            alias="describedSystemInstance",
+            default=None,
+            description="Inline SystemInstance object for the described running instance",
+        ),
     ]

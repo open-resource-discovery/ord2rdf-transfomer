@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
 from rdflib import RDF, URIRef
 
 from ord_transformer.models import (
@@ -16,15 +15,17 @@ from ord_transformer.models import (
 )
 from ord_transformer.namespaces import ORD, ord_id_to_uri
 
-
 # ── OrdDocument ───────────────────────────────────────────────────────────────
+
 
 class TestOrdDocument:
     def test_from_dict(self):
-        doc = OrdDocument.model_validate({
-            "openResourceDiscovery": "1.9",
-            "baseUrl": "https://example.com",
-        })
+        doc = OrdDocument.model_validate(
+            {
+                "openResourceDiscovery": "1.9",
+                "baseUrl": "https://example.com",
+            }
+        )
         assert doc.open_resource_discovery == "1.9"
         assert doc.base_url == "https://example.com"
 
@@ -38,16 +39,19 @@ class TestOrdDocument:
         assert doc.policy_level is None
 
     def test_rdf_type(self, context):
-        doc = OrdDocument.model_validate({
-            "openResourceDiscovery": "1.9",
-            "baseUrl": "https://example.com",
-        })
+        doc = OrdDocument.model_validate(
+            {
+                "openResourceDiscovery": "1.9",
+                "baseUrl": "https://example.com",
+            }
+        )
         g = doc.model_dump_rdf(context=context, parent=None, predicates=set())
         doc_uri = URIRef("https://example.com")
         assert (doc_uri, RDF.type, ORD.Document) in g
 
 
 # ── Package ───────────────────────────────────────────────────────────────────
+
 
 class TestPackage:
     PKG_DATA = {
@@ -96,6 +100,7 @@ class TestPackage:
 
 # ── ConsumptionBundle ─────────────────────────────────────────────────────────
 
+
 class TestConsumptionBundle:
     CB_DATA = {
         "ordId": "sap.example:consumptionBundle:DefaultBundle:v1",
@@ -115,6 +120,7 @@ class TestConsumptionBundle:
 
 
 # ── ApiResource ───────────────────────────────────────────────────────────────
+
 
 class TestApiResource:
     API_DATA = {
@@ -138,7 +144,7 @@ class TestApiResource:
         api = ApiResource.model_validate(self.API_DATA)
         g = api.model_dump_rdf(context=context, parent=None, predicates=set())
         subject = ord_id_to_uri(self.API_DATA["ordId"])
-        assert (subject, RDF.type, ORD.APIResource) in g
+        assert (subject, RDF.type, ORD.ApiResource) in g
 
     def test_part_of_package_is_uri(self, context):
         """partOfPackage should be emitted as a URI, not a literal."""
@@ -151,6 +157,7 @@ class TestApiResource:
 
 
 # ── EventResource ─────────────────────────────────────────────────────────────
+
 
 class TestEventResource:
     EVT_DATA = {
@@ -175,6 +182,7 @@ class TestEventResource:
 
 # ── EntityType ────────────────────────────────────────────────────────────────
 
+
 class TestEntityType:
     ET_DATA = {
         "ordId": "sap.example:entityType:Product:v1",
@@ -198,6 +206,7 @@ class TestEntityType:
 
 
 # ── Vendor ────────────────────────────────────────────────────────────────────
+
 
 class TestVendor:
     def test_from_dict(self):

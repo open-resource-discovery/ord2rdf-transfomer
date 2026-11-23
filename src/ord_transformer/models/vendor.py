@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Annotated, Optional
+from typing import Annotated
 
 from pydantic import Field
 
@@ -29,7 +29,7 @@ class Vendor(ORDBaseModel):
         Field(alias="ordId", description="ORD ID of the vendor, e.g. 'acme.demo:vendor:AcmeCorp:'"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -39,12 +39,12 @@ class Vendor(ORDBaseModel):
         Field(description="Human-readable vendor name"),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]

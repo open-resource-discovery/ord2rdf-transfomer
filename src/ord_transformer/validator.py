@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from rdflib import Graph
 
@@ -98,7 +97,7 @@ class SHACLValidator:
         abort_on_first: bool = False,
         allow_infos: bool = False,
         allow_warnings: bool = False,
-        ont_path: Optional[str | Path] = None,
+        ont_path: str | Path | None = None,
     ) -> None:
         self.inference = inference
         self.abort_on_first = abort_on_first

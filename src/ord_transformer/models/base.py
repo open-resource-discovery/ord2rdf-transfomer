@@ -5,6 +5,7 @@ from __future__ import annotations
 from pydantic import ConfigDict
 
 from rdfantic import RdfanticBaseModel
+
 from ..namespaces import ord_id_to_uri
 
 

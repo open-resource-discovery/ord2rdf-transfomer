@@ -36,6 +36,7 @@ __all__ = [
 
 # ── URI construction helpers ──────────────────────────────────────────────────
 
+
 def ord_id_to_uri(ord_id: str) -> URIRef:
     """Convert an ORD ID string to a stable instance URI.
 
@@ -74,6 +75,7 @@ def concept_uri(scheme_local: str, value: str) -> URIRef:
 # vocabulary represents controlled values as
 # SKOS concepts in the ord: namespace rather than plain xsd:string literals.
 # Each factory maps a JSON string value to the correct concept URI.
+
 
 def release_status_uri(value: str) -> URIRef:
     """Map a releaseStatus string to ``ord:ReleaseStatus-{value}``."""
@@ -259,7 +261,10 @@ _SUPPORTED_USE_CASE_NORM: dict[str, str] = {
 
 
 def supported_use_case_uri(value: str) -> URIRef:
-    """Map a supportedUseCases string to ``ord:Usage-{normalised}`` (ord:SupportedUseCasesScheme)."""
+    """Map a supportedUseCases string to ``ord:Usage-{normalised}``.
+
+    The term belongs to ord:SupportedUseCasesScheme.
+    """
     return ORD[f"Usage-{_SUPPORTED_USE_CASE_NORM.get(value, _to_local_name(value))}"]
 
 
@@ -296,7 +301,10 @@ _PURPOSE_NORM: dict[str, str] = {
 
 
 def purpose_uri(value: str) -> URIRef:
-    """Map a purpose string to ``ord:DefinitionPurpose-{normalised}`` (ord:DefinitionPurposeScheme)."""
+    """Map a purpose string to ``ord:DefinitionPurpose-{normalised}``.
+
+    The term belongs to ord:DefinitionPurposeScheme.
+    """
     return ORD[f"DefinitionPurpose-{_PURPOSE_NORM.get(value, _to_local_name(value))}"]
 
 
@@ -320,6 +328,7 @@ def relation_type_uri(value: str) -> URIRef:
 
 
 # ── Standard namespace binding helper ─────────────────────────────────────────
+
 
 def bind_standard_namespaces(graph) -> None:  # type: ignore[type-arg]
     """Bind all well-known prefixes onto *graph* for readable Turtle output."""

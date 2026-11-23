@@ -23,18 +23,24 @@ Internal helpers (not part of the public API)
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
-from rdflib import BNode, Graph, Literal, Namespace, RDF, RDFS, SH, URIRef, XSD
+from rdflib import RDF, RDFS, SH, XSD, BNode, Graph, Literal, URIRef
 from rdflib.collection import Collection
 from rdflib.namespace import SKOS
+
+from rdfantic import RdfanticBaseModel
 
 from .exceptions import SHACLGenerationError, VocabularyNotFoundError
 from .models import ALL_MODELS
 from .models.supporting import ChangelogEntry, ConsumptionBundleReference, Link, ResourceDefinition
 from .namespaces import ORD, bind_standard_namespaces
 
-_EMBEDDED_MODELS = [ResourceDefinition, Link, ChangelogEntry, ConsumptionBundleReference]
+_EMBEDDED_MODELS: list[type[RdfanticBaseModel]] = [
+    ResourceDefinition,
+    Link,
+    ChangelogEntry,
+    ConsumptionBundleReference,
+]
 
 # XSD range URIs that should become sh:datatype (not sh:class)
 _XSD_STR = str(XSD)
@@ -57,6 +63,7 @@ _STRING_OR_IRI_PROPS = {ORD.ordId}
 
 
 # ── Model-based SHACL generation (internal) ──────────────────────────────────
+
 
 def _generate_model_shapes() -> Graph:
     """Generate SHACL shapes from all RDFantic ORD model classes.
@@ -90,6 +97,7 @@ def _generate_model_shapes() -> Graph:
 
 # ── Shared helpers ────────────────────────────────────────────────────────────
 
+
 def _replace_targetclass_with_sparql(g: Graph) -> None:
     """Replace every ``sh:targetClass`` triple in *g* with a SPARQL-based target.
 
@@ -113,12 +121,18 @@ def _replace_targetclass_with_sparql(g: Graph) -> None:
         sparql_target = BNode()
         g.add((shape_uri, SH["target"], sparql_target))
         g.add((sparql_target, RDF.type, SH["SPARQLTarget"]))
-        g.add((sparql_target, SH["select"], Literal(
-            f"SELECT ?this WHERE {{ "
-            f"?this a <{class_uri}> . "
-            f"FILTER NOT EXISTS {{ ?this a <{ORD.ExternalReference}> }} "
-            f"}}"
-        )))
+        g.add(
+            (
+                sparql_target,
+                SH["select"],
+                Literal(
+                    f"SELECT ?this WHERE {{ "
+                    f"?this a <{class_uri}> . "
+                    f"FILTER NOT EXISTS {{ ?this a <{ORD.ExternalReference}> }} "
+                    f"}}"
+                ),
+            )
+        )
 
 
 def _emit_str_or_iri(g: Graph, prop_shape: BNode) -> None:
@@ -139,6 +153,7 @@ def _emit_str_or_iri(g: Graph, prop_shape: BNode) -> None:
 
 
 # ── Vocabulary-based SHACL generation (internal) ─────────────────────────────
+
 
 def _generate_vocab_shapes(vocab_path: Path) -> Graph:
     """Generate SHACL shapes directly from the ORD vocabulary TTL file.
@@ -189,6 +204,8 @@ def _generate_vocab_shapes(vocab_path: Path) -> Graph:
     # ── Build a map: class_uri → list of property URIs with that domain ───────
     domain_map: dict[URIRef, list[URIRef]] = {}
     for prop_uri in vocab.subjects(RDF.type, RDF.Property):
+        if not isinstance(prop_uri, URIRef):
+            continue
         for domain_uri in vocab.objects(prop_uri, RDFS.domain):
             if isinstance(domain_uri, URIRef):
                 domain_map.setdefault(domain_uri, []).append(prop_uri)
@@ -295,7 +312,8 @@ def _generate_vocab_shapes(vocab_path: Path) -> Graph:
 
 # ── Combined generation ───────────────────────────────────────────────────────
 
-def generate_combined_shapes(vocab_path: Optional[Path] = None) -> Graph:
+
+def generate_combined_shapes(vocab_path: Path | None = None) -> Graph:
     """Generate a unified SHACL graph from both models and vocabulary.
 
     Model shapes are always generated.  Vocabulary shapes are merged in only

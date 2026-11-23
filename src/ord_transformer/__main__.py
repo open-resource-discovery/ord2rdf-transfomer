@@ -22,7 +22,8 @@ With installation (or PYTHONPATH set)::
 
     python -m ord_transformer --help
     python -m ord_transformer transform data/samples/sample_ord.json output/ord_data.ttl
-    python -m ord_transformer generate-shapes --vocab data/vocab/ord_vocabulary.ttl --output output/shapes.ttl
+    python -m ord_transformer generate-shapes --vocab data/vocab/ord_vocabulary.ttl \
+        --output output/shapes.ttl
     python -m ord_transformer validate output/ord_data.ttl output/shapes.ttl
 """
 

@@ -4,7 +4,7 @@
 # Jobs
 #   lint  →  ruff (style + format) · mypy (type checking)
 #   test  →  pytest matrix (Python 3.11, 3.12) with JUnit XML + coverage
-#   build →  wheel + sdist via python -m build  [runs only when source changed]
+#   build →  wheel + sdist via python -m build
 #
 # Branch protection (enable in repo Settings → Branches):
 #   Required status checks:  "Lint & type-check"
@@ -48,19 +48,14 @@ jobs:
       - name: Ruff — format check
         run: ruff format --check src/ tests/
 
-      # mypy runs with strict=false / ignore_missing_imports=true (pyproject.toml).
-      # continue-on-error keeps the PR unblocked while typing is still evolving,
-      # but the result is still visible as a ✗ annotation on the check.
       - name: Mypy — type check
         run: mypy src/
-        continue-on-error: true
 
-    # ── 2. Tests (matrix across supported Python versions) ─────────────────────
+  # ── 2. Tests (matrix across supported Python versions) ─────────────────────
+  test:
     permissions:
       contents: read
       checks: write
-      pull-requests: write
-  test:
     name: Test / Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: lint
@@ -95,7 +90,7 @@ jobs:
       #       are still available via the uploaded artifacts below.
       - name: Publish test results to PR
         uses: dorny/test-reporter@d61b558e8df85cb60d09ca3e5b09653b4477cea7 # v1
-        if: always()
+        if: always() && github.event.pull_request.head.repo.full_name == github.repository
         with:
           name: "Test Results — Python ${{ matrix.python-version }}"
           path: "test-results-py${{ matrix.python-version }}.xml"
@@ -110,22 +105,11 @@ jobs:
           path: coverage-py${{ matrix.python-version }}.xml
           retention-days: 7
 
-    # ── 3. Build (wheel + sdist) — only when source or config changes ───────────
-    permissions:
-      contents: read
-      checks: write
-      pull-requests: write
+  # ── 3. Build (wheel + sdist) ───────────
   build:
     name: Build distribution
     runs-on: ubuntu-latest
     needs: test
-
-    # Only build when source code or packaging config actually changed
-    if: |
-      github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, 'src/') ||
-        contains(github.event.pull_request.changed_files, 'pyproject.toml')
-      )
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -148,7 +132,3 @@ jobs:
           name: dist
           path: dist/
           retention-days: 7
-    permissions:
-      contents: read
-      checks: write
-      pull-requests: write

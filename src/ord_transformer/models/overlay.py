@@ -6,7 +6,7 @@ Introduced in ORD spec v1.15 (alpha).
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import Field
 from rdflib import XSD
@@ -37,22 +37,22 @@ class Overlay(ORDBaseModel):
         Field(alias="ordId"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
     title: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.title}),
         Field(default=None),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
@@ -72,12 +72,12 @@ class Overlay(ORDBaseModel):
         Field(),
     ]
     last_update: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lastUpdate}, datatype=XSD.dateTime),
         Field(alias="lastUpdate", default=None),
     ]
     part_of_package: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.partOfPackage},
             uri_factory=ord_id_to_uri,
@@ -85,32 +85,32 @@ class Overlay(ORDBaseModel):
         Field(alias="partOfPackage", default=None),
     ]
     resource_definitions: Annotated[
-        Optional[List[ResourceDefinition]],
+        list[ResourceDefinition] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.resourceDefinition}),
         Field(alias="resourceDefinitions", default=None),
     ]
     links: Annotated[
-        Optional[List[Link]],
+        list[Link] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.link}),
         Field(default=None),
     ]
     changelog_entries: Annotated[
-        Optional[List[ChangelogEntry]],
+        list[ChangelogEntry] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.changelogEntry}),
         Field(alias="changelogEntries", default=None),
     ]
     policy_level: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
         Field(alias="policyLevel", default=None),
     ]
     line_of_business: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lineOfBusiness}),
         Field(alias="lineOfBusiness", default=None),
     ]
     industry: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.industry}),
         Field(default=None),
     ]

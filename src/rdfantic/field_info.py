@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, Optional, Set
+from collections.abc import Callable
 
 from rdflib import URIRef
 
@@ -11,7 +11,8 @@ class RdfanticFieldInfoMetaModel:
     """Metadata placed inside ``typing.Annotated`` to describe a field's RDF representation.
 
     Every annotated field may carry **one or more** of these objects; each one
-    produces an independent set of triples during :meth:`~rdfantic.RdfanticBaseModel.model_dump_rdf`.
+    produces an independent set of triples during
+    :meth:`~rdfantic.RdfanticBaseModel.model_dump_rdf`.
 
     Parameters
     ----------
@@ -53,20 +54,20 @@ class RdfanticFieldInfoMetaModel:
 
     def __init__(
         self,
-        predicates: Set[URIRef],
+        predicates: set[URIRef],
         *,
-        field_class_uris: Optional[Set[URIRef]] = None,
-        datatype: Optional[URIRef] = None,
-        inverse_predicates: Optional[Set[URIRef]] = None,
-        uri_factory: Optional[Callable[[str], URIRef]] = None,
+        field_class_uris: set[URIRef] | None = None,
+        datatype: URIRef | None = None,
+        inverse_predicates: set[URIRef] | None = None,
+        uri_factory: Callable[[str], URIRef] | None = None,
     ) -> None:
         if not predicates:
             raise ValueError("predicates must contain at least one URIRef")
-        self.predicates: Set[URIRef] = predicates
-        self.field_class_uris: Set[URIRef] = field_class_uris or set()
-        self.datatype: Optional[URIRef] = datatype
-        self.inverse_predicates: Set[URIRef] = inverse_predicates or set()
-        self.uri_factory: Optional[Callable[[str], URIRef]] = uri_factory
+        self.predicates: set[URIRef] = predicates
+        self.field_class_uris: set[URIRef] = field_class_uris or set()
+        self.datatype: URIRef | None = datatype
+        self.inverse_predicates: set[URIRef] = inverse_predicates or set()
+        self.uri_factory: Callable[[str], URIRef] | None = uri_factory
 
     def __repr__(self) -> str:  # pragma: no cover
         return (

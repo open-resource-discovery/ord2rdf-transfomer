@@ -9,11 +9,10 @@ from typing import Any
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, SKOS
 
-from rdfantic import ShaclMaterializationContext
+from rdfantic import RdfanticBaseModel, ShaclMaterializationContext
 
 from .exceptions import ORDParseError
 from .models import (
-    ALL_MODELS,
     Agent,
     ApiResource,
     Capability,
@@ -52,7 +51,7 @@ _RESOURCE_DEFINITION_HOSTS: tuple[str, ...] = (
 
 # Mapping: ORD JSON top-level array key → RDFantic model class
 # All keys follow the ORD spec document structure.
-_ARRAY_KEY_TO_MODEL: dict[str, type] = {
+_ARRAY_KEY_TO_MODEL: dict[str, type[RdfanticBaseModel]] = {
     # Taxonomy
     "packages": Package,
     "consumptionBundles": ConsumptionBundle,
@@ -199,15 +198,12 @@ class ORDTransformer:
 
         Returns the first non-empty value found, or ``None``.
         """
-        return (
-            ord_doc.get("baseUrl")
-            or (ord_doc.get("describedSystemInstance") or {}).get("baseUrl")
+        return ord_doc.get("baseUrl") or (ord_doc.get("describedSystemInstance") or {}).get(
+            "baseUrl"
         )
 
     @staticmethod
-    def _resolve_definition_urls(
-        ord_doc: dict[str, Any], base_url: str | None
-    ) -> None:
+    def _resolve_definition_urls(ord_doc: dict[str, Any], base_url: str | None) -> None:
         """Resolve relative ``url`` fields in ``resourceDefinitions`` to absolute IRIs.
 
         ORD resource-definition ``url`` values are often root-relative paths such
@@ -238,9 +234,7 @@ class ORDTransformer:
                     path = url if url.startswith("/") else "/" + url
                     defn["url"] = base + path
 
-    def _mint_extension_concepts(
-        self, g: Graph, ord_doc: dict[str, Any]
-    ) -> None:
+    def _mint_extension_concepts(self, g: Graph, ord_doc: dict[str, Any]) -> None:
         """Emit ``skos:Concept`` stub triples for vendor-extension implementationStandard values.
 
         ORD allows any Specification ID (``<vendor>:<name>:<version>``) as
@@ -275,11 +269,7 @@ class ORDTransformer:
         for array_key in _IMPL_STD_KEYS:
             for item in ord_doc.get(array_key, []) or []:
                 value = item.get("implementationStandard")
-                if (
-                    value is None
-                    or value in VOCAB_IMPL_STDS
-                    or value in seen
-                ):
+                if value is None or value in VOCAB_IMPL_STDS or value in seen:
                     continue
                 seen.add(value)
                 concept = implementation_standard_uri(value)
@@ -324,16 +314,12 @@ class ORDTransformer:
 
         # All instance URIs that are fully materialised (appear as subjects)
         defined: set[URIRef] = {
-            s
-            for s, _p, _o in g
-            if isinstance(s, URIRef) and str(s).startswith(instance_prefix)
+            s for s, _p, _o in g if isinstance(s, URIRef) and str(s).startswith(instance_prefix)
         }
 
         # All instance URIs that are cross-referenced (appear as objects)
         referenced: set[URIRef] = {
-            o
-            for _s, _p, o in g
-            if isinstance(o, URIRef) and str(o).startswith(instance_prefix)
+            o for _s, _p, o in g if isinstance(o, URIRef) and str(o).startswith(instance_prefix)
         }
 
         # Stubs = referenced but never materialised as a subject
