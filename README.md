@@ -157,3 +157,12 @@ uv run --locked --group build python -m build --no-isolation
 ```
 
 Vendored upstream CI and pipeline configuration has been removed; the vendored library sources remain available.
+The Python 3.12 CI job also checks `rdfantic-main/uv.lock` and runs the vendored library tests.
+Its filelock, tornado, and virtualenv resolutions retain patched security minimums and the two-day package-age policy.
+Run those checks separately:
+
+```bash
+cd rdfantic-main
+uv sync --locked --all-groups
+uv run --locked pytest
+```
