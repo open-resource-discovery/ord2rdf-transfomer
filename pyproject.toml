@@ -73,4 +73,5 @@ strict = false
 ignore_missing_imports = true
 
 [tool.uv]
+exclude-newer = "P2D"
 build-constraint-dependencies = ["setuptools==84.2.1", "wheel==0.48.0"]
