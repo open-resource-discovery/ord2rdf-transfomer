@@ -3,6 +3,8 @@ defined in the ORD vocabulary (``ord_open_vocab.ttl``).
 """
 
 # ── Top-level resource models ─────────────────────────────────────────────────
+from rdfantic import RdfanticBaseModel
+
 from .agent import Agent
 from .api_resource import ApiResource
 from .capability import Capability
@@ -14,10 +16,6 @@ from .event_resource import EventResource
 from .integration_dependency import IntegrationDependency
 from .overlay import Overlay
 from .package import Package
-from .vendor import Vendor
-
-# ── Taxonomy models ───────────────────────────────────────────────────────────
-from .taxonomy import Group, GroupType, Product, Tombstone
 
 # ── Embedded / supporting models ──────────────────────────────────────────────
 from .supporting import (
@@ -39,9 +37,13 @@ from .supporting import (
     ResourceDefinition,
 )
 
+# ── Taxonomy models ───────────────────────────────────────────────────────────
+from .taxonomy import Group, GroupType, Product, Tombstone
+from .vendor import Vendor
+
 # ── ALL_MODELS — every top-level class the transformer and SHACL generator use ─
 #: Ordered list of all ORD top-level entity model classes.
-ALL_MODELS = [
+ALL_MODELS: list[type[RdfanticBaseModel]] = [
     # Document
     OrdDocument,
     # Resources

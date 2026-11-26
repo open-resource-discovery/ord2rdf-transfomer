@@ -45,6 +45,9 @@
     ]
 
 [tool.uv]
+    # Keep reviewed security fixes while delaying newly published versions.
+    exclude-newer = "P2D"
+    constraint-dependencies = ["filelock>=4.2.1", "tornado>=6.6.1", "virtualenv>=21.14.9"]
     package = true
     required-version = ">=0.6.0"
     default-groups = ['dev', 'test']

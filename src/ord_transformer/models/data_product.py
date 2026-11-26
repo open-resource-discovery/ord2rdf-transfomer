@@ -5,22 +5,28 @@ Maps to ``ord:DataProduct`` (subclass of ``ord:ORDResource``).
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import Field, field_validator
 from rdflib import XSD
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 
-from ..namespaces import ORD, ord_id_to_uri, release_status_uri, visibility_uri, industry_uri, lob_uri
+from ..namespaces import (
+    ORD,
+    industry_uri,
+    lob_uri,
+    ord_id_to_uri,
+    release_status_uri,
+    visibility_uri,
+)
 from .base import ORDBaseModel
 from .supporting import (
     ChangelogEntry,
     ConsumptionBundleReference,
     DataProductInputPort,
-    DataProductOutputPort,
     DataProductLink,
-
+    DataProductOutputPort,
     Link,
     RelatedEntityType,
 )
@@ -46,7 +52,7 @@ class DataProduct(ORDBaseModel):
         Field(alias="ordId"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -56,12 +62,12 @@ class DataProduct(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
@@ -84,27 +90,27 @@ class DataProduct(ORDBaseModel):
         Field(),
     ]
     last_update: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lastUpdate}, datatype=XSD.dateTime),
         Field(alias="lastUpdate", default=None),
     ]
     deprecation_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.deprecationDate}, datatype=XSD.dateTime),
         Field(alias="deprecationDate", default=None),
     ]
     sunset_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.sunsetDate}, datatype=XSD.dateTime),
         Field(alias="sunsetDate", default=None),
     ]
     disabled: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.disabled}),
         Field(default=None),
     ]
     responsible: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.responsible}),
         Field(default=None),
     ]
@@ -112,20 +118,23 @@ class DataProduct(ORDBaseModel):
     # ── Data product classification ───────────────────────────────────────────
 
     type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.type}),
         Field(default=None, description="base-object | primary-source | derived | …"),
     ]
     category: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.category}),
         Field(default=None, description="business-object | analytical | …"),
     ]
     lifecycle_status: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lifecycleStatus}),
-        Field(alias="lifecycleStatus", default=None,
-              description="Runtime lifecycle status: running | provisioning | …"),
+        Field(
+            alias="lifecycleStatus",
+            default=None,
+            description="Runtime lifecycle status: running | provisioning | …",
+        ),
     ]
 
     # ── Package / bundle membership ───────────────────────────────────────────
@@ -139,12 +148,12 @@ class DataProduct(ORDBaseModel):
         Field(alias="partOfPackage"),
     ]
     part_of_consumption_bundles: Annotated[
-        Optional[List[ConsumptionBundleReference]],
+        list[ConsumptionBundleReference] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.partOfConsumptionBundle}),
         Field(alias="partOfConsumptionBundles", default=None),
     ]
     default_consumption_bundle: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.defaultConsumptionBundle},
             uri_factory=ord_id_to_uri,
@@ -155,27 +164,31 @@ class DataProduct(ORDBaseModel):
     # ── Data ports ────────────────────────────────────────────────────────────
 
     input_ports: Annotated[
-        Optional[List[DataProductInputPort]],
+        list[DataProductInputPort] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.inputPort}),
-        Field(alias="inputPorts", default=None,
-              description="Input data sources for this data product"),
+        Field(
+            alias="inputPorts", default=None, description="Input data sources for this data product"
+        ),
     ]
     output_ports: Annotated[
-        Optional[List[DataProductOutputPort]],
+        list[DataProductOutputPort] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.outputPort}),
-        Field(alias="outputPorts", default=None,
-              description="Output ports exposing this data product's data"),
+        Field(
+            alias="outputPorts",
+            default=None,
+            description="Output ports exposing this data product's data",
+        ),
     ]
 
     # ── Cross-resource relations ───────────────────────────────────────────────
 
     related_entity_types: Annotated[
-        Optional[List[RelatedEntityType]],
+        list[RelatedEntityType] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relatedEntityType}),
         Field(alias="relatedEntityTypes", default=None),
     ]
     extensible: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.extensible}),
         Field(default=None),
     ]
@@ -191,17 +204,17 @@ class DataProduct(ORDBaseModel):
     # ── Links / changelog ─────────────────────────────────────────────────────
 
     data_product_links: Annotated[
-        Optional[List[DataProductLink]],
+        list[DataProductLink] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.url}),
         Field(alias="dataProductLinks", default=None),
     ]
     links: Annotated[
-        Optional[List[Link]],
+        list[Link] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.link}),
         Field(default=None),
     ]
     changelog_entries: Annotated[
-        Optional[List[ChangelogEntry]],
+        list[ChangelogEntry] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.changelogEntry}),
         Field(alias="changelogEntries", default=None),
     ]
@@ -209,27 +222,27 @@ class DataProduct(ORDBaseModel):
     # ── Metadata ──────────────────────────────────────────────────────────────
 
     ai_hint: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.aiHint}),
         Field(alias="aiHint", default=None),
     ]
     min_system_version: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.minSystemVersion}),
         Field(alias="minSystemVersion", default=None),
     ]
     policy_level: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
         Field(alias="policyLevel", default=None),
     ]
     line_of_business: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lineOfBusiness}, uri_factory=lob_uri),
         Field(alias="lineOfBusiness", default=None),
     ]
     industry: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.industry}, uri_factory=industry_uri),
         Field(default=None),
     ]

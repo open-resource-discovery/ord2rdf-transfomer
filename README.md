@@ -145,4 +145,24 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 Copyright 2026 SAP SE or an SAP affiliate company and ord2rdf-transfomer contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/open-resource-discovery/ord2rdf-transfomer).
 
+## Locked development checks
 
+CI installs the committed `uv.lock`, including test tools and the build backend.
+Use the same dependency graph locally:
+
+```bash
+uv sync --locked --extra dev
+uv run --locked --extra dev pytest
+uv run --locked --group build python -m build --no-isolation
+```
+
+Vendored upstream CI and pipeline configuration has been removed; the vendored library sources remain available.
+The Python 3.12 CI job also checks `rdfantic-main/uv.lock` and runs the vendored library tests.
+Its filelock, tornado, and virtualenv resolutions retain patched security minimums and the two-day package-age policy.
+Run those checks separately:
+
+```bash
+cd rdfantic-main
+uv sync --locked --all-groups
+uv run --locked pytest
+```

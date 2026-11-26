@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 import pytest
 from pydantic import Field
-from rdflib import BNode, Graph, Literal, RDF, RDFS, SH, URIRef, XSD
+from rdflib import RDF, RDFS, SH, XSD, Graph, Literal, URIRef
 
 from rdfantic import (
     RdfanticBaseModel,
@@ -28,6 +28,7 @@ def ctx() -> ShaclMaterializationContext:
 
 # ── Simple model fixture ──────────────────────────────────────────────────────
 
+
 class Person(RdfanticBaseModel):
     class Meta(RdfanticModelMetadata):
         name = "Person"
@@ -40,12 +41,12 @@ class Person(RdfanticBaseModel):
         Field(description="Person name"),
     ]
     age: Annotated[
-        Optional[int],
+        int | None,
         RdfanticFieldInfoMetaModel(predicates={URIRef("http://example.org/age")}),
         Field(default=None),
     ]
     homepage: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={URIRef("http://example.org/homepage")},
             datatype=XSD.anyURI,
@@ -53,18 +54,19 @@ class Person(RdfanticBaseModel):
         Field(default=None),
     ]
     aliases: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={RDFS.label}),
         Field(default=None),
     ]
     knows: Annotated[
-        Optional["Person"],
+        Person | None,
         RdfanticFieldInfoMetaModel(predicates={KNOWS}),
         Field(default=None),
     ]
 
 
 # ── ShaclMaterializationContext ────────────────────────────────────────────────
+
 
 class TestShaclMaterializationContext:
     def test_stores_base_uri(self):
@@ -77,6 +79,7 @@ class TestShaclMaterializationContext:
 
 
 # ── model_dump_rdf ─────────────────────────────────────────────────────────────
+
 
 class TestModelDumpRdf:
     def test_returns_graph(self):
@@ -144,9 +147,7 @@ class TestModelDumpRdf:
         alice = Person(name="Alice")
         parent_uri = URIRef("http://example.org/groups/Admins")
         HAS_MEMBER = URIRef("http://example.org/hasMember")
-        g = alice.model_dump_rdf(
-            context=ctx(), parent=parent_uri, predicates={HAS_MEMBER}
-        )
+        g = alice.model_dump_rdf(context=ctx(), parent=parent_uri, predicates={HAS_MEMBER})
         alice_uri = URIRef("http://example.org/people/Alice")
         assert (parent_uri, HAS_MEMBER, alice_uri) in g
 
@@ -166,7 +167,7 @@ class TestModelDumpRdf:
                 Field(),
             ]
             related: Annotated[
-                Optional[str],
+                str | None,
                 RdfanticFieldInfoMetaModel(
                     predicates={MY_PRED},
                     uri_factory=lambda v: URIRef(f"http://example.org/orgs/{v}"),
@@ -182,6 +183,7 @@ class TestModelDumpRdf:
 
 
 # ── model_dump_shacl ───────────────────────────────────────────────────────────
+
 
 class TestModelDumpShacl:
     def test_returns_graph(self):
@@ -203,10 +205,7 @@ class TestModelDumpShacl:
     def test_property_shape_for_name(self):
         g = Person.model_dump_shacl()
         shape = next(g.subjects(RDF.type, SH.NodeShape))
-        prop_paths = [
-            g.value(ps, SH.path)
-            for ps in g.objects(shape, SH.property)
-        ]
+        prop_paths = [g.value(ps, SH.path) for ps in g.objects(shape, SH.property)]
         assert RDFS.label in prop_paths
 
     def test_required_field_min_count(self):

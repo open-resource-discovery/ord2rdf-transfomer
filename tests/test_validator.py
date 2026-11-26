@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-import pytest
-from rdflib import Graph, Literal, RDF, SH, URIRef, XSD
+from rdflib import RDF, SH, XSD, Graph, Literal, URIRef
 
 from ord_transformer.validator import SHACLValidator, ValidationResult
 
-
 # ── Helper: build a minimal shapes graph ─────────────────────────────────────
+
 
 def _simple_shapes_graph() -> Graph:
     """Return a SHACL graph requiring sh:name xsd:string on ex:Person."""
@@ -46,6 +45,7 @@ def _invalid_data_graph() -> Graph:
 
 
 # ── SHACLValidator ─────────────────────────────────────────────────────────────
+
 
 class TestSHACLValidator:
     def test_valid_data_conforms(self):
@@ -106,10 +106,9 @@ class TestSHACLValidator:
 
 # ── Integration: validate the sample ORD data against generated shapes ────────
 
+
 class TestOrdValidation:
-    def test_ord_data_validates_against_model_shapes(
-        self, transformed_graph, model_shapes_graph
-    ):
+    def test_ord_data_validates_against_model_shapes(self, transformed_graph, model_shapes_graph):
         """The transformed ORD sample should conform to model-based SHACL shapes."""
         validator = SHACLValidator(inference="rdfs")
         result = validator.validate(transformed_graph, model_shapes_graph)

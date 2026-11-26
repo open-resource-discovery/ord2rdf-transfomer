@@ -6,7 +6,7 @@ These are ORD Taxonomy entities (subclasses of ``ord:ORDTaxonomy``) and
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import AliasChoices, Field
 from rdflib import XSD
@@ -16,8 +16,8 @@ from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 from ..namespaces import ORD, ord_id_to_uri
 from .base import ORDBaseModel
 
-
 # ── Product ───────────────────────────────────────────────────────────────────
+
 
 class Product(ORDBaseModel):
     """A commercial product or service in ORD's software portfolio taxonomy.
@@ -36,7 +36,7 @@ class Product(ORDBaseModel):
         Field(alias="ordId"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -46,17 +46,17 @@ class Product(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
     vendor: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.vendor},
             uri_factory=ord_id_to_uri,
@@ -64,7 +64,7 @@ class Product(ORDBaseModel):
         Field(default=None),
     ]
     parent: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(
             predicates={ORD.parent},
             uri_factory=ord_id_to_uri,
@@ -72,13 +72,14 @@ class Product(ORDBaseModel):
         Field(default=None, description="ORD ID of parent Product for hierarchical structure"),
     ]
     correlation_ids: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
         Field(alias="correlationIds", default=None),
     ]
 
 
 # ── Group ─────────────────────────────────────────────────────────────────────
+
 
 class Group(ORDBaseModel):
     """A Group instance that resources can be assigned to.
@@ -102,7 +103,7 @@ class Group(ORDBaseModel):
         ),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -112,12 +113,12 @@ class Group(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
@@ -127,12 +128,15 @@ class Group(ORDBaseModel):
             predicates={ORD.type},
             uri_factory=ord_id_to_uri,
         ),
-        Field(alias="groupTypeId",
-              description="ORD ID of the GroupType that defines the semantics of this Group"),
+        Field(
+            alias="groupTypeId",
+            description="ORD ID of the GroupType that defines the semantics of this Group",
+        ),
     ]
 
 
 # ── GroupType ─────────────────────────────────────────────────────────────────
+
 
 class GroupType(ORDBaseModel):
     """A GroupType defines the semantics of Group assignments.
@@ -156,7 +160,7 @@ class GroupType(ORDBaseModel):
         ),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -166,18 +170,19 @@ class GroupType(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
 
 
 # ── Tombstone ─────────────────────────────────────────────────────────────────
+
 
 class Tombstone(ORDBaseModel):
     """A Tombstone marks that a previously published ORD resource has been removed.
@@ -188,50 +193,60 @@ class Tombstone(ORDBaseModel):
     class Meta(RdfanticModelMetadata):
         name = "Tombstone"
         class_uris = {ORD.Tombstone}
-        term_builder = lambda self: ord_id_to_uri(
-            self.ord_id or self.package_ord_id or self.api_resource_ord_id or "tombstone"
-        )  # noqa: E731
+
+        def term_builder(self):
+            return ord_id_to_uri(
+                self.ord_id or self.package_ord_id or self.api_resource_ord_id or "tombstone"
+            )
 
     # Exactly ONE of the following ID fields must be set
     ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
         RdfanticFieldInfoMetaModel(predicates={ORD.removedResource}, uri_factory=ord_id_to_uri),
-        Field(alias="ordId", default=None,
-              description="The ORD ID of the removed resource (for general resources)"),
+        Field(
+            alias="ordId",
+            default=None,
+            description="The ORD ID of the removed resource (for general resources)",
+        ),
     ]
     package_ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
-        Field(alias="packageOrdId", default=None,
-              description="ORD ID of the removed Package"),
+        Field(alias="packageOrdId", default=None, description="ORD ID of the removed Package"),
     ]
     api_resource_ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
-        Field(alias="apiResourceOrdId", default=None,
-              description="ORD ID of the removed API Resource"),
+        Field(
+            alias="apiResourceOrdId", default=None, description="ORD ID of the removed API Resource"
+        ),
     ]
     event_resource_ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
-        Field(alias="eventResourceOrdId", default=None,
-              description="ORD ID of the removed Event Resource"),
+        Field(
+            alias="eventResourceOrdId",
+            default=None,
+            description="ORD ID of the removed Event Resource",
+        ),
     ]
     entity_type_ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
-        Field(alias="entityTypeOrdId", default=None,
-              description="ORD ID of the removed Entity Type"),
+        Field(
+            alias="entityTypeOrdId", default=None, description="ORD ID of the removed Entity Type"
+        ),
     ]
     data_product_ord_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.ordId}),
-        Field(alias="dataProductOrdId", default=None,
-              description="ORD ID of the removed Data Product"),
+        Field(
+            alias="dataProductOrdId", default=None, description="ORD ID of the removed Data Product"
+        ),
     ]
     removed_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.removedDate}, datatype=XSD.dateTime),
         Field(
             validation_alias=AliasChoices("removalDate", "removedDate"),
@@ -241,7 +256,7 @@ class Tombstone(ORDBaseModel):
         ),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]

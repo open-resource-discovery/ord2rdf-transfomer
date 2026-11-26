@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import typing
 from datetime import date, datetime
-from typing import Any, Optional, Set, get_args, get_origin
+from types import UnionType
+from typing import Any, get_args, get_origin
 
 from pydantic import BaseModel
-from rdflib import XSD, BNode, Graph, Literal, RDF, SH, URIRef
+from rdflib import RDF, SH, XSD, BNode, Graph, Literal, URIRef
 
 from .context import ShaclMaterializationContext
 from .field_info import RdfanticFieldInfoMetaModel
@@ -27,7 +28,7 @@ _PYTHON_TO_XSD: dict[type, URIRef] = {
 }
 
 
-def _xsd_for(python_type: type) -> Optional[URIRef]:
+def _xsd_for(python_type: type) -> URIRef | None:
     """Return the XSD datatype URI for a Python scalar type, or None."""
     return _PYTHON_TO_XSD.get(python_type)
 
@@ -35,6 +36,7 @@ def _xsd_for(python_type: type) -> Optional[URIRef]:
 # ---------------------------------------------------------------------------
 # Annotation introspection
 # ---------------------------------------------------------------------------
+
 
 def _unwrap(annotation: Any) -> tuple[Any, bool, bool]:
     """Recursively strip ``Optional`` / ``List`` wrappers.
@@ -50,7 +52,7 @@ def _unwrap(annotation: Any) -> tuple[Any, bool, bool]:
     args = get_args(annotation)
 
     # Optional[T] == Union[T, None]
-    if origin is typing.Union:
+    if origin in (typing.Union, UnionType):
         is_optional = type(None) in args
         non_none = [a for a in args if a is not type(None)]
         inner = non_none[0] if len(non_none) == 1 else non_none[0] if non_none else str
@@ -70,6 +72,7 @@ def _unwrap(annotation: Any) -> tuple[Any, bool, bool]:
 # ---------------------------------------------------------------------------
 # RdfanticBaseModel
 # ---------------------------------------------------------------------------
+
 
 class RdfanticBaseModel(BaseModel):
     """Pydantic v2 base model that can serialize to RDF and generate SHACL shapes.
@@ -101,8 +104,8 @@ class RdfanticBaseModel(BaseModel):
     def model_dump_rdf(
         self,
         context: ShaclMaterializationContext,
-        parent: Optional[URIRef | BNode],
-        predicates: Set[URIRef],
+        parent: URIRef | BNode | None,
+        predicates: set[URIRef],
     ) -> Graph:
         """Serialize this instance to an ``rdflib.Graph``.
 
@@ -149,8 +152,7 @@ class RdfanticBaseModel(BaseModel):
                 continue
 
             rdf_metas: list[RdfanticFieldInfoMetaModel] = [
-                m for m in field_info.metadata
-                if isinstance(m, RdfanticFieldInfoMetaModel)
+                m for m in field_info.metadata if isinstance(m, RdfanticFieldInfoMetaModel)
             ]
             for rdf_meta in rdf_metas:
                 self._emit_triples(g, context, subject, value, field_info.annotation, rdf_meta)
@@ -191,8 +193,7 @@ class RdfanticBaseModel(BaseModel):
 
         for field_name, field_info in cls.model_fields.items():
             rdf_metas: list[RdfanticFieldInfoMetaModel] = [
-                m for m in field_info.metadata
-                if isinstance(m, RdfanticFieldInfoMetaModel)
+                m for m in field_info.metadata if isinstance(m, RdfanticFieldInfoMetaModel)
             ]
             if not rdf_metas:
                 continue
@@ -252,7 +253,9 @@ class RdfanticBaseModel(BaseModel):
                 # Inverse properties
                 if rdf_meta.inverse_predicates:
                     nested_meta = val.__class__.Meta
-                    nested_subj = nested_meta.term_builder(val) if nested_meta.term_builder else BNode()
+                    nested_subj = (
+                        nested_meta.term_builder(val) if nested_meta.term_builder else BNode()
+                    )
                     for inv_pred in rdf_meta.inverse_predicates:
                         g.add((nested_subj, inv_pred, subject))
 

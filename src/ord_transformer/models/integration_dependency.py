@@ -5,7 +5,7 @@ Maps to ``ord:IntegrationDependency`` (subclass of ``ord:ORDResource``).
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import Field
 from rdflib import XSD
@@ -37,7 +37,7 @@ class IntegrationDependency(ORDBaseModel):
         Field(alias="ordId"),
     ]
     local_id: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.localId}),
         Field(alias="localId", default=None),
     ]
@@ -47,12 +47,12 @@ class IntegrationDependency(ORDBaseModel):
         Field(),
     ]
     short_description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.shortDescription}),
         Field(alias="shortDescription", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
@@ -75,27 +75,27 @@ class IntegrationDependency(ORDBaseModel):
         Field(),
     ]
     last_update: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lastUpdate}, datatype=XSD.dateTime),
         Field(alias="lastUpdate", default=None),
     ]
     deprecation_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.deprecationDate}, datatype=XSD.dateTime),
         Field(alias="deprecationDate", default=None),
     ]
     sunset_date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.sunsetDate}, datatype=XSD.dateTime),
         Field(alias="sunsetDate", default=None),
     ]
     disabled: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.disabled}),
         Field(default=None),
     ]
     responsible: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.responsible}),
         Field(default=None),
     ]
@@ -114,27 +114,32 @@ class IntegrationDependency(ORDBaseModel):
     # ── Integration-specific ──────────────────────────────────────────────────
 
     mandatory: Annotated[
-        Optional[bool],
+        bool | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.mandatory}),
-        Field(default=None,
-              description="Whether this integration is mandatory for the system to function"),
+        Field(
+            default=None,
+            description="Whether this integration is mandatory for the system to function",
+        ),
     ]
     related_integration_dependency: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relatedIntegrationDependency}),
-        Field(alias="relatedIntegrationDependency", default=None,
-              description="ORD ID of a conceptually related IntegrationDependency"),
+        Field(
+            alias="relatedIntegrationDependency",
+            default=None,
+            description="ORD ID of a conceptually related IntegrationDependency",
+        ),
     ]
 
     # ── Links / changelog ─────────────────────────────────────────────────────
 
     links: Annotated[
-        Optional[List[Link]],
+        list[Link] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.link}),
         Field(default=None),
     ]
     changelog_entries: Annotated[
-        Optional[List[ChangelogEntry]],
+        list[ChangelogEntry] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.changelogEntry}),
         Field(alias="changelogEntries", default=None),
     ]
@@ -142,27 +147,27 @@ class IntegrationDependency(ORDBaseModel):
     # ── Metadata ──────────────────────────────────────────────────────────────
 
     ai_hint: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.aiHint}),
         Field(alias="aiHint", default=None),
     ]
     min_system_version: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.minSystemVersion}),
         Field(alias="minSystemVersion", default=None),
     ]
     policy_level: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.policyLevel}),
         Field(alias="policyLevel", default=None),
     ]
     line_of_business: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.lineOfBusiness}),
         Field(alias="lineOfBusiness", default=None),
     ]
     industry: Annotated[
-        Optional[List[str]],
+        list[str] | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.industry}),
         Field(default=None),
     ]

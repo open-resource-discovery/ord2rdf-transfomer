@@ -41,6 +41,13 @@ dev = [
 [project.scripts]
 ord-transform = "ord_transformer.cli:cli"
 
+[dependency-groups]
+build = [
+    "build",
+    "setuptools",
+    "wheel",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -64,3 +71,7 @@ ignore = ["B008"]
 python_version = "3.11"
 strict = false
 ignore_missing_imports = true
+
+[tool.uv]
+exclude-newer = "P2D"
+build-constraint-dependencies = ["setuptools==84.2.1", "wheel==0.48.0"]

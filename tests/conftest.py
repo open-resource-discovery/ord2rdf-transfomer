@@ -15,6 +15,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
+
 @pytest.fixture(scope="session")
 def project_root() -> Path:
     return PROJECT_ROOT
@@ -23,7 +24,7 @@ def project_root() -> Path:
 @pytest.fixture(scope="session")
 def vocab_path(project_root: Path) -> Path:
     """Path to the ORD vocabulary TTL file."""
-    p = project_root / "ord_open_vocab.ttl"
+    p = project_root / "data" / "vocab" / "ord_vocabulary.ttl"
     if not p.exists():
         pytest.skip(f"Vocabulary file not found: {p}")
     return p
@@ -37,6 +38,7 @@ def sample_ord_path(project_root: Path) -> Path:
 
 # ── Data ───────────────────────────────────────────────────────────────────────
 
+
 @pytest.fixture(scope="session")
 def sample_ord_doc(sample_ord_path: Path) -> dict:
     """The sample ORD JSON document loaded as a Python dict."""
@@ -45,6 +47,7 @@ def sample_ord_doc(sample_ord_path: Path) -> dict:
 
 
 # ── RDFantic context ───────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def context():
@@ -56,6 +59,7 @@ def context():
 
 # ── Transformer ────────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def transformer():
     """A default ORDTransformer instance."""
@@ -65,6 +69,7 @@ def transformer():
 
 
 # ── Pre-built graphs ───────────────────────────────────────────────────────────
+
 
 @pytest.fixture(scope="session")
 def transformed_graph(sample_ord_doc):

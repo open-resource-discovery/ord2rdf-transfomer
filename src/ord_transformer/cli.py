@@ -19,8 +19,8 @@ from pathlib import Path
 
 import click
 
-from .transformer import ORDTransformer
 from .shacl_generator import generate_combined_shapes
+from .transformer import ORDTransformer
 from .validator import SHACLValidator
 
 
@@ -32,11 +32,13 @@ def cli() -> None:
 
 # ── transform ─────────────────────────────────────────────────────────────────
 
+
 @cli.command("transform")
 @click.argument("input_file", type=click.Path(exists=True, dir_okay=False))
 @click.argument("output_file", type=click.Path(dir_okay=False))
 @click.option(
-    "--format", "-f",
+    "--format",
+    "-f",
     "fmt",
     default="turtle",
     show_default=True,
@@ -69,6 +71,7 @@ def transform_cmd(input_file: str, output_file: str, fmt: str, base_uri: str) ->
 
 # ── generate-shapes ───────────────────────────────────────────────────────────
 
+
 @cli.command("generate-shapes")
 @click.argument("output_file", type=click.Path(dir_okay=False))
 @click.option(
@@ -82,7 +85,8 @@ def transform_cmd(input_file: str, output_file: str, fmt: str, base_uri: str) ->
     ),
 )
 @click.option(
-    "--format", "-f",
+    "--format",
+    "-f",
     "fmt",
     default="turtle",
     show_default=True,
@@ -101,15 +105,14 @@ def generate_shapes_cmd(
     \b
     Examples:
         # Model + vocabulary shapes (recommended):
-        ord-transform generate-shapes data/shapes/ord_shapes.ttl --vocab data/vocab/ord_open_vocab.ttl
+        ord-transform generate-shapes data/shapes/ord_shapes.ttl \
+            --vocab data/vocab/ord_open_vocab.ttl
         # Model shapes only (no vocabulary file):
         ord-transform generate-shapes data/shapes/ord_shapes.ttl
     """
     try:
         click.echo("Generating combined SHACL shapes")
-        g = generate_combined_shapes(
-            vocab_path=Path(vocab_path) if vocab_path else None
-        )
+        g = generate_combined_shapes(vocab_path=Path(vocab_path) if vocab_path else None)
 
         out = Path(output_file)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -123,19 +126,26 @@ def generate_shapes_cmd(
 
 # ── validate ──────────────────────────────────────────────────────────────────
 
+
 @cli.command("validate")
 @click.argument("data_file", type=click.Path(exists=True, dir_okay=False))
 @click.argument("shapes_file", type=click.Path(exists=True, dir_okay=False))
 @click.option(
-    "--data-format", default="turtle", show_default=True,
+    "--data-format",
+    default="turtle",
+    show_default=True,
     type=click.Choice(["turtle", "n3", "nt", "json-ld", "xml"], case_sensitive=False),
 )
 @click.option(
-    "--shapes-format", default="turtle", show_default=True,
+    "--shapes-format",
+    default="turtle",
+    show_default=True,
     type=click.Choice(["turtle", "n3", "nt", "json-ld", "xml"], case_sensitive=False),
 )
 @click.option(
-    "--inference", default="none", show_default=True,
+    "--inference",
+    default="none",
+    show_default=True,
     type=click.Choice(["none", "rdfs", "owlrl", "both"], case_sensitive=False),
     help=(
         "RDFS/OWL inference level applied before validation.  "
@@ -170,7 +180,8 @@ def validate_cmd(
     try:
         validator = SHACLValidator(inference=inference)
         result = validator.validate_files(
-            data_file, shapes_file,
+            data_file,
+            shapes_file,
             data_fmt=data_format,
             shapes_fmt=shapes_format,
         )

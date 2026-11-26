@@ -7,10 +7,10 @@ resource-reference objects (RelatedApiResource, RelatedEntityType, etc.).
 
 from __future__ import annotations
 
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 from pydantic import Field
-from rdflib import BNode, URIRef, XSD
+from rdflib import XSD, BNode, URIRef
 
 from rdfantic import RdfanticFieldInfoMetaModel, RdfanticModelMetadata
 from rdfantic.context import ShaclMaterializationContext
@@ -49,6 +49,7 @@ def _resolve_definition_uri(url: str, system_base_url: str | None) -> URIRef:
 
 # ── ResourceDefinition (base) ─────────────────────────────────────────────────
 
+
 class ResourceDefinition(ORDBaseModel):
     """Machine-readable definition file attached to an ORD resource.
 
@@ -69,41 +70,55 @@ class ResourceDefinition(ORDBaseModel):
         """Resolve the definition URL using ``context.system_base_url`` for
         relative paths, so the emitted RDF node has an absolute IRI."""
         if self.url:
-            return _resolve_definition_uri(
-                self.url, getattr(context, "system_base_url", None)
-            )
+            return _resolve_definition_uri(self.url, getattr(context, "system_base_url", None))
         return BNode()
 
     type: Annotated[
         str,
         RdfanticFieldInfoMetaModel(predicates={ORD.type}, uri_factory=definition_type_uri),
-        Field(description="Definition format: openapi-v2 | openapi-v3 | openapi-v3.1+ | raml-v1 | edmx | csdl-json | graphql-sdl | wsdl-v1 | wsdl-v2 | a2a-agent-card | ord:overlay:v1 | custom | …"),
+        Field(
+            description=(
+                "Definition format: openapi-v2 | openapi-v3 | openapi-v3.1+ | "
+                "raml-v1 | edmx | csdl-json | graphql-sdl | wsdl-v1 | wsdl-v2 | "
+                "a2a-agent-card | ord:overlay:v1 | custom | …"
+            )
+        ),
     ]
     media_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.mediaType}),
         Field(alias="mediaType", default=None),
     ]
     url: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.url}, datatype=XSD.anyURI),
         Field(default=None),
     ]
     purpose: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.purpose}, uri_factory=purpose_uri),
-        Field(default=None, description="main | ord:ai-enrichment | ord:agent-security-permissions | custom"),
+        Field(
+            default=None,
+            description="main | ord:ai-enrichment | ord:agent-security-permissions | custom",
+        ),
     ]
     access_strategy: Annotated[
-        Optional[str],
-        RdfanticFieldInfoMetaModel(predicates={ORD.accessStrategy}, uri_factory=access_strategy_uri),
-        Field(alias="accessStrategy", default=None, description="open | protected | restricted | custom"),
+        str | None,
+        RdfanticFieldInfoMetaModel(
+            predicates={ORD.accessStrategy}, uri_factory=access_strategy_uri
+        ),
+        Field(
+            alias="accessStrategy",
+            default=None,
+            description="open | protected | restricted | custom",
+        ),
     ]
 
 
 # ── Typed ResourceDefinition subclasses ───────────────────────────────────────
 # Each asserts the concrete ord:*ResourceDefinition type in addition to the
 # shared ord:ORDResourceDefinition base type.
+
 
 class ApiResourceDefinition(ResourceDefinition):
     """Resource definition attached to an ``ord:ApiResource``.
@@ -173,6 +188,7 @@ class OverlayDefinition(ResourceDefinition):
 
 # ── Link (generic) ────────────────────────────────────────────────────────────
 
+
 class Link(ORDBaseModel):
     """A generic URL link attached to an ORD resource or package.
 
@@ -190,18 +206,19 @@ class Link(ORDBaseModel):
         Field(description="URL target"),
     ]
     title: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.title}),
         Field(default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
 
 
 # ── PackageLink (typed link for packages) ─────────────────────────────────────
+
 
 class PackageLink(ORDBaseModel):
     """A semantically typed link specific to a Package.
@@ -225,14 +242,18 @@ class PackageLink(ORDBaseModel):
         Field(description="Semantic link type, e.g. 'partial', 'full', 'client-sdk', 'support', …"),
     ]
     custom_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customType}),
-        Field(alias="customType", default=None,
-              description="Custom type identifier when type='custom'"),
+        Field(
+            alias="customType",
+            default=None,
+            description="Custom type identifier when type='custom'",
+        ),
     ]
 
 
 # ── ApiEventResourceLink (typed link for APIs and events) ─────────────────────
+
 
 class ApiEventResourceLink(ORDBaseModel):
     """A semantically typed link for API or Event resources.
@@ -256,13 +277,14 @@ class ApiEventResourceLink(ORDBaseModel):
         Field(description="api-documentation | consumer-portal | service-level-agreement | …"),
     ]
     custom_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customType}),
         Field(alias="customType", default=None),
     ]
 
 
 # ── ChangelogEntry ────────────────────────────────────────────────────────────
+
 
 class ChangelogEntry(ORDBaseModel):
     """A single changelog entry tracking a resource version change.
@@ -281,23 +303,24 @@ class ChangelogEntry(ORDBaseModel):
         Field(),
     ]
     release_status: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.releaseStatus}, uri_factory=release_status_uri),
         Field(alias="releaseStatus", default=None),
     ]
     date: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.date}, datatype=XSD.date),
         Field(default=None, description="ISO 8601 date of the change"),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
 
 
 # ── ConsumptionBundleReference ────────────────────────────────────────────────
+
 
 class ConsumptionBundleReference(ORDBaseModel):
     """A reference from a resource to the consumption bundle it belongs to.
@@ -321,13 +344,14 @@ class ConsumptionBundleReference(ORDBaseModel):
         Field(alias="ordId"),
     ]
     default_entry_point: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.defaultEntryPoint}, datatype=XSD.anyURI),
         Field(alias="defaultEntryPoint", default=None),
     ]
 
 
 # ── CredentialExchangeStrategy ────────────────────────────────────────────────
+
 
 class CredentialExchangeStrategy(ORDBaseModel):
     """Specifies how credentials for a consumption bundle can be obtained.
@@ -346,18 +370,19 @@ class CredentialExchangeStrategy(ORDBaseModel):
         Field(description="Strategy type, e.g. 'custom', 'open', 'sap:cis-outbound:oauth2:…'"),
     ]
     custom_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customType}),
         Field(alias="customType", default=None),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
 
 
 # ── Extensible ────────────────────────────────────────────────────────────────
+
 
 class Extensible(ORDBaseModel):
     """Describes whether and how consumers can extend an ORD resource.
@@ -376,13 +401,14 @@ class Extensible(ORDBaseModel):
         Field(description="no | manual | automatic"),
     ]
     description: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.description}),
         Field(default=None),
     ]
 
 
 # ── Typed resource-reference objects ──────────────────────────────────────────
+
 
 class RelatedApiResource(ORDBaseModel):
     """A typed reference to a related API Resource.
@@ -407,9 +433,13 @@ class RelatedApiResource(ORDBaseModel):
         Field(alias="ordId", description="ORD ID of the related API Resource"),
     ]
     relation_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relationType}, uri_factory=relation_type_uri),
-        Field(alias="relationType", default=None, description="Semantic type of the relation: part-of | ord:patches | custom | …"),
+        Field(
+            alias="relationType",
+            default=None,
+            description="Semantic type of the relation: part-of | ord:patches | custom | …",
+        ),
     ]
 
 
@@ -482,13 +512,18 @@ class RelatedCapability(ORDBaseModel):
         Field(alias="ordId", description="ORD ID of the related Capability"),
     ]
     relation_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.relationType}, uri_factory=relation_type_uri),
-        Field(alias="relationType", default=None, description="Semantic type of the relation: part-of | ord:patches | custom | …"),
+        Field(
+            alias="relationType",
+            default=None,
+            description="Semantic type of the relation: part-of | ord:patches | custom | …",
+        ),
     ]
 
 
 # ── DataProductInputPort / DataProductOutputPort ──────────────────────────────
+
 
 class DataProductInputPort(ORDBaseModel):
     """Where a Data Product retrieves its input data from (reference to IntegrationDependency).
@@ -528,6 +563,7 @@ class DataProductOutputPort(ORDBaseModel):
 
 # ── DataProductLink (typed link for data products) ───────────────────────────
 
+
 class DataProductLink(ORDBaseModel):
     """A semantically typed link specific to a Data Product.
 
@@ -550,13 +586,14 @@ class DataProductLink(ORDBaseModel):
         Field(description="payment | terms-of-use | service-level-agreement | …"),
     ]
     custom_type: Annotated[
-        Optional[str],
+        str | None,
         RdfanticFieldInfoMetaModel(predicates={ORD.customType}),
         Field(alias="customType", default=None),
     ]
 
 
 # ── ExposedEntityType ─────────────────────────────────────────────────────────
+
 
 class ExposedEntityType(ORDBaseModel):
     """Declares that an ApiResource or EventResource exposes instances of a particular EntityType.

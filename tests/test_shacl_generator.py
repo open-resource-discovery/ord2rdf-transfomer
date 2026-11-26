@@ -7,9 +7,9 @@ from rdflib import RDF, SH, Graph
 
 from ord_transformer.namespaces import ORD
 from ord_transformer.shacl_generator import (
-    generate_combined_shapes,
     _generate_model_shapes,
     _generate_vocab_shapes,
+    generate_combined_shapes,
 )
 
 
@@ -34,7 +34,7 @@ class TestGenerateModelShapes:
 
     def test_api_resource_shape_exists(self, model_shapes_graph):
         found = any(
-            (shape, SH.targetClass, ORD.APIResource) in model_shapes_graph
+            (shape, SH.targetClass, ORD.ApiResource) in model_shapes_graph
             for shape in model_shapes_graph.subjects(RDF.type, SH.NodeShape)
         )
         assert found
@@ -69,9 +69,7 @@ class TestGenerateVocabShapes:
         ord_ns = str(ORD)
         for shape in vocab_shapes_graph.subjects(RDF.type, SH.NodeShape):
             for tc in vocab_shapes_graph.objects(shape, SH.targetClass):
-                assert str(tc).startswith(ord_ns), (
-                    f"Non-ORD targetClass {tc} in vocab shapes"
-                )
+                assert str(tc).startswith(ord_ns), f"Non-ORD targetClass {tc} in vocab shapes"
 
     def test_package_vocab_shape_exists(self, vocab_shapes_graph):
         found = any(
@@ -83,6 +81,7 @@ class TestGenerateVocabShapes:
     def test_property_paths_are_uris(self, vocab_shapes_graph):
         """All sh:path values in vocab shapes should be URIRefs."""
         from rdflib import URIRef
+
         for shape in vocab_shapes_graph.subjects(RDF.type, SH.NodeShape):
             for prop in vocab_shapes_graph.objects(shape, SH.property):
                 path = vocab_shapes_graph.value(prop, SH.path)

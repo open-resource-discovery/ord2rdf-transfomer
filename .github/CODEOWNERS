@@ -1,0 +1,7 @@
+# Review owners for CI and build configuration.
+/.github/ @open-resource-discovery/ord2rdf-transfomer-admin
+/pyproject.toml @open-resource-discovery/ord2rdf-transfomer-admin
+/scripts/ @open-resource-discovery/ord2rdf-transfomer-admin
+/ord_transform.py @open-resource-discovery/ord2rdf-transfomer-admin
+/uv.lock @open-resource-discovery/ord2rdf-transfomer-admin
+/rdfantic-main/ @open-resource-discovery/ord2rdf-transfomer-admin

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import pytest
-from rdflib import RDF, Graph, Literal, URIRef
+from rdflib import RDF, Graph, URIRef
 
 from ord_transformer.namespaces import ORD, ord_id_to_uri
 from ord_transformer.transformer import ORDTransformer
@@ -34,7 +34,7 @@ class TestORDTransformer:
 
     def test_api_resource_type_in_graph(self, transformed_graph):
         api_uri = ord_id_to_uri("acme.demo:apiResource:CatalogueAPI:v1")
-        assert (api_uri, RDF.type, ORD.APIResource) in transformed_graph
+        assert (api_uri, RDF.type, ORD.ApiResource) in transformed_graph
 
     def test_api_resource_links_to_package(self, transformed_graph):
         api_uri = ord_id_to_uri("acme.demo:apiResource:CatalogueAPI:v1")
@@ -43,7 +43,7 @@ class TestORDTransformer:
         assert pkg_uri in pkgs
 
     def test_multiple_api_resources(self, transformed_graph):
-        api_uris = list(transformed_graph.subjects(RDF.type, ORD.APIResource))
+        api_uris = list(transformed_graph.subjects(RDF.type, ORD.ApiResource))
         assert len(api_uris) >= 3  # sample has 3 APIs
 
     # ── Event Resource ────────────────────────────────────────────────────────
@@ -107,6 +107,7 @@ class TestORDTransformer:
 
 
 # ── Extension concept stub generation ─────────────────────────────────────────
+
 
 class TestExtensionConceptStubs:
     """Verify that vendor-extension implementationStandard values get stub
@@ -257,6 +258,7 @@ class TestExtensionConceptStubs:
 
 
 # ── External reference stub generation ────────────────────────────────────────
+
 
 class TestExternalReferenceStubs:
     """Verify that cross-namespace referenced-but-undefined instance URIs are
